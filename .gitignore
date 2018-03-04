@@ -1,0 +1,8 @@
+*.pyc
+.cov
+.cache
+.idea
+client/node_modules
+server/venv
+server/.coverage
+static/*

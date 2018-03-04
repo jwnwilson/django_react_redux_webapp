@@ -1,0 +1,6 @@
+#! /bin/bash
+
+if [[ -d "/src/server/venv" ]]
+then
+    source /src/server/venv/bin/activate
+fi

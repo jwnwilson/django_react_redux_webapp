@@ -1,0 +1,65 @@
+version: '2'
+services:
+  client:
+    image: node:6.11.2
+    user: root
+    working_dir: /src/client
+    command: ./node_modules/.bin/webpack -w true
+    container_name: nw_client
+    tty: true
+    volumes:
+      - .:/src
+      - node_modules:/src/client/node_modules
+
+  pyenv:
+    build:
+      context: .
+      dockerfile: ./ops/Dockerfile_server
+    user: root
+    working_dir: /src/server
+    command: ./scripts/setup.sh
+    container_name: nw_pyenv
+    tty: true
+    volumes:
+      - .:/src
+      - venv:/src/server/venv
+
+  server:
+    build:
+      context: .
+      dockerfile: ./ops/Dockerfile_server
+    user: root
+    env_file:
+      - web.env
+    working_dir: /src/server
+    command: ./venv/bin/python3 app.py
+    container_name: nw_server
+    tty: true
+    ports:
+      - 0.0.0.0:8888:8888
+    volumes:
+      - .:/src
+      - venv:/src/server/venv
+    links:
+      - db
+
+  db:
+    image: mongo:3.4.0
+    ports:
+      - "27017:27017"
+    volumes:
+      - db_data:/data/db
+
+  db-setup:
+    build:
+      context: .
+      dockerfile: ./ops/Dockerfile_mongo_setup
+    env_file:
+      - web.env
+    links:
+      - db
+
+volumes:
+  node_modules:
+  venv:
+  db_data:
