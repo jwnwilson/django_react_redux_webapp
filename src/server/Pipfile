@@ -8,6 +8,7 @@ name = "pypi"
 [packages]
 
 django = "==1.11"
+django-webpack-loader = "*"
 
 
 [dev-packages]
