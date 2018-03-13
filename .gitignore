@@ -2,7 +2,7 @@
 .cov
 .cache
 .idea
-client/node_modules
-server/venv
-server/.coverage
+src/client/node_modules
+src/server/venv
+src/server/.coverage
 static/*

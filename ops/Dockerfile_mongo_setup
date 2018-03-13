@@ -1,9 +1,0 @@
-FROM mongo:3.4.0
-
-COPY server/db/data/pages.json server/db/data/pages.json
-COPY server/db/data/projects.json server/db/data/projects.json
-COPY server/db/data/hobbies.json server/db/data/hobbies.json
-COPY server/db/data/blog.json server/db/data/blog.json
-COPY ops/reset_db.sh /reset_db.sh
-
-CMD bash /reset_db.sh

@@ -1,4 +1,4 @@
-FROM jwnwilson/python3-mongo
+FROM python
 MAINTAINER Noel Wilson <jwnwilson@gmail.com>
 
 COPY ./ops/bashrc /root/.bashrc
