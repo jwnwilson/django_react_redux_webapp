@@ -9,6 +9,7 @@ name = "pypi"
 
 django = "==1.11"
 django-webpack-loader = "*"
+wagtail = "*"
 
 
 [dev-packages]

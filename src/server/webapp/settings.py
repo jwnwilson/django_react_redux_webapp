@@ -37,7 +37,21 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'webpack_loader'
+    'webpack_loader',
+    'wagtail.contrib.forms',
+    'wagtail.contrib.redirects',
+    'wagtail.embeds',
+    'wagtail.sites',
+    'wagtail.users',
+    'wagtail.snippets',
+    'wagtail.documents',
+    'wagtail.images',
+    'wagtail.search',
+    'wagtail.admin',
+    'wagtail.core',
+    'modelcluster',
+    'taggit',
+    'webapp.cms'
 ]
 
 MIDDLEWARE = [
@@ -48,6 +62,8 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'wagtail.core.middleware.SiteMiddleware',
+    'wagtail.contrib.redirects.middleware.RedirectMiddleware',
 ]
 
 ROOT_URLCONF = 'webapp.urls'
@@ -114,11 +130,19 @@ USE_L10N = True
 
 USE_TZ = True
 
+APPEND_SLASH = True
+WAGTAIL_APPEND_SLASH = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.11/howto/static-files/
 
 STATIC_URL = '/static/'
+MEDIA_URL = '/media/'
+
+STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
+WAGTAIL_SITE_NAME = 'Noel Wilson'
 
 WEBPACK_LOADER = {
     'DEFAULT': {
