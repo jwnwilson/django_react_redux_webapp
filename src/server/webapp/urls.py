@@ -7,7 +7,7 @@ from wagtail.core import urls as wagtail_urls
 
 
 urlpatterns = [
-    url(r'^cms/', include('webapp.cms.urls')),
+    url(r'^', include('webapp.cms.urls')),
     url(r'^', TemplateView.as_view(template_name="index.html")),
     url(r'', include(wagtail_urls)),
 ]
