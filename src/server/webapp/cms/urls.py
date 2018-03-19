@@ -8,6 +8,7 @@ from wagtail.documents import urls as wagtaildocs_urls
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
-    url(r'^cms/', include(wagtailadmin_urls)),
+    url(r'^', include(wagtailadmin_urls)),
     url(r'^documents/', include(wagtaildocs_urls)),
+    url(r'', include(wagtail_urls))
 ]
