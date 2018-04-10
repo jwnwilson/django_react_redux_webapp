@@ -32,32 +32,25 @@ services:
     env_file:
       - web.env
     working_dir: /src/server
-    command: ./venv/bin/python3 app.py
+    command: ./venv/bin/python3 manage.py runserver 0.0.0.0:8000
     container_name: nw_server
     tty: true
     ports:
-      - 0.0.0.0:8888:8888
+      - 0.0.0.0:8000:8000
     volumes:
       - .:/src
       - venv:/src/server/venv
     links:
       - db
+    depends_on:
+      - db
 
   db:
-    image: mongo:3.4.0
-    ports:
-      - "27017:27017"
-    volumes:
-      - db_data:/data/db
-
-  db-setup:
     build:
       context: .
-      dockerfile: ./ops/Dockerfile_mongo_setup
-    env_file:
-      - web.env
-    links:
-      - db
+      dockerfile: ./ops/Dockerfile_db
+    volumes:
+      - db_data:/var/lib/postgresql/data
 
 volumes:
   node_modules:
