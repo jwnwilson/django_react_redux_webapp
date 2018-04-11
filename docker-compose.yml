@@ -3,24 +3,24 @@ services:
   client:
     image: node:6.11.2
     user: root
-    working_dir: /src/client
-    command: ./node_modules/.bin/webpack -w true
+    working_dir: /app/src/client
+    command: npm run start
     tty: true
     volumes:
-      - ./src:/src
-      - node_modules:/src/client/node_modules
+      - .:/app
+      - node_modules:/app/src/client/node_modules
 
   pyenv:
     build:
       context: .
       dockerfile: ./ops/Dockerfile_server
     user: root
-    working_dir: /src/server
+    working_dir: /app/src/server
     command: ./setup.sh
     tty: true
     volumes:
-      - ./src:/src
-      - venv:/src/server/venv
+      - .:/app
+      - venv:/app/src/server/venv
 
   server:
     build:
@@ -29,18 +29,19 @@ services:
     user: root
     env_file:
       - web.env
-    working_dir: /src/server
+    working_dir: /app/src/server
     command: ./venv/bin/python3 manage.py runserver 0.0.0.0:8000
     tty: true
     ports:
       - 0.0.0.0:8000:8000
     volumes:
-      - ./src:/src
-      - venv:/src/server/venv
+      - .:/app
+      - venv:/app/src/server/venv
     links:
       - db
     depends_on:
       - db
+      - pyenv
 
   db:
     build:
