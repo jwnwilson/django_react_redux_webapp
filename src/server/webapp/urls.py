@@ -4,13 +4,17 @@ from django.conf.urls.static import static
 from django.contrib import admin
 from django.views.generic import TemplateView
 from wagtail.core import urls as wagtail_urls
+
 from webapp.views import home
+from .api import api_router
 
 urlpatterns = [
+    url(r'^api/', api_router.urls),
     url(r'^cms/', include('webapp.cms.urls')),
     url(r'^admin/', admin.site.urls),
     #url(r'^$', TemplateView.as_view(template_name="webapp/index.html"))
-    url(r'^$', home.home, name='home')
+    url(r'^$', home.home, name='home'),
+
 ]
 
 if settings.DEBUG:

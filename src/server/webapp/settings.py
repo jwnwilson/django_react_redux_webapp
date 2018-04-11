@@ -34,6 +34,8 @@ ALLOWED_HOSTS = []
 
 INSTALLED_APPS = [
     'raven.contrib.django.raven_compat',
+    'rest_framework',
+    'wagtail.api.v2',
     'wagtail.contrib.forms',
     'wagtail.contrib.redirects',
     'wagtail.embeds',
@@ -158,9 +160,10 @@ WEBPACK_LOADER = {
         }
 }
 
-RAVEN_CONFIG = {
-    'dsn': 'https://4455bc30a01746f6ad07e8bb17fdcb7e:244d3d07cc2641b09cfede93ef8dad8e@sentry.io/646552',
-    # If you are using git, you can also automatically configure the
-    # release based on the git info.
-    'release': raven.fetch_git_sha(PROJECT_DIR),
-}
+if not DEBUG:
+    RAVEN_CONFIG = {
+        'dsn': 'https://4455bc30a01746f6ad07e8bb17fdcb7e:244d3d07cc2641b09cfede93ef8dad8e@sentry.io/646552',
+        # If you are using git, you can also automatically configure the
+        # release based on the git info.
+        'release': raven.fetch_git_sha(PROJECT_DIR),
+    }

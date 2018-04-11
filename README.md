@@ -17,3 +17,9 @@ To start a local dev server for the front end and backend run:
 $  make build
 
 $  make run
+
+## To Do
+
+- Load initial (static-ish) page with django handler
+- Pass initial page with initial load using API
+- On page change make call to API and alter page using API data
