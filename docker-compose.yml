@@ -5,10 +5,9 @@ services:
     user: root
     working_dir: /src/client
     command: ./node_modules/.bin/webpack -w true
-    container_name: nw_client
     tty: true
     volumes:
-      - .:/src
+      - ./src:/src
       - node_modules:/src/client/node_modules
 
   pyenv:
@@ -17,11 +16,10 @@ services:
       dockerfile: ./ops/Dockerfile_server
     user: root
     working_dir: /src/server
-    command: ./scripts/setup.sh
-    container_name: nw_pyenv
+    command: ./setup.sh
     tty: true
     volumes:
-      - .:/src
+      - ./src:/src
       - venv:/src/server/venv
 
   server:
@@ -33,12 +31,11 @@ services:
       - web.env
     working_dir: /src/server
     command: ./venv/bin/python3 manage.py runserver 0.0.0.0:8000
-    container_name: nw_server
     tty: true
     ports:
       - 0.0.0.0:8000:8000
     volumes:
-      - .:/src
+      - ./src:/src
       - venv:/src/server/venv
     links:
       - db

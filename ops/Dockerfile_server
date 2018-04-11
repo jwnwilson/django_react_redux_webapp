@@ -2,7 +2,7 @@ FROM python
 MAINTAINER Noel Wilson <jwnwilson@gmail.com>
 
 COPY ./ops/bashrc /root/.bashrc
-ADD . /src
+ADD ./src /src
 
 WORKDIR /src/server
-RUN scripts/setup.sh
+RUN /bin/bash -c "source /src/server/setup.sh"
