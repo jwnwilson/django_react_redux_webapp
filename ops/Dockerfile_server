@@ -1,6 +1,8 @@
 FROM python
 MAINTAINER Noel Wilson <jwnwilson@gmail.com>
 
+RUN pip3 install pipenv
+
 COPY ./ops/bashrc /root/.bashrc
 ADD . /app
 

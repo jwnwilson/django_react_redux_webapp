@@ -20,7 +20,7 @@ services:
     tty: true
     volumes:
       - .:/app
-      - venv:/app/src/server/venv
+      - venv:/root/.local
 
   server:
     build:
@@ -30,13 +30,14 @@ services:
     env_file:
       - web.env
     working_dir: /app/src/server
-    command: ./venv/bin/python3 manage.py runserver 0.0.0.0:8000
+    command: python manage.py runserver 0.0.0.0:8000
     tty: true
     ports:
       - 0.0.0.0:8000:8000
     volumes:
       - .:/app
-      - venv:/app/src/server/venv
+      - venv:/root/.local
+      - media:/app/src/server/media
     links:
       - db
     depends_on:
@@ -54,3 +55,4 @@ volumes:
   node_modules:
   venv:
   db_data:
+  media:

@@ -1,6 +1,6 @@
 #! /bin/bash
 
-if [[ -d "/src/server/venv" ]]
+if [[ -d "/app/src/server/venv" ]]
 then
-    source /src/server/venv/bin/activate
+    source /app/src/server/venv/bin/activate
 fi
