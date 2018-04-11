@@ -1,15 +1,16 @@
 from django.conf import settings
-
 from django.conf.urls import include, url
 from django.conf.urls.static import static
 from django.contrib import admin
 from django.views.generic import TemplateView
 from wagtail.core import urls as wagtail_urls
-
+from webapp.views import home
 
 urlpatterns = [
     url(r'^cms/', include('webapp.cms.urls')),
-    url(r'^$', TemplateView.as_view(template_name="index.html"))
+    url(r'^admin/', admin.site.urls),
+    #url(r'^$', TemplateView.as_view(template_name="webapp/index.html"))
+    url(r'^$', home.home, name='home')
 ]
 
 if settings.DEBUG:

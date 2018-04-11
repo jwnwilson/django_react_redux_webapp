@@ -16,6 +16,7 @@ CLIENT = client
 PYENV = pyenv
 DB = db
 DB_SETUP = db-setup
+COMPOSE_HTTP_TIMEOUT = 2000
 
 build:
 	$(COMPOSE) build
@@ -25,13 +26,13 @@ setup:
 	$(COMPOSE) run ${CLIENT} bash -c "npm install"
 
 run:
-	$(COMPOSE) up
+	COMPOSE_HTTP_TIMEOUT=$(COMPOSE_HTTP_TIMEOUT) $(COMPOSE) up
 
 run-db:
 	$(COMPOSE) run --service-ports $(DB)
 
 run-be:
-	$(COMPOSE) run --service-ports $(SERVER)
+	COMPOSE_HTTP_TIMEOUT=$(COMPOSE_HTTP_TIMEOUT) $(COMPOSE) run --service-ports $(SERVER)
 
 run-fe:
 	$(COMPOSE) run $(CLIENT)
