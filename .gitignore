@@ -7,3 +7,4 @@ src/server/venv
 src/server/.coverage
 src/webpack-stats.dev.json
 static/*
+./wagtail
