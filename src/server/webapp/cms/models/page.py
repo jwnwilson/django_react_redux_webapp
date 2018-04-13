@@ -2,6 +2,7 @@ from django.db import models
 
 from modelcluster.fields import ParentalKey
 
+from wagtail.api import APIField
 from wagtail.core.models import Page, Orderable
 from wagtail.core.fields import RichTextField
 from wagtail.snippets.edit_handlers import SnippetChooserPanel
@@ -26,4 +27,9 @@ class ModulePage(Page):
     content_panels = Page.content_panels + [
         SnippetChooserPanel('header'),
         SnippetChooserPanel('heroImage'),
+    ]
+
+    api_fields = [
+        APIField('header'),
+        APIField('heroImage')
     ]
