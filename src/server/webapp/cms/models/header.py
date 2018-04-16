@@ -3,7 +3,7 @@ from django.db import models
 from wagtail.admin.edit_handlers import FieldPanel
 from wagtail.api import APIField
 from wagtail.snippets.models import register_snippet
-
+from rest_framework import serializers
 
 @register_snippet
 class Header(models.Model):
@@ -25,15 +25,11 @@ class Header(models.Model):
         FieldPanel('cta_url_3'),
     ]
 
-    api_fields = [
-        APIField('title'),
-        APIField('cta_1'),
-        APIField('cta_url_1'),
-        APIField('cta_2'),
-        APIField('cta_url_2'),
-        APIField('cta_3'),
-        APIField('cta_url_3')
-    ]
-
     def __str__(self):
         return self.title
+
+
+class HeaderSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Header
+        fields = '__all__'

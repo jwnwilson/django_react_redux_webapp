@@ -24,11 +24,5 @@ class HeroImage(models.Model):
         ImageChooserPanel('image'),
     ]
 
-    api_fields = [
-        APIField('title'),
-        APIField('text'),
-        APIField('image')
-    ]
-
     def __str__(self):
         return self.text
