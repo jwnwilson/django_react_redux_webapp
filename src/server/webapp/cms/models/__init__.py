@@ -1,3 +1,3 @@
 from .modules import *
-from .header import *
+from .snippets import *
 from .page import *

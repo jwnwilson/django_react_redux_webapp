@@ -20,6 +20,7 @@ $  make run
 
 ## To Do
 
+- Investigate generic foreign key with Django REST framework
 - Load initial (static-ish) page with django handler
 - Pass initial page with initial load using API
 - On page change make call to API and alter page using API data

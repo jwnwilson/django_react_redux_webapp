@@ -1,5 +1,5 @@
+from django.contrib.contenttypes.fields import GenericRelation
 from django.db import models
-
 from wagtail.admin.edit_handlers import FieldPanel
 from wagtail.api import APIField
 from wagtail.snippets.models import register_snippet
