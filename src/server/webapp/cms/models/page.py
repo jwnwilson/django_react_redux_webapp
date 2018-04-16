@@ -31,7 +31,7 @@ class ModulePage(Page):
     ]
 
     api_fields = [
-        APIField('header', serializer=HeaderSerializer),
+        APIField('header', serializer=HeaderSerializer()),
         APIField('heroImage'),
         APIField('test'),
     ]
@@ -55,5 +55,5 @@ class Test(Orderable):
 
     api_fields = [
         APIField('name'),
-        APIField('header', serializer=HeaderSerializer),
+        APIField('header', serializer=HeaderSerializer()),
     ]
