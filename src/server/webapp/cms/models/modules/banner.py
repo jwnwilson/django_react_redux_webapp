@@ -1,5 +1,4 @@
 from django.db import models
-from wagtail.api import APIField
 from wagtail.admin.edit_handlers import FieldPanel
 from wagtail.images.edit_handlers import ImageChooserPanel
 from wagtail.snippets.models import register_snippet
@@ -8,7 +7,7 @@ from .base import BaseModule
 
 
 @register_snippet
-class HeroImage(BaseModule):
+class Banner(BaseModule):
     text = models.CharField(max_length=255)
     image = models.ForeignKey(
         'wagtailimages.Image',

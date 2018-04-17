@@ -7,5 +7,5 @@ from wagtail.documents import urls as wagtaildocs_urls
 urlpatterns = [
     url(r'^', include(wagtailadmin_urls)),
     url(r'^documents/', include(wagtaildocs_urls)),
-    url(r'', include(wagtail_urls))
+    url(r'', include(wagtail_urls)) # This never gets reached currently
 ]
