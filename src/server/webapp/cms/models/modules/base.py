@@ -1,11 +1,25 @@
 from django.db import models
+from polymorphic.models import PolymorphicModel
 from wagtail.admin.edit_handlers import FieldPanel
-from wagtail.snippets.models import register_snippet
+from wagtail.snippets.models import get_snippet_models, register_snippet
 from rest_framework import serializers
+
+SERIALIZERS = {}
+
+
+def get_serializers():
+    return SERIALIZERS
+
+
+def register_serializer(serializer):
+    model = serializer.Meta.model
+    if model not in SERIALIZERS:
+        SERIALIZERS[model] = serializer
+    return serializer
 
 
 @register_snippet
-class BaseModule(models.Model):
+class BaseModule(PolymorphicModel):
     title = models.CharField(max_length=255)
 
     panels = [
@@ -27,9 +41,18 @@ class ModuleSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
     def to_representation(self, instance):
-        if isinstance(instance, Banner):
-            return BannerSerializer(instance=instance).data
-        elif isinstance(instance, HeroImage):
-            return HeroImageSerializer(instance=instance).data
-        elif isinstance(instance, Header):
-            return HeaderSerializer(instance=instance).data
+        import pdb;pdb.set_trace()
+        models = list(get_serializers().keys())
+        try:
+            index = models.index(instance.__class__)
+        except ValueError:
+            index = None
+
+        if index is not None:
+            serializer = get_serializers()[models[index]]
+            return serializer(instance=instance).data
+        elif instance.__class__ == BaseModule:
+            return super().to_representation(instance)
+        else:
+            raise NotImplementedError(
+                'Unknown model attempted to serialize {}'.format(str(instance)))

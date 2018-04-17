@@ -9,6 +9,7 @@ django-webpack-loader = "*"
 wagtail = "*"
 raven = "*"
 djangorestframework = "*"
+django-polymorphic = "*"
 
 [dev-packages]
 pytest = "*"

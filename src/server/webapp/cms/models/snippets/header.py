@@ -8,6 +8,8 @@ from wagtail.api import APIField
 from wagtail.core.models import Orderable
 from wagtail.snippets.models import register_snippet
 
+from webapp.cms.models.modules.base import register_serializer
+
 
 @register_snippet
 class Header(ClusterableModel):
@@ -53,6 +55,7 @@ class CTA(Orderable):
         verbose_name_plural = 'Nav Items'
 
 
+@register_serializer
 class HeaderSerializer(serializers.ModelSerializer):
     class Meta:
         model = Header
