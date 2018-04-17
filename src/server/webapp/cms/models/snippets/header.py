@@ -1,35 +1,60 @@
 from django.contrib.contenttypes.fields import GenericRelation
 from django.db import models
-from wagtail.admin.edit_handlers import FieldPanel
-from wagtail.api import APIField
-from wagtail.snippets.models import register_snippet
+from modelcluster.fields import ParentalKey
+from modelcluster.models import ClusterableModel
 from rest_framework import serializers
+from wagtail.admin.edit_handlers import FieldPanel, InlinePanel, PageChooserPanel
+from wagtail.api import APIField
+from wagtail.core.models import Orderable
+from wagtail.snippets.models import register_snippet
+
 
 @register_snippet
-class Header(models.Model):
+class Header(ClusterableModel):
     title = models.CharField(max_length=255)
-    cta_1 = models.CharField(max_length=255)
-    cta_url_1 = models.URLField(null=True, blank=True)
-    cta_2 = models.CharField(max_length=255)
-    cta_url_2 = models.URLField(null=True, blank=True)
-    cta_3 = models.CharField(max_length=255)
-    cta_url_3 = models.URLField(null=True, blank=True)
 
     panels = [
         FieldPanel('title'),
-        FieldPanel('cta_1'),
-        FieldPanel('cta_url_1'),
-        FieldPanel('cta_2'),
-        FieldPanel('cta_url_2'),
-        FieldPanel('cta_3'),
-        FieldPanel('cta_url_3'),
+        InlinePanel('ctas', label='CTAS')
     ]
 
     def __str__(self):
         return self.title
+
+    class Meta(Orderable.Meta):
+        verbose_name_plural = 'Headers'
+        ordering = ['title']
+
+
+class CTA(Orderable):
+    category = ParentalKey(
+        'Header',
+        related_name='ctas'
+    )
+    link = models.ForeignKey(
+        'wagtailcore.Page',
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        related_name='+',
+    )
+    text = models.CharField(max_length=255, blank=True)
+
+    panels = [
+        FieldPanel('text'),
+        PageChooserPanel('link')
+    ]
+
+    def __str__(self):
+        return self.category.title + ' -> ' + self.ctas.link
+
+    class Meta(Orderable.Meta):
+        verbose_name = 'Nav Item'
+        verbose_name_plural = 'Nav Items'
 
 
 class HeaderSerializer(serializers.ModelSerializer):
     class Meta:
         model = Header
         fields = '__all__'
+        depth = 1
