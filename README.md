@@ -20,7 +20,9 @@ $  make run
 
 ## To Do
 
-- Update module serializer to use the correct model when serializing data
-- Load initial (static-ish) page with django handler
-- Pass initial page with initial load using API
+- Update CMS preview to point to website not it's expected url (use reverse url name?)
+- Remove BaseModule from snippets screen in CMS
+- Separate Snippets in CMS by tags
+- Load initial (static-ish) react app page with django handler
+- Pass initial page with initial load using API serializer
 - On page change make call to API and alter page using API data

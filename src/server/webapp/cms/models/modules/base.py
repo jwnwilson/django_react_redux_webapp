@@ -41,7 +41,6 @@ class ModuleSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
     def to_representation(self, instance):
-        import pdb;pdb.set_trace()
         models = list(get_serializers().keys())
         try:
             index = models.index(instance.__class__)
