@@ -9,7 +9,8 @@ services:
     volumes:
       - .:/app
       - node_modules:/app/src/client/node_modules
-
+    ports:
+      - 3000:3000
   pyenv:
     build:
       context: .
