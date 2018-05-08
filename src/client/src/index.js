@@ -4,17 +4,15 @@ import { render } from 'react-dom'
 import { Provider } from 'react-redux'
 
 import App from './App'
-import configureStore from './store/configureStore'
+import store from './store'
 import registerServiceWorker from './registerServiceWorker'
 
 import './style/index.css'
 
-const store = configureStore();
-
 render(
   <Provider store={store}>
     <Router>
-      <Route path="/" component={App} />
+      <Route path="/" component={() => <App id="3" />} />
     </Router>
   </Provider>,
   document.getElementById('root')

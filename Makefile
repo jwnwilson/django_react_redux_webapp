@@ -52,5 +52,8 @@ test-fe:
 shell:
 	$(COMPOSE) run $(SERVER) bash
 
+shell-fe:
+	$(COMPOSE) run $(CLIENT) bash
+
 deploy:
 	./ops/deploy.sh
