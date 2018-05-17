@@ -9,7 +9,7 @@ from webapp.cms.models import ModulePage
 from webapp.app.logic.api import getApiData
 
 def http404(request):
-    t = loader.get_template("webapp/404.html")
+    t = loader.get_template('webapp/404.html')
     return HttpResponseNotFound(
         t.render(RequestContext(request, {'request_path': request.path})))
 
@@ -25,5 +25,5 @@ def home(request):
     page_api_data = getApiData(request, page)
     return render(
         request,
-        "webapp/index.html",
-        page_api_data)
+        'webapp/index.html',
+        {'page': json.dumps(page_api_data)})

@@ -9,13 +9,16 @@ import registerServiceWorker from './registerServiceWorker'
 
 import './style/index.css'
 
+let root = document.getElementById('root');
+let page_data = JSON.parse(root.getAttribute('data-page'));
+
 render(
   <Provider store={store}>
     <Router>
-      <Route path="/" component={() => <App id="3" />} />
+      <Route path="/" component={() => <App id="3" modules={page_data.modules} page={page_data}/>} />
     </Router>
   </Provider>,
-  document.getElementById('root')
+  root
 );
 
 registerServiceWorker();

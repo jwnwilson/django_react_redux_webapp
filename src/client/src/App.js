@@ -17,13 +17,17 @@ class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      components: []
+      components: props.modules
     }
   }
 
   componentWillMount() {
+    // Attempt to load data from data attribute
     if(this.state.components.length === 0) {
       this.props.dispatch(getApiData(this.props.id));
+    }
+    else {
+      this.loadComponents(this.state.components);
     }
   }
 
@@ -31,8 +35,8 @@ class App extends Component {
     if(newProps.id !==  this.props.id) {
       this.props.dispatch(getApiData(this.props.id));
     }
-    if(newProps.components !== this.props.components) {
-      this.loadComponents(newProps.components);
+    if(newProps.modules !== this.props.modules) {
+      this.loadComponents(newProps.modules);
     }
   }
 
