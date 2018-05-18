@@ -1,12 +1,12 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 
+import AsyncComponent from './common/asyncComponent'
 import logo from './media/img/logo.svg'
 import About from './components/About'
 import ContactMe from './components/ContactMe'
 import Footer from './components/Footer'
 import Header from './components/Header'
-import Intro from './components/Intro'
 import Portfollio from './components/Portfollio'
 import {getApiData} from './actions'
 import store from './store'
@@ -41,18 +41,23 @@ class App extends Component {
   }
 
   loadComponents(components) {
-    console.log(components);
+    this.setState({components});
   }
 
   render() {
+    let components = [];
+    for (let i=0; i<this.state.components.length;i++ ) {
+      let component = this.state.components[i];
+      let componentType = component.module.polymorphic_ctype.model;
+      let componentImport = () => {
+        return import(`./components/${componentType}/index`);
+      }
+      components.push((<AsyncComponent moduleProvider={componentImport} data={component} />));
+    }
+
     return (
       <div>
-        <Header />
-        <Intro />
-        <Portfollio />
-        <About />
-        <ContactMe />
-        <Footer />
+        {components}
       </div>
     );
   }

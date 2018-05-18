@@ -11,7 +11,10 @@ export default class AsyncComponent extends PureComponent {
 
   componentWillMount() {
     if(!this.state.Component) {
-      this.props.moduleProvider().then( ({Component}) => this.setState({ Component }));
+      this.props.moduleProvider().then(
+        (Component) => {
+          this.setState({ Component: Component.default })
+        });
     }
   }
 
@@ -21,7 +24,7 @@ export default class AsyncComponent extends PureComponent {
     //The magic happens here!
     return (
       <div>
-        {Component ? <Component /> : <h1>Loading ...</h1>}
+        {Component ? <Component data={this.props.data} /> : <h1>Loading ...</h1>}
       </div>
     );
   }
