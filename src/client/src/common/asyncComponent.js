@@ -21,7 +21,6 @@ export default class AsyncComponent extends PureComponent {
   render() {
     const { Component } = this.state;
 
-    //The magic happens here!
     return (
       <div>
         {Component ? <Component data={this.props.data} /> : <h1>Loading ...</h1>}

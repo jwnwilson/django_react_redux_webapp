@@ -23,6 +23,6 @@ $  make run
 - Update CMS preview to point to website not it's expected url (use reverse url name?)
 - Remove BaseModule from snippets screen in CMS
 - Separate Snippets in CMS by tags
-- Load initial (static-ish) react app page with django handler
-- Pass initial page with initial load using API serializer
+- Create map of components and their Classes to check if they exist before reimporting
+- Import all initial components dynamically?
 - On page change make call to API and alter page using API data
