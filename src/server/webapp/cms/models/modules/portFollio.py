@@ -10,8 +10,8 @@ from webapp.cms.models.modules.base import register_serializer
 
 
 @register_snippet
-class HeroImage(BaseModule):
-    component = models.CharField(max_length=255, default="HeroImage")
+class Portfollio(BaseModule):
+    component = models.CharField(max_length=255, default="Portfollio")
     text = models.CharField(max_length=255)
     image = models.ForeignKey(
         'wagtailimages.Image',
@@ -33,8 +33,8 @@ class HeroImage(BaseModule):
 
 
 @register_serializer
-class HeroImageSerializer(serializers.ModelSerializer):
+class PortfollioSerializer(serializers.ModelSerializer):
     class Meta:
-        model = HeroImage
+        model = Portfollio
         fields = '__all__'
         depth = 1

@@ -2,7 +2,7 @@ import React from 'react'
 
 import './../../style/Intro.css'
 
-class Intro extends React.Component {
+class HeroImage extends React.Component {
   render () {
      return (
        <header className="masthead bg-primary text-white text-center">
@@ -17,4 +17,4 @@ class Intro extends React.Component {
   }
 }
 
-export default Intro;
+export default HeroImage;

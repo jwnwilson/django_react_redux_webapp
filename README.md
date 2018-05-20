@@ -20,6 +20,7 @@ $  make run
 
 ## To Do
 
+- Add component name to serializer as an additional value not DB value
 - Update CMS preview to point to website not it's expected url (use reverse url name?)
 - Remove BaseModule from snippets screen in CMS
 - Separate Snippets in CMS by tags
