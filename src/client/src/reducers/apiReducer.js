@@ -5,8 +5,30 @@ function components(state = [], action) {
     case GET_DATA_SUCCESS:
       return action.data.modules;
     default:
-      return state
+      return state;
   }
 }
 
-export default components
+function header(state = null, action) {
+  switch (action.type) {
+    case GET_DATA_SUCCESS:
+      return action.data.header || null;
+    default:
+      return state;
+  }
+}
+
+function footer(state = null, action) {
+  switch (action.type) {
+    case GET_DATA_SUCCESS:
+      return action.data.footer || null;
+    default:
+      return state;
+  }
+}
+
+export default {
+  components,
+  header,
+  footer
+};

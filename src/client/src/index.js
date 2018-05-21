@@ -15,7 +15,8 @@ let page_data = JSON.parse(root.getAttribute('data-page'));
 render(
   <Provider store={store}>
     <Router>
-      <Route path="/" component={() => <App id="3" modules={page_data.modules} page={page_data}/>} />
+      <Route path="/" component={() =>
+        <App id="3" components={page_data.modules} header={page_data.header} footer={page_data.footer} page={page_data}/>} />
     </Router>
   </Provider>,
   root

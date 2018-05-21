@@ -13,7 +13,9 @@ class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      componentsData: props.modules
+      componentsData: props.components,
+      header: null,
+      footer: null
     }
   }
 
@@ -33,8 +35,19 @@ class App extends Component {
       this.props.dispatch(getApiData(this.props.id));
     }
     // If we have recieved new components load them
-    if(newProps.modules !== this.props.modules) {
-      this.loadComponents(newProps.modules);
+    if(newProps.components !== this.props.components) {
+      this.loadComponents(newProps.components);
+    }
+    // Update header & footer
+    if(newProps.header !== this.props.header) {
+      this.setState({
+        header: newProps.header
+      });
+    }
+    if(newProps.footer !== this.props.footer) {
+      this.setState({
+        footer: newProps.footer
+      });
     }
   }
 
@@ -61,9 +74,9 @@ class App extends Component {
 
     return (
       <div>
-        <Header/>
+        <Header data={this.state.header}/>
         {components}
-        <Footer/>
+        <Footer data={this.state.footer}/>
       </div>
     );
   }
@@ -71,6 +84,8 @@ class App extends Component {
 
 export default connect(
   state => ({
-    components: state.components
+    components: state.components,
+    footer: state.footer,
+    header: state.header
   })
 )(App);

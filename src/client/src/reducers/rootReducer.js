@@ -1,8 +1,10 @@
 import {combineReducers} from 'redux'
-import components from './apiReducer'
+import apiReducer from './apiReducer'
 
 const rootReducer = combineReducers({
-  components
+  components : apiReducer.components,
+  header: apiReducer.header,
+  footer: apiReducer.footer
 });
 
 export default rootReducer
