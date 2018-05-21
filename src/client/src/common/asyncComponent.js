@@ -1,5 +1,8 @@
 import React, { PureComponent } from 'react';
 
+// TODO: Create singleton value to contain components
+window.COMPONENTS = {};
+
 export default class AsyncComponent extends PureComponent {
   constructor(props) {
     super(props);
@@ -12,16 +15,19 @@ export default class AsyncComponent extends PureComponent {
   componentWillMount() {
     if(!this.state.Component) {
       let Component;
+      let data = this.props.data.module;
       // Check if the component is already loaded
-      if (this.props.data && this.props.data.component) {
-        Component = window[this.props.data.component];
+      if (data && data.component) {
+        Component = window.COMPONENTS[data.component];
       }
       if (!Component) {
         // Dynamically load component
         this.props.moduleProvider().then(
           (Component) => {
-            this.setState({ Component: Component.default });
-            window[this.props.data.component] = Component.default;
+            window.COMPONENTS[data.component] = Component.default;
+            this.setState({
+              Component: Component.default
+            });
           });
       }
       else {
