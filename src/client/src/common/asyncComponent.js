@@ -35,7 +35,7 @@ export default class AsyncComponent extends PureComponent {
 
     return (
       <div>
-        {Component ? <Component data={this.props.data} /> : <h1>Loading ...</h1>}
+        {Component ? <Component data={this.props.data} /> : <div></div>}
       </div>
     );
   }
