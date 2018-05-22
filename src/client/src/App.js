@@ -12,8 +12,12 @@ import './style/App.css'
 class App extends Component {
   constructor(props) {
     super(props);
+    let initComponents = [];
+    if (props.page.modules) {
+      initComponents = props.page.modules;
+    }
     this.state = {
-      componentsData: props.components,
+      componentsData: initComponents,
       header: null,
       footer: null
     }
