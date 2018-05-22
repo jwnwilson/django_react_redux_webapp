@@ -1,8 +1,25 @@
 import React from 'react'
+import $ from 'jquery'
+import 'magnific-popup'
 
 import './../../style/Portfollio.css'
 
 class Portfollio extends React.Component {
+  componentDidMount () {
+    // Modal popup
+    $('.portfolio-item').magnificPopup({
+      type: 'inline',
+      preloader: false,
+      focus: '#username',
+      modal: true
+    });
+
+    $(document).on('click', '.portfolio-modal-dismiss', function(e) {
+      e.preventDefault();
+      $.magnificPopup.close();
+    });
+  }
+
   render () {
      return (
        <div>

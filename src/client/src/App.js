@@ -64,7 +64,7 @@ class App extends Component {
       let componentImport = () => {
         return import(`./components/${componentType}/index`);
       }
-      components.push((<AsyncComponent moduleProvider={componentImport} data={componentData} />));
+      components.push((<AsyncComponent moduleProvider={componentImport} data={componentData} key={i}/>));
     }
     return components;
   }

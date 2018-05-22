@@ -1,8 +1,23 @@
 import React from 'react'
-
+import $ from 'jquery'
 import './../../style/Header.css'
 
 class Header extends React.Component {
+  componentDidMount () {
+    // Collapse now if page is not at top
+    this.navbarCollapse();
+    // Collapse the navbar when page is scrolled
+    $(window).scroll(this.navbarCollapse);
+  }
+
+  navbarCollapse () {
+    if ($("#mainNav").offset().top > 100) {
+      $("#mainNav").addClass("navbar-shrink");
+    } else {
+      $("#mainNav").removeClass("navbar-shrink");
+    }
+  }
+
   render () {
     let title = '';
     if (this.props.data) {
