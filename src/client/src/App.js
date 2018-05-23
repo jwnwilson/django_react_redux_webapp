@@ -13,13 +13,17 @@ class App extends Component {
   constructor(props) {
     super(props);
     let initComponents = [];
-    if (props.page.modules) {
+    let initHeader = null;
+    let initFooter = null;
+    if (props.page) {
       initComponents = props.page.modules;
+      initHeader = props.page.header;
+      initFooter = props.page.footer
     }
     this.state = {
       componentsData: initComponents,
-      header: null,
-      footer: null
+      header: initHeader,
+      footer: initFooter
     }
   }
 
