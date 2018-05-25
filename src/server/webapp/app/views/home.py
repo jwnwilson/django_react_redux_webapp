@@ -48,7 +48,7 @@ class Home(View):
             email = EmailMessage(
                 'E-mail from website',
                 content,
-                to=['jwnwilson88@gmail.com'])
+                to=['jwnwilson@gmail.com'])
             email.send()
             return JsonResponse({'success': True})
         else:

@@ -10,6 +10,7 @@ from wagtail.snippets.models import register_snippet
 
 from .modules.base import ModuleSerializer
 from .snippets.header import HeaderSerializer
+from .snippets.footer import FooterSerializer
 
 
 class ModulePage(Page):
@@ -20,14 +21,23 @@ class ModulePage(Page):
         on_delete=models.SET_NULL,
         related_name='+'
     )
+    footer = models.ForeignKey(
+        'Footer',
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        related_name='+'
+    )
 
     content_panels = Page.content_panels + [
         SnippetChooserPanel('header'),
+        SnippetChooserPanel('footer'),
         InlinePanel('modules', label="Modules")
     ]
 
     api_fields = [
         APIField('header', serializer=HeaderSerializer()),
+        APIField('footer', serializer=FooterSerializer()),
         APIField('modules'),
     ]
 
