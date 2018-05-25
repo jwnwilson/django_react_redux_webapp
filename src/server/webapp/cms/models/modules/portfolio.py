@@ -13,23 +13,23 @@ from webapp.cms.models.modules.base import register_serializer
 
 
 @register_snippet
-class Portfollio(ClusterableModel, BaseModule):
-    component = models.CharField(max_length=255, default="Portfollio")
+class Portfolio(ClusterableModel, BaseModule):
+    component = models.CharField(max_length=255, default="Portfolio")
     text = models.CharField(max_length=255)
     panels = [
         FieldPanel('title'),
         FieldPanel('text'),
-        InlinePanel('portfollio_items', label='Items')
+        InlinePanel('portfolio_items', label='Items')
     ]
 
     def __str__(self):
         return self.text
 
 
-class PortfollioItem(Orderable):
-    portfollio = ParentalKey(
-        'cms.Portfollio',
-        related_name='portfollio_items',
+class PortfolioItem(Orderable):
+    portfolio = ParentalKey(
+        'cms.Portfolio',
+        related_name='portfolio_items',
         null=True,
         blank=True
     )
@@ -60,23 +60,23 @@ class PortfollioItem(Orderable):
         return self.category.text
 
     class Meta(ClusterableModel.Meta):
-        verbose_name = 'Portfollio Item'
-        verbose_name_plural = 'Portfollio Items'
+        verbose_name = 'Portfolio Item'
+        verbose_name_plural = 'Portfolio Items'
 
 
 @register_serializer
-class PortfollioItemSerializer(serializers.ModelSerializer):
+class PortfolioItemSerializer(serializers.ModelSerializer):
     class Meta:
-        model = PortfollioItem
+        model = PortfolioItem
         fields = '__all__'
         depth = 1
 
 
 @register_serializer
-class PortfollioSerializer(serializers.ModelSerializer):
-    portfollio_items = PortfollioItemSerializer(many=True, read_only=True)
+class PortfolioSerializer(serializers.ModelSerializer):
+    portfolio_items = PortfolioItemSerializer(many=True, read_only=True)
 
     class Meta:
-        model = Portfollio
+        model = Portfolio
         fields = '__all__'
         depth = 2
