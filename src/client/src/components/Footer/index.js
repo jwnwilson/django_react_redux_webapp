@@ -1,7 +1,9 @@
 import React from 'react'
-import $ from 'jquery'
 
 import './../../style/Footer.css'
+
+// Load global jQuery
+const $ = window.$;
 
 class Footer extends React.Component {
   componentDidMount () {

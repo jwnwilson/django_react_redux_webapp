@@ -1,8 +1,9 @@
 import json
 
-from django.http import HttpResponseNotFound, HttpResponseServerError
+from django.http import HttpResponse, HttpResponseNotFound, HttpResponseServerError
 from django.shortcuts import render_to_response, render
 from django.template import RequestContext, loader
+from django.views import View
 from wagtail.api.v2.serializers import get_serializer_class
 from wagtail.api.v2.endpoints import PagesAPIEndpoint
 from webapp.cms.models import ModulePage
@@ -20,10 +21,21 @@ def http500(request):
         t.render(RequestContext(request, {'request_path': request.path})))
 
 
-def home(request):
-    page = ModulePage.objects.get(slug='home')
-    page_api_data = getApiData(request, page)
-    return render(
-        request,
-        'webapp/index.html',
-        {'page': json.dumps(page_api_data)})
+class Home(View):
+    template_name = 'webapp/index.html'
+
+    def get(self, request):
+        page = ModulePage.objects.get(slug='home')
+        page_api_data = getApiData(request, page)
+        return render(
+            request,
+            self.template_name,
+            {'page': json.dumps(page_api_data)})
+
+    def post(self, request):
+        import pdb;pdb.set_trace()
+        if request.is_ajax():
+            data = {}
+            return JsonResponse(data)
+        else:
+            return HttpResponse(status=405, content='Post request not supported')

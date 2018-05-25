@@ -1,8 +1,9 @@
 import React from 'react'
-import $ from 'jquery'
-import 'magnific-popup'
 
 import './../../style/Portfolio.css'
+
+// Load global jQuery
+const $ = window.$;
 
 class Portfolio extends React.Component {
   componentDidMount () {

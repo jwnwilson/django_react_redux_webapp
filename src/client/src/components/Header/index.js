@@ -1,9 +1,9 @@
 import React from 'react'
-import $ from 'jquery'
-import 'jquery.easing'
-import 'bootstrap'
 
 import './../../style/Header.css'
+
+// Load global jQuery
+const $ = window.$;
 
 class Header extends React.Component {
   componentDidMount () {
