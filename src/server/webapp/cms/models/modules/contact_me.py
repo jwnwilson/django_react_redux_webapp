@@ -13,18 +13,10 @@ from webapp.cms.models.modules.base import register_serializer
 class ContactMe(BaseModule):
     component = models.CharField(max_length=255, default="ContactMe")
     text = models.CharField(max_length=255)
-    image = models.ForeignKey(
-        'wagtailimages.Image',
-        null=True,
-        blank=True,
-        on_delete=models.SET_NULL,
-        related_name='+'
-    )
 
     panels = [
         FieldPanel('title'),
         FieldPanel('text'),
-        ImageChooserPanel('image'),
     ]
 
     def __str__(self):
