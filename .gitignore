@@ -2,6 +2,7 @@
 .cov
 .cache
 .idea
+.env
 src/client/node_modules
 src/server/venv
 src/server/.coverage

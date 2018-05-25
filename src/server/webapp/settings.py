@@ -169,3 +169,10 @@ if not DEBUG:
         # release based on the git info.
         'release': raven.fetch_git_sha(PROJECT_DIR),
     }
+
+
+EMAIL_USE_TLS = True
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_HOST_USER = 'jwnwilsonemail@gmail.com'
+EMAIL_HOST_PASSWORD = 'Jwnwilson1'

@@ -1,5 +1,5 @@
 import React from 'react'
-
+import utils from './../../utils'
 import './../../style/ContactMe.css'
 
 // Load global jQuery
@@ -89,6 +89,15 @@ class ContactMe extends React.Component {
     /*When clicking on Full hide fail/success boxes */
     $('#name').focus(function() {
       $('#success').html('');
+    });
+
+    $.ajaxSetup({
+       beforeSend: (xhr, settings) => {
+         if (!(/^http:.*/.test(settings.url) || /^https:.*/.test(settings.url))) {
+           // Only send the token to relative URLs i.e. locally.
+           xhr.setRequestHeader("X-CSRFToken", utils.getCookie('csrftoken'));
+         }
+       }
     });
   }
 

@@ -1,6 +1,12 @@
 import json
 
-from django.http import HttpResponse, HttpResponseNotFound, HttpResponseServerError
+from django.core.mail import EmailMessage
+from django.http import (
+    HttpResponse,
+    HttpResponseNotFound,
+    HttpResponseServerError,
+    JsonResponse
+)
 from django.shortcuts import render_to_response, render
 from django.template import RequestContext, loader
 from django.views import View
@@ -33,9 +39,17 @@ class Home(View):
             {'page': json.dumps(page_api_data)})
 
     def post(self, request):
-        import pdb;pdb.set_trace()
         if request.is_ajax():
-            data = {}
-            return JsonResponse(data)
+            content = (
+                'Name: ' + request.POST.get('name') + '\n'
+                'Email: ' + request.POST.get('email') + '\n'
+                'Phone number: ' + request.POST.get('phone') + '\n'
+                'Message: ' + request.POST.get('message'))
+            email = EmailMessage(
+                'E-mail from website',
+                content,
+                to=['jwnwilson88@gmail.com'])
+            email.send()
+            return JsonResponse({'success': True})
         else:
             return HttpResponse(status=405, content='Post request not supported')
