@@ -7,4 +7,3 @@ COPY ./ops/bashrc /root/.bashrc
 ADD . /app
 
 WORKDIR /app/src/server
-RUN /bin/bash -c "source /app/src/server/setup.sh"

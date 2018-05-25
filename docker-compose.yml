@@ -18,7 +18,7 @@ services:
       dockerfile: ./ops/Dockerfile_server
     user: root
     working_dir: /app/src/server
-    command: ./setup.sh
+    command: pipenv install
     tty: true
     volumes:
       - .:/app
@@ -32,7 +32,7 @@ services:
     env_file:
       - web.env
     working_dir: /app/src/server
-    command: python manage.py runserver 0.0.0.0:8000
+    command: pipenv run python manage.py runserver 0.0.0.0:8000
     tty: true
     ports:
       - 0.0.0.0:8000:8000
@@ -50,6 +50,8 @@ services:
     build:
       context: .
       dockerfile: ./ops/Dockerfile_db
+    ports:
+      - 5432:5432
     volumes:
       - db_data:/var/lib/postgresql/data
 

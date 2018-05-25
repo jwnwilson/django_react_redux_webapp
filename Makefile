@@ -29,7 +29,7 @@ run:
 	COMPOSE_HTTP_TIMEOUT=$(COMPOSE_HTTP_TIMEOUT) $(COMPOSE) up
 
 run-db:
-	$(COMPOSE) run --service-ports $(DB)
+	POSTGRES_USER=docker POSTGRES_PASSWORD=docker $(COMPOSE) run --service-ports $(DB)
 
 run-be:
 	COMPOSE_HTTP_TIMEOUT=$(COMPOSE_HTTP_TIMEOUT) $(COMPOSE) run --service-ports $(SERVER)
@@ -38,7 +38,7 @@ run-fe:
 	$(COMPOSE) run --service-ports  $(CLIENT)
 
 run-fe-build:
-		$(COMPOSE) run $(CLIENT) bash -c "PROD_ENV=1 ./node_modules/.bin/webpack"
+		$(COMPOSE) run $(CLIENT) bash -c "PROD_ENV=1 npm run build"
 
 test: test-be test-fe
 
@@ -54,6 +54,9 @@ shell:
 
 shell-fe:
 	$(COMPOSE) run $(CLIENT) bash
+
+shell-db:
+	PGPASSWORD=docker psql -h localhost -U docker
 
 deploy:
 	./ops/deploy.sh

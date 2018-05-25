@@ -1,6 +1,4 @@
 #! /bin/bash
+SHELL=/bin/bash
 
-if [[ -d "/app/src/server/venv" ]]
-then
-    source /app/src/server/venv/bin/activate
-fi
+pipenv shell
