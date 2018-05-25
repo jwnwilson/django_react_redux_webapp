@@ -35,7 +35,7 @@ run-be:
 	COMPOSE_HTTP_TIMEOUT=$(COMPOSE_HTTP_TIMEOUT) $(COMPOSE) run --service-ports $(SERVER)
 
 run-fe:
-	$(COMPOSE) run $(CLIENT)
+	$(COMPOSE) run --service-ports  $(CLIENT)
 
 run-fe-build:
 		$(COMPOSE) run $(CLIENT) bash -c "PROD_ENV=1 ./node_modules/.bin/webpack"

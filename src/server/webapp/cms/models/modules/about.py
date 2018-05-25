@@ -12,23 +12,19 @@ from webapp.cms.models.modules.base import register_serializer
 @register_snippet
 class About(BaseModule):
     component = models.CharField(max_length=255, default="About")
-    text = models.CharField(max_length=255)
-    image = models.ForeignKey(
-        'wagtailimages.Image',
-        null=True,
-        blank=True,
-        on_delete=models.SET_NULL,
-        related_name='+'
-    )
+    text_1 = models.TextField(blank=True, null=True)
+    text_2 = models.TextField(blank=True, null=True)
+    cv_link = models.URLField(max_length=255, blank=True, null=True)
 
     panels = [
         FieldPanel('title'),
-        FieldPanel('text'),
-        ImageChooserPanel('image'),
+        FieldPanel('text_1'),
+        FieldPanel('text_2'),
+        FieldPanel('cv_link')
     ]
 
     def __str__(self):
-        return self.text
+        return self.title
 
 
 

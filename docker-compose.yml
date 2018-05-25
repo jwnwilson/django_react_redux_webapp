@@ -6,11 +6,12 @@ services:
     working_dir: /app/src/client
     command: npm run start
     tty: true
+    ports:
+      - 0.0.0.0:3000:3000
     volumes:
       - .:/app
       - node_modules:/app/src/client/node_modules
-    ports:
-      - 3000:3000
+    
   pyenv:
     build:
       context: .
