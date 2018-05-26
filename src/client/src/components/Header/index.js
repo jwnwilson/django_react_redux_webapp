@@ -53,11 +53,21 @@ class Header extends React.Component {
 
   render () {
     let title = '';
-    if (this.props.data) {
-      title = this.props.data.title;
+    let data = this.props.data;
+    let headerLinks = [];
+    if (data) {
+      title = data.title;
+      headerLinks = data.ctas.map((cta, index) => {
+        return (
+          <li className="nav-item mx-0 mx-lg-1" key={index}>
+            <a className="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger" href={'#' + cta.selector}>{cta.text}</a>
+          </li>
+        );
+      });
     }
+
     return (
-     <nav className="navbar navbar-expand-lg bg-secondary fixed-top text-uppercase" id="mainNav">
+      <nav className="navbar navbar-expand-lg bg-secondary fixed-top text-uppercase" id="mainNav">
        <div className="container">
          <NavLink className="navbar-brand js-scroll-trigger" to="/#page-top">{title}</NavLink>
          <button className="navbar-toggler navbar-toggler-right text-uppercase bg-primary text-white rounded" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
@@ -66,19 +76,11 @@ class Header extends React.Component {
          </button>
          <div className="collapse navbar-collapse" id="navbarResponsive">
            <ul className="navbar-nav ml-auto">
-             <li className="nav-item mx-0 mx-lg-1">
-               <a className="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger" href="#portfolio">Portfolio</a>
-             </li>
-             <li className="nav-item mx-0 mx-lg-1">
-               <a className="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger" href="#about">About</a>
-             </li>
-             <li className="nav-item mx-0 mx-lg-1">
-               <a className="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger" href="#contact">Contact</a>
-             </li>
+            {headerLinks}
            </ul>
          </div>
        </div>
-     </nav>
+      </nav>
     );
   }
 }

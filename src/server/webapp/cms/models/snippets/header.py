@@ -29,7 +29,7 @@ class Header(ClusterableModel):
 
 
 class CTA(Orderable):
-    category = ParentalKey(
+    header = ParentalKey(
         'Header',
         related_name='ctas'
     )
@@ -41,9 +41,11 @@ class CTA(Orderable):
         related_name='+',
     )
     text = models.CharField(max_length=255, blank=True)
+    selector = models.CharField(max_length=255, blank=True)
 
     panels = [
         FieldPanel('text'),
+        FieldPanel('selector'),
         PageChooserPanel('link')
     ]
 
@@ -56,7 +58,17 @@ class CTA(Orderable):
 
 
 @register_serializer
+class CtaSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = CTA
+        fields = '__all__'
+        depth = 1
+
+
+@register_serializer
 class HeaderSerializer(serializers.ModelSerializer):
+    ctas = CtaSerializer(many=True, read_only=True)
+
     class Meta:
         model = Header
         fields = '__all__'
