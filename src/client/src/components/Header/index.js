@@ -69,7 +69,7 @@ class Header extends React.Component {
     return (
       <nav className="navbar navbar-expand-lg bg-secondary fixed-top text-uppercase" id="mainNav">
        <div className="container">
-         <NavLink className="navbar-brand js-scroll-trigger" to="/#page-top">{title}</NavLink>
+         <NavLink className="navbar-brand js-scroll-trigger" to="/home/#page-top">{title}</NavLink>
          <button className="navbar-toggler navbar-toggler-right text-uppercase bg-primary text-white rounded" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
            Menu
            <i className="fa fa-bars"></i>

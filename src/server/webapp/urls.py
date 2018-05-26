@@ -13,9 +13,8 @@ urlpatterns = [
     url(r'^api/', api_router.urls),
     url(r'^cms/', include('webapp.cms.urls')),
     url(r'^admin/', admin.site.urls),
-    url(r'', include('webapp.app.urls')),
+    url(r'^home/', include('webapp.app.urls'))
     #url(r'^$', TemplateView.as_view(template_name="webapp/index.html"))
-
 ]
 
 if settings.DEBUG:
