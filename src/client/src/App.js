@@ -40,6 +40,12 @@ class App extends Component {
     }
   }
 
+  componentWillUnmount() {
+    this.setState({
+      componentsData: []
+    })
+  }
+
   componentWillReceiveProps(newProps) {
     // Dispatch action to change the page with new data if id changes
     if(newProps.id !==  this.props.id) {

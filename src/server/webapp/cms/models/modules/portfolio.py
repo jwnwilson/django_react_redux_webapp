@@ -42,7 +42,7 @@ class PortfolioItem(Orderable):
         related_name='+'
     )
     link = models.ForeignKey(
-        'wagtailcore.Page',
+        'cms.ModulePage',
         null=True,
         blank=True,
         on_delete=models.SET_NULL,

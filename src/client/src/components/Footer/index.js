@@ -19,7 +19,7 @@ class Footer extends React.Component {
   }
 
   render () {
-    let data = this.props.data;
+    let data = this.props.data || {};
     return (
      <div>
        <footer className="footer text-center">

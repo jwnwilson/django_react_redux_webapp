@@ -1,4 +1,7 @@
 import React from 'react'
+import {
+  NavLink
+} from "react-router-dom";
 
 import './../../style/Header.css'
 
@@ -39,10 +42,12 @@ class Header extends React.Component {
   }
 
   navbarCollapse () {
-    if ($("#mainNav").offset().top > 100) {
-      $("#mainNav").addClass("navbar-shrink");
+    let element = $("#mainNav");
+    if (!element.offset()) return;
+    if (element.offset().top > 100) {
+      element.addClass("navbar-shrink");
     } else {
-      $("#mainNav").removeClass("navbar-shrink");
+      element.removeClass("navbar-shrink");
     }
   }
 
@@ -54,7 +59,7 @@ class Header extends React.Component {
     return (
      <nav className="navbar navbar-expand-lg bg-secondary fixed-top text-uppercase" id="mainNav">
        <div className="container">
-         <a className="navbar-brand js-scroll-trigger" href="#page-top">{title}</a>
+         <NavLink className="navbar-brand js-scroll-trigger" to="/#page-top">{title}</NavLink>
          <button className="navbar-toggler navbar-toggler-right text-uppercase bg-primary text-white rounded" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
            Menu
            <i className="fa fa-bars"></i>
