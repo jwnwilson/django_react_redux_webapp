@@ -7,7 +7,7 @@ from django.http import (
     HttpResponseServerError,
     JsonResponse
 )
-from django.shortcuts import render_to_response, render
+from django.shortcuts import render_to_response, render, redirect
 from django.template import RequestContext, loader
 from django.views import View
 from wagtail.api.v2.serializers import get_serializer_class
@@ -25,6 +25,10 @@ def http500(request):
     t = loader.get_template("webapp/500.html")
     return HttpResponseServerError(
         t.render(RequestContext(request, {'request_path': request.path})))
+
+
+def root_redirect(request):
+    return redirect('home')
 
 
 class BaseView(View):

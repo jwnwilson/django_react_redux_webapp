@@ -13,7 +13,8 @@ urlpatterns = [
     url(r'^api/', api_router.urls),
     url(r'^cms/', include('webapp.cms.urls')),
     url(r'^admin/', admin.site.urls),
-    url(r'^home/', include('webapp.app.urls'))
+    url(r'^home/', include('webapp.app.urls')),
+    url(r'^$', app.views.base.root_redirect, name='redirect')
     #url(r'^$', TemplateView.as_view(template_name="webapp/index.html"))
 ]
 
