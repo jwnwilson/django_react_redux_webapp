@@ -37,8 +37,8 @@ run-be:
 run-fe:
 	$(COMPOSE) run --service-ports  $(CLIENT)
 
-run-fe-build:
-		$(COMPOSE) run $(CLIENT) bash -c "PROD_ENV=1 npm run build"
+build-fe:
+		$(COMPOSE) run $(CLIENT) bash -c "PROD_ENV=1 npm run build" && cp -r src/client/build/static src/server/static
 
 test: test-be test-fe
 
