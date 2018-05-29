@@ -1,9 +1,9 @@
 #! /bin/sh
 
 # Build FE bundle
+make collect-static
 make build-fe
 
-# Build server image
-
+# Build docker image
 
 # Deploy to cloud

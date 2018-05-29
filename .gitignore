@@ -6,6 +6,7 @@
 src/client/node_modules
 src/server/venv
 src/server/.coverage
-src/webpack-stats.dev.json
+src/server/staticfiles
+src/client/webpack-stats.dev.json
 static/*
 ./wagtail

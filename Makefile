@@ -38,7 +38,7 @@ run-fe:
 	$(COMPOSE) run --service-ports  $(CLIENT)
 
 build-fe:
-		$(COMPOSE) run $(CLIENT) bash -c "PROD_ENV=1 npm run build" && cp -r src/client/build/static src/server/static
+		$(COMPOSE) run $(CLIENT) bash -c "PROD_ENV=1 npm run build" && cp -r src/client/build/static/* src/server/staticfiles
 
 test: test-be test-fe
 
@@ -57,6 +57,9 @@ shell-fe:
 
 shell-db:
 	PGPASSWORD=docker psql -h localhost -U docker
+
+collect-static:
+	$(COMPOSE) run $(SERVER) bash -c "rm -rf ./src/server/staticfiles pipenv run ./manage.py collectstatic"
 
 deploy:
 	./ops/deploy.sh

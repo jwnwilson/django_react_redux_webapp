@@ -15,7 +15,7 @@ import raven
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-WEBPACK_STAT_DIR = os.path.dirname(BASE_DIR)
+WEBPACK_STAT_DIR = os.path.join(os.path.dirname(BASE_DIR), 'client')
 PROJECT_DIR = os.path.dirname(os.path.dirname(BASE_DIR))
 
 # Quick-start development settings - unsuitable for production
@@ -25,9 +25,9 @@ PROJECT_DIR = os.path.dirname(os.path.dirname(BASE_DIR))
 SECRET_KEY = '#o%o#3c6s*wuk50&8a7-(ke+qho%a8!dxfr=-dat!d-u+4a-tu'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = os.environ['DEV'] == 'True'
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['localhost', '127.0.0.1']
 
 
 # Application definition
@@ -163,17 +163,25 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, 'static'),
+    os.path.join(PROJECT_DIR, 'static'),
 ]
 
 WAGTAIL_SITE_NAME = 'Noel Wilson'
 
-WEBPACK_LOADER = {
-    'DEFAULT': {
+if DEBUG:
+    WEBPACK_LOADER = {
+        'DEFAULT': {
             'BUNDLE_DIR_NAME': 'bundles/',
             'STATS_FILE': os.path.join(WEBPACK_STAT_DIR, 'webpack-stats.dev.json'),
         }
-}
+    }
+else:
+    WEBPACK_LOADER = {
+        'DEFAULT': {
+            'BUNDLE_DIR_NAME': 'bundles/',
+            'STATS_FILE': os.path.join(WEBPACK_STAT_DIR, 'webpack-stats.prod.json'),
+        }
+    }
 
 if not DEBUG:
     RAVEN_CONFIG = {
