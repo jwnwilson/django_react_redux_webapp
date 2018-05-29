@@ -13,13 +13,10 @@ https://docs.djangoproject.com/en/1.11/ref/settings/
 import os
 import raven
 
-# Build paths inside the project like this: os.path.join(BASE_DIR, ...)
-BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+APP_DIR = os.path.dirname(os.path.abspath(__file__))
+BASE_DIR = os.path.dirname(APP_DIR)
 WEBPACK_STAT_DIR = os.path.join(os.path.dirname(BASE_DIR), 'client')
 PROJECT_DIR = os.path.dirname(os.path.dirname(BASE_DIR))
-
-# Quick-start development settings - unsuitable for production
-# See https://docs.djangoproject.com/en/1.11/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = '#o%o#3c6s*wuk50&8a7-(ke+qho%a8!dxfr=-dat!d-u+4a-tu'
@@ -163,7 +160,7 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 STATICFILES_DIRS = [
-    os.path.join(PROJECT_DIR, 'static'),
+    os.path.join(APP_DIR, 'static'),
 ]
 
 WAGTAIL_SITE_NAME = 'Noel Wilson'
