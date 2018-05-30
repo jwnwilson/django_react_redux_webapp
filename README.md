@@ -20,9 +20,9 @@ $  make run
 
 ## To Do
 
+- Add caching container
 - Add component name to serializer as an additional value not DB value
 - Update CMS preview to point to website not it's expected url (use reverse url name?)
-- Remove BaseModule from snippets screen in CMS
 - Separate Snippets in CMS by tags
 - Create map of components and their Classes to check if they exist before reimporting
 - Import all initial components dynamically?

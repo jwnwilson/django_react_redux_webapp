@@ -1,0 +1,57 @@
+version: '2'
+services:
+  nginx:
+    restart: always
+    build:
+      context: .
+      dockerfile: ./ops/Dockerfile_nginx
+    ports:
+      - 80:80
+    volumes:
+      - static:/app/src/server/staticfiles
+      - media:/app/src/server/media
+    links:
+      - server
+
+  server:
+    restart: always
+    build:
+      context: .
+      dockerfile: ./ops/Dockerfile_server
+    user: root
+    working_dir: /app/src/server
+    command: pipenv run gunicorn webapp.wsgi:application -w 2 -b :8000
+    tty: true
+    ports:
+      - 8000
+    volumes:
+      - media:/app/src/server/media
+      - static:/app/src/server/staticfiles
+    links:
+      - db
+      - cache
+    depends_on:
+      - db
+      - cache
+
+  cache:
+   image: memcached
+   ports:
+     - 11211:11211
+   entrypoint:
+    - memcached
+    - -m 64
+
+  db:
+    build:
+      context: .
+      dockerfile: ./ops/Dockerfile_db
+    ports:
+      - 5432:5432
+    volumes:
+      - db_data:/var/lib/postgresql/data
+
+volumes:
+  db_data:
+  media:
+  static:

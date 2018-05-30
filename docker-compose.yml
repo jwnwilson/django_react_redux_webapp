@@ -11,6 +11,7 @@ services:
     volumes:
       - .:/app
       - node_modules:/app/src/client/node_modules
+      - static:/app/src/server/staticfiles
 
   pyenv:
     build:
@@ -18,7 +19,7 @@ services:
       dockerfile: ./ops/Dockerfile_server
     user: root
     working_dir: /app/src/server
-    command: pipenv install
+    command: pipenv install --skip-lock
     tty: true
     volumes:
       - .:/app
@@ -32,7 +33,7 @@ services:
     env_file:
       - web.env
     working_dir: /app/src/server
-    command: pipenv run python manage.py runserver 0.0.0.0:8000
+    command: DEV=True pipenv run python manage.py runserver 0.0.0.0:8000
     tty: true
     ports:
       - 0.0.0.0:8000:8000
@@ -40,11 +41,22 @@ services:
       - .:/app
       - venv:/root/.local
       - media:/app/src/server/media
+      - static:/app/src/server/staticfiles
     links:
       - db
+      - cache
     depends_on:
       - db
+      - cache
       - pyenv
+
+  cache:
+   image: memcached
+   ports:
+     - "11211:11211"
+   entrypoint:
+    - memcached
+    - -m 64
 
   db:
     build:
@@ -60,3 +72,4 @@ volumes:
   venv:
   db_data:
   media:
+  static:

@@ -38,7 +38,7 @@ run-fe:
 	$(COMPOSE) run --service-ports  $(CLIENT)
 
 build-fe:
-		$(COMPOSE) run $(CLIENT) bash -c "PROD_ENV=1 npm run build" && cp -r src/client/build/static/* src/server/staticfiles
+		$(COMPOSE) run $(CLIENT) bash -c "PROD_ENV=1 npm run build"
 
 test: test-be test-fe
 
@@ -59,7 +59,7 @@ shell-db:
 	PGPASSWORD=docker psql -h localhost -U docker
 
 collect-static:
-	$(COMPOSE) run $(SERVER) bash -c "rm -rf ./src/server/staticfiles pipenv run ./manage.py collectstatic"
+	$(COMPOSE) -f ./opts/production.yml run $(SERVER) bash -c "rm -rf ./staticfiles && mkdir ./staticfiles && pipenv run python manage.py collectstatic && cp -r /app/src/client/build/static/* /app/src/server/staticfiles && cp /app/src/client/build/service-woker.js /app/src/server/staticfiles"
 
 deploy:
 	./ops/deploy.sh

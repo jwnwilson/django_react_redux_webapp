@@ -1,0 +1,4 @@
+FROM nginx:latest
+
+ADD ./ops/nginx.conf /etc/nginx/nginx.conf
+ADD ./ops/django /etc/nginx/sites-enabled/

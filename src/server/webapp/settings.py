@@ -15,14 +15,16 @@ import raven
 
 APP_DIR = os.path.dirname(os.path.abspath(__file__))
 BASE_DIR = os.path.dirname(APP_DIR)
-WEBPACK_STAT_DIR = os.path.join(os.path.dirname(BASE_DIR), 'client')
-PROJECT_DIR = os.path.dirname(os.path.dirname(BASE_DIR))
+SRC_DIR = os.path.dirname(BASE_DIR)
+PROJECT_DIR = os.path.dirname(SRC_DIR)
+WEBPACK_STAT_DIR = os.path.join(SRC_DIR, 'client')
+
 
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = '#o%o#3c6s*wuk50&8a7-(ke+qho%a8!dxfr=-dat!d-u+4a-tu'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = os.environ['DEV'] == 'True'
+DEBUG = os.environ.get('DEV') == 'True'
 
 ALLOWED_HOSTS = ['localhost', '127.0.0.1']
 
@@ -194,3 +196,8 @@ EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
 EMAIL_HOST_USER = 'jwnwilsonemail@gmail.com'
 EMAIL_HOST_PASSWORD = 'Jwnwilson1'
+
+CACHES = {
+    'BACKEND': 'django.core.cache.backends.memcached.MemcachedCache',
+    'LOCATION': 'memcached:11211'
+}

@@ -5,12 +5,13 @@ name = "pypi"
 
 [packages]
 django = "==1.11"
-django-webpack-loader = "*"
-wagtail = "*"
-raven = "*"
-djangorestframework = "*"
-django-polymorphic = "*"
-"psycopg2-binary" = "*"
+django-webpack-loader = "==0.6.0"
+wagtail = "==2.1"
+raven = "==6.8.0"
+djangorestframework = "==3.8.2"
+django-polymorphic = "==2.0.2"
+"psycopg2-binary" = "==2.7.4"
+gunicorn = "==19.8.1"
 
 [dev-packages]
 pytest = "*"
