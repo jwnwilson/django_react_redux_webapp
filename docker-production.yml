@@ -1,4 +1,4 @@
-version: '2'
+version: '3'
 services:
   nginx:
     restart: always
@@ -10,11 +10,10 @@ services:
     volumes:
       - static:/app/src/server/staticfiles
       - media:/app/src/server/media
-    links:
-      - server
 
   server:
     restart: always
+    container_name: noelwilson2018_server_prod
     build:
       context: .
       dockerfile: ./ops/Dockerfile_server
@@ -27,9 +26,6 @@ services:
     volumes:
       - media:/app/src/server/media
       - static:/app/src/server/staticfiles
-    links:
-      - db
-      - cache
     depends_on:
       - db
       - cache

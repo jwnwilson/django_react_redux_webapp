@@ -37,6 +37,9 @@ run-be:
 run-fe:
 	$(COMPOSE) run --service-ports  $(CLIENT)
 
+run-prod:
+	COMPOSE_HTTP_TIMEOUT=$(COMPOSE_HTTP_TIMEOUT) $(COMPOSE) -f docker-production.yml up
+
 build-fe:
 		$(COMPOSE) run $(CLIENT) bash -c "PROD_ENV=1 npm run build"
 

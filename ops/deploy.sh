@@ -6,5 +6,6 @@ make build-fe
 make collect-static
 
 # Build web docker image
+docker-compose -f ./docker-production.yml build
 
 # Deploy to cloud
