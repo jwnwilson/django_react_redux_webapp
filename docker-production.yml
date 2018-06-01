@@ -20,7 +20,7 @@ services:
     image: docker.io/jwnwilson/noelwilson2018-server
     user: root
     working_dir: /app/src/server
-    command: pipenv run gunicorn webapp.wsgi:application -w 2 -b :8000
+    command: gunicorn webapp.wsgi:application -w 2 -b :8000
     tty: true
     ports:
       - 8000

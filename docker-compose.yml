@@ -23,7 +23,7 @@ services:
     tty: true
     volumes:
       - .:/app
-      - venv:/root/.local
+      - venv:/usr/local/lib/python3.6/site-packages
 
   server:
     build:
@@ -33,13 +33,13 @@ services:
     env_file:
       - web.env
     working_dir: /app/src/server
-    command: DEV=True pipenv run python manage.py runserver 0.0.0.0:8000
+    command: DEV=True python manage.py runserver 0.0.0.0:8000
     tty: true
     ports:
       - 0.0.0.0:8000:8000
     volumes:
       - .:/app
-      - venv:/root/.local
+      - venv:/usr/local/lib/python3.6/site-packages
       - media:/app/src/server/media
       - static:/app/src/server/staticfiles
     links:
