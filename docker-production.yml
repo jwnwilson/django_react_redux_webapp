@@ -5,18 +5,19 @@ services:
     build:
       context: .
       dockerfile: ./ops/Dockerfile_nginx
+    image: docker.io/jwnwilson/noelwilson2018-server
     ports:
       - 80:80
     volumes:
-      - static:/app/src/server/staticfiles
       - media:/app/src/server/media
 
   server:
     restart: always
-    container_name: noelwilson2018_server_prod
+    container_name: noelwilson2018-server-prod
     build:
       context: .
       dockerfile: ./ops/Dockerfile_server
+    image: docker.io/jwnwilson/noelwilson2018-server
     user: root
     working_dir: /app/src/server
     command: pipenv run gunicorn webapp.wsgi:application -w 2 -b :8000
@@ -25,7 +26,6 @@ services:
       - 8000
     volumes:
       - media:/app/src/server/media
-      - static:/app/src/server/staticfiles
     depends_on:
       - db
       - cache
@@ -42,12 +42,12 @@ services:
     build:
       context: .
       dockerfile: ./ops/Dockerfile_db
+    image: docker.io/jwnwilson/noelwilson2018-db
     ports:
       - 5432:5432
     volumes:
-      - db_data:/var/lib/postgresql/data
+      - db_data:/var/lib/postgresql/data:z
 
 volumes:
   db_data:
   media:
-  static:

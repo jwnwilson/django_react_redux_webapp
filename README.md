@@ -20,10 +20,14 @@ $  make run
 
 ## To Do
 
-- Add caching container
-- Add component name to serializer as an additional value not DB value
-- Update CMS preview to point to website not it's expected url (use reverse url name?)
+- Move Media uploads to GCS OR
+- Write server instance connected to media volume as write
+- Slave servers instances connected to media volume as read only
+- Connect nginx to media volume as read only
+- Integrate view logic with wagtail pages
+  - Add new page on CMS adds new endpoint page to website
+- Add component name to serializer api output as an class attr value not DB value
 - Separate Snippets in CMS by tags
-- Create map of components and their Classes to check if they exist before reimporting
+- Use google cloud DB system in prod
 - Import all initial components dynamically?
 - On page change make call to API and alter page using API data
