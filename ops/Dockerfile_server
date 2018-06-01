@@ -7,4 +7,4 @@ ADD . /app
 WORKDIR /app/src/server
 
 RUN pip3 install pipenv
-RUN pipenv install --skip-lock
+RUN pipenv install --system

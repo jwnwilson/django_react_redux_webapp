@@ -32,6 +32,7 @@ spec:
         name: noelwilson2018-server-prod
         ports:
         - containerPort: 8000
+        imagePullPolicy: Always
         resources: {}
         tty: true
         volumeMounts:

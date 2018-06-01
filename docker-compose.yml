@@ -19,7 +19,7 @@ services:
       dockerfile: ./ops/Dockerfile_server
     user: root
     working_dir: /app/src/server
-    command: pipenv install --skip-lock
+    command: pipenv install --system
     tty: true
     volumes:
       - .:/app
