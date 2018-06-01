@@ -25,7 +25,7 @@ spec:
         - gunicorn
         - webapp.wsgi:application
         - -w
-        - "2"
+        - "3"
         - -b
         - :8000
         image: docker.io/jwnwilson/noelwilson2018-server

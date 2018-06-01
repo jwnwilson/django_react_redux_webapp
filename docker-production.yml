@@ -5,9 +5,10 @@ services:
     build:
       context: .
       dockerfile: ./ops/Dockerfile_nginx
-    image: docker.io/jwnwilson/noelwilson2018-server
+    image: docker.io/jwnwilson/noelwilson2018-nginx
     ports:
       - 80:80
+      - 443:443
     volumes:
       - media:/app/src/server/media
 
@@ -20,7 +21,7 @@ services:
     image: docker.io/jwnwilson/noelwilson2018-server
     user: root
     working_dir: /app/src/server
-    command: gunicorn webapp.wsgi:application -w 2 -b :8000
+    command: gunicorn webapp.wsgi:application -w 3 -b :8000 -t 120
     tty: true
     ports:
       - 8000

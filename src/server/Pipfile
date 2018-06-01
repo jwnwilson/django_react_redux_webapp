@@ -12,6 +12,7 @@ djangorestframework = "==3.8.2"
 django-polymorphic = "==2.0.2"
 "psycopg2-binary" = "==2.7.4"
 gunicorn = "==19.8.1"
+python-memcached = "*"
 
 [dev-packages]
 pytest = "*"

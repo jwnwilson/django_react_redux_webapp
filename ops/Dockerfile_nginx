@@ -2,4 +2,4 @@ FROM nginx:latest
 
 ADD ./ops/nginx.conf /etc/nginx/nginx.conf
 ADD ./ops/django /etc/nginx/sites-enabled/
-ADD ./src/server/staticfiles /app/src/server/staticfiles
+COPY ./src/server/staticfiles /app/src/server/staticfiles
