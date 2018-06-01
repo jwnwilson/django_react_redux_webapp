@@ -198,6 +198,8 @@ EMAIL_HOST_USER = 'jwnwilsonemail@gmail.com'
 EMAIL_HOST_PASSWORD = 'Jwnwilson1'
 
 CACHES = {
-    'BACKEND': 'django.core.cache.backends.memcached.MemcachedCache',
-    'LOCATION': 'memcached:11211'
+    'default': {
+        'BACKEND': 'django.core.cache.backends.memcached.MemcachedCache',
+        'LOCATION': 'memcached:11211'
+    }
 }
