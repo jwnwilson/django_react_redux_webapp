@@ -3,7 +3,7 @@
 gcloud auth login
 gcloud config set project noelwilson-2018
 
-# Create volumes / services / deployments
+# Create users / volumes / services / deployments
 kubectl create -f ./ops/kubernetes
 
 # setup dashboard

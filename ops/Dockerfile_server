@@ -1,10 +1,8 @@
 FROM python
 MAINTAINER Noel Wilson <jwnwilson@gmail.com>
 
+WORKDIR /app/src/server
+RUN pip3 install pipenv && pipenv install --system
+
 COPY ./ops/bashrc /root/.bashrc
 ADD . /app
-
-WORKDIR /app/src/server
-
-RUN pip3 install pipenv
-RUN pipenv install --system
