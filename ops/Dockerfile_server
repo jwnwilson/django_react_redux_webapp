@@ -1,8 +1,12 @@
 FROM python
 MAINTAINER Noel Wilson <jwnwilson@gmail.com>
 
-WORKDIR /app/src/server
-RUN pip3 install pipenv && pipenv install --system
-
 COPY ./ops/bashrc /root/.bashrc
-ADD . /app
+COPY . /app
+
+WORKDIR /app/src/server
+
+# Pip is broken this fixes it
+RUN curl https://bootstrap.pypa.io/get-pip.py | python && \
+  pip3 install pipenv && \
+  pipenv install --system --deploy

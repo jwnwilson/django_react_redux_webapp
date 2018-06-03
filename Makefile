@@ -28,6 +28,9 @@ setup:
 	$(COMPOSE) run ${PYENV}
 	$(COMPOSE) run ${CLIENT} bash -c "npm install"
 
+setup-local:
+	python3 -m venv ./src/server/venv && source ./src/server/venv/bin/activate
+
 run:
 	COMPOSE_HTTP_TIMEOUT=$(COMPOSE_HTTP_TIMEOUT) $(COMPOSE) up
 

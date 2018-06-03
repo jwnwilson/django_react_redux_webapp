@@ -19,7 +19,7 @@ services:
       dockerfile: ./ops/Dockerfile_server
     user: root
     working_dir: /app/src/server
-    command: pipenv install --system
+    command: pipenv install --system --deploy
     tty: true
     volumes:
       - .:/app

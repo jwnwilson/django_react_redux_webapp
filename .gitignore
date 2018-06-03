@@ -10,3 +10,5 @@ src/client/webpack-stats.dev.json
 static/*
 ./wagtail
 /.env
+.venv
+venv
