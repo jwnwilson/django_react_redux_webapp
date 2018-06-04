@@ -14,6 +14,7 @@ django-polymorphic = "==2.0.2"
 gunicorn = "==19.8.1"
 python-memcached = "*"
 dj-database-url = "*"
+whitenoise = "*"
 
 [dev-packages]
 pytest = "*"

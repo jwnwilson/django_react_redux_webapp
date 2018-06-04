@@ -70,6 +70,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'wagtail.core.middleware.SiteMiddleware',
     'wagtail.contrib.redirects.middleware.RedirectMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
 ]
 
 ROOT_URLCONF = 'webapp.urls'
@@ -160,6 +161,8 @@ STATICFILES_DIRS = [
     os.path.join(APP_DIR, 'static'),
     os.path.join(SRC_DIR, 'client', 'build', 'static'),
 ]
+
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 WAGTAIL_SITE_NAME = 'Noel Wilson'
 
