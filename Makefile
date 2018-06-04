@@ -10,6 +10,7 @@ help:
 	@echo "test-be - Runs client linting and tests"
 	@echo "shell - Runs bash shell on server container"
 
+SHELL := /bin/bash
 COMPOSE = docker-compose
 SERVER = server
 CLIENT = client
@@ -68,7 +69,7 @@ shell-db:
 	PGPASSWORD=docker psql -h localhost -U docker
 
 collect-static:
-	$(COMPOSE) run $(SERVER) bash -c "rm -rf ./staticfiles && mkdir ./staticfiles && pipenv run python manage.py collectstatic && cp -r /app/src/client/build/static/* /app/src/server/staticfiles && cp /app/src/client/build/service-woker.js /app/src/server/staticfiles"
+	$(COMPOSE) run $(SERVER) bash -c "rm -rf ./staticfiles && mkdir ./staticfiles && pipenv run python manage.py collectstatic && cp /app/src/client/build/service-woker.js /app/src/server/staticfiles"
 
 deploy:
 	./ops/deploy.sh
