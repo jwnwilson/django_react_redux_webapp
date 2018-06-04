@@ -240,12 +240,12 @@ def get_cache():
                 }
               }
             }
-          except:
-        return {
-            'default': {
-                'BACKEND': 'django.core.cache.backends.locmem.LocMemCache'
+        except:
+            return {
+                'default': {
+                    'BACKEND': 'django.core.cache.backends.locmem.LocMemCache'
+                }
             }
-        }
     else:
         return {
             'default': {
