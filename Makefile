@@ -69,7 +69,7 @@ shell-db:
 	PGPASSWORD=docker psql -h localhost -U docker
 
 collect-static:
-	$(COMPOSE) run $(SERVER) bash -c "pipenv run python manage.py collectstatic -y"
+	$(COMPOSE) run $(SERVER) bash -c "rm -rf ./staticfiles/* && python manage.py collectstatic --no-input"
 
 deploy:
 	git push heroku master
