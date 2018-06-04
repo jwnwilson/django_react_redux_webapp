@@ -16,6 +16,8 @@ python-memcached = "*"
 dj-database-url = "*"
 whitenoise = "*"
 pylibmc = "*"
+django-storages = "*"
+boto = "*"
 
 [dev-packages]
 pytest = "*"

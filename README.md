@@ -20,8 +20,8 @@ $  make run
 
 ## To Do
 
-- Deploy to single box using docker compose up with prod image
-- Deploy to Heroku & compare
+- Move Media uploads to GCS
+- Deploy to single box using docker compose up with prod image & compare heroku
 - Integrate view logic with wagtail pages
   - Add new page on CMS adds new endpoint page to website
 - Add component name to serializer api output as an class attr value not DB value
@@ -32,7 +32,6 @@ $  make run
 
 ## Kubernetes TO DO
 
-- Move Media uploads to GCS OR
 - Master server instance connected to media volume as write for cms
 - Slave servers instances connected to media volume as read only for website
 - Connect nginx to media volume as read only

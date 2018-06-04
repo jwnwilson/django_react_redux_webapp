@@ -58,7 +58,8 @@ INSTALLED_APPS = [
     'polymorphic',
     'webpack_loader',
     'webapp.app',
-    'webapp.cms'
+    'webapp.cms',
+    'storages',
 ]
 
 MIDDLEWARE = [
@@ -255,3 +256,8 @@ def get_cache():
         }
 
 CACHES = get_cache()
+
+DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
+AWS_STORAGE_BUCKET_NAME = 'noel-wilson.co.uk'
+AWS_ACCESS_KEY_ID = os.environ.get('ACCESS_KEY')
+AWS_SECRET_ACCESS_KEY = os.environ.get('SECRET')
