@@ -109,8 +109,8 @@ else:
             'NAME': 'noelwilson2018',
             'USER': 'docker',
             'PASSWORD': 'docker',
-            'HOST': 'db', # set in docker-compose.yml
-            'PORT': 5432 # default postgres port
+            'HOST': 'db',  # set in docker-compose.yml
+            'PORT': 5432  # default postgres port
         }
     }
 
@@ -187,7 +187,7 @@ if not DEBUG:
         'dsn': 'https://4455bc30a01746f6ad07e8bb17fdcb7e:244d3d07cc2641b09cfede93ef8dad8e@sentry.io/646552',
         # If you are using git, you can also automatically configure the
         # release based on the git info.
-        #'release': raven.fetch_git_sha(PROJECT_DIR),
+        # 'release': raven.fetch_git_sha(PROJECT_DIR),
         'release': os.environ['SOURCE_VERSION']
     }
 
@@ -198,9 +198,60 @@ EMAIL_PORT = 587
 EMAIL_HOST_USER = 'jwnwilsonemail@gmail.com'
 EMAIL_HOST_PASSWORD = 'Jwnwilson1'
 
-CACHES = {
-    'default': {
-        'BACKEND': 'django.core.cache.backends.memcached.MemcachedCache',
-        'LOCATION': 'memcached:11211'
-    }
-}
+
+def get_cache():
+    """
+    Heroku specific caching settings
+    """
+    if os.environ.get('ON_HEROKU'):
+        try:
+            servers = os.environ['MEMCACHIER_SERVERS']
+            username = os.environ['MEMCACHIER_USERNAME']
+            password = os.environ['MEMCACHIER_PASSWORD']
+            return {
+              'default': {
+                'BACKEND': 'django.core.cache.backends.memcached.PyLibMCCache',
+                # TIMEOUT is not the connection timeout! It's the default expiration
+                # timeout that should be applied to keys! Setting it to `None`
+                # disables expiration.
+                'TIMEOUT': None,
+                'LOCATION': servers,
+                'OPTIONS': {
+                  'binary': True,
+                  'username': username,
+                  'password': password,
+                  'behaviors': {
+                    # Enable faster IO
+                    'no_block': True,
+                    'tcp_nodelay': True,
+                    # Keep connection alive
+                    'tcp_keepalive': True,
+                    # Timeout settings
+                    'connect_timeout': 2000,  # ms
+                    'send_timeout': 750 * 1000,  # us
+                    'receive_timeout': 750 * 1000,  # us
+                    '_poll_timeout': 2000,  # ms
+                    # Better failover
+                    'ketama': True,
+                    'remove_failed': 1,
+                    'retry_timeout': 2,
+                    'dead_timeout': 30,
+                  }
+                }
+              }
+            }
+          except:
+        return {
+            'default': {
+                'BACKEND': 'django.core.cache.backends.locmem.LocMemCache'
+            }
+        }
+    else:
+        return {
+            'default': {
+                'BACKEND': 'django.core.cache.backends.memcached.MemcachedCache',
+                'LOCATION': 'memcached:11211'
+            }
+        }
+
+CACHES = get_cache()

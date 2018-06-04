@@ -15,6 +15,7 @@ gunicorn = "==19.8.1"
 python-memcached = "*"
 dj-database-url = "*"
 whitenoise = "*"
+pylibmc = "*"
 
 [dev-packages]
 pytest = "*"
