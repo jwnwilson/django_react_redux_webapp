@@ -1,14 +1,21 @@
 {% load render_bundle from webpack_loader %}
 <!DOCTYPE html>
-<html>
+<html lang="en">
   <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width" />
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="Noel Wilson's personal website, showcasing projects and work done as a fullstack developer">
+    <META name="keywords" content="web developer software noel wilson">
+    <meta name="author" content="Noel Wilson">
     <title>Noel Wilson</title>
+    {% block head %}
+    {% endblock %}
   </head>
-  <body>
-    <div id="root">
-    </div>
+
+  <body id="page-top">
+    {% block content %}
+    {% endblock %}
     {% render_bundle 'main' %}
   </body>
+
 </html>

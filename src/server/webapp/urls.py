@@ -5,7 +5,6 @@ from django.contrib import admin
 from django.views.generic import TemplateView
 from wagtail.core import urls as wagtail_urls
 
-from webapp import app
 from webapp.cms.api import api_router
 
 
@@ -13,8 +12,8 @@ urlpatterns = [
     url(r'^api/', api_router.urls),
     url(r'^cms/', include('webapp.cms.urls')),
     url(r'^admin/', admin.site.urls),
-    url(r'^home/', include('webapp.app.urls')),
-    url(r'^$', app.views.base.root_redirect, name='redirect')
+    url(r'^$', include(wagtail_urls))
+    #url(r'^$', app.views.base.root_redirect, name='redirect')
 ]
 
 if settings.DEBUG:

@@ -16,9 +16,9 @@ render(
   <Provider store={store}>
     <Router>
       <div>
-        <Route exact path="/home/" component={() =>
+        <Route exact path="/" component={() =>
           <App id="3" page={page_data.id === 3 ? page_data : null}/>} />
-        <Route path="/home/web-development/" component={() =>
+        <Route path="/web-development/" component={() =>
           <App id="5" page={page_data.id === 5 ? page_data : null}/>} />
       </div>
     </Router>

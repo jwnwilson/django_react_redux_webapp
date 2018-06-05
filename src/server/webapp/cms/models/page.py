@@ -1,3 +1,6 @@
+from importlib import import_module
+import json
+
 from django.db import models
 from modelcluster.fields import ParentalKey
 from wagtail.admin.edit_handlers import FieldPanel, InlinePanel
@@ -11,7 +14,7 @@ from wagtail.snippets.models import register_snippet
 from .modules.base import ModuleSerializer
 from .snippets.header import HeaderSerializer
 from .snippets.footer import FooterSerializer
-
+from ..logic.api import getApiData
 
 class ModulePage(Page):
     header = models.ForeignKey(
@@ -40,6 +43,31 @@ class ModulePage(Page):
         APIField('footer', serializer=FooterSerializer()),
         APIField('modules'),
     ]
+
+    def get_context(self, request):
+        context = super().get_context(request)
+
+        # Add extra variables and return the updated context
+        context['api_data'] = json.dumps(getApiData(request, context['page']))
+        return context
+
+    def serve(self, request):
+        # Attempt to dynamically import post logic
+        try:
+            view_module = import_module(
+                'webapp.cms.view_logic.{}'.format(self.slug))
+        except ModuleNotFoundError:
+            view_module = {}
+
+        if request.method == 'POST':
+            if hasattr(view_module, 'post'):
+                return view_module.post(request)
+        else:
+            # Display event page as usual
+            if hasattr(view_module, 'get'):
+                return view_module.get(request)
+
+        return super().serve(request)
 
 
 class ModuleContainer(Orderable):
