@@ -20,14 +20,13 @@ $  make run
 
 ## To Do
 
-- Deploy to single box using docker compose up with prod image & compare heroku
-- Integrate view logic with wagtail pages
-  - Add new page on CMS adds new endpoint page to website
+- Add logic so wagtail preview urls work with FE 
+- Add 400 and 500 pages
 - Add component name to serializer api output as an class attr value not DB value
 - Separate Snippets in CMS by tags
-- Use google cloud DB system in prod
+- Add tests for FE and BE
+- Setup CI
 - Import all initial components dynamically?
-- On page change make call to API and alter page using API data
 
 ## Kubernetes TO DO
 
