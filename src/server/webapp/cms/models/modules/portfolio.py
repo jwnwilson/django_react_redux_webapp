@@ -3,12 +3,14 @@ from rest_framework import serializers
 from modelcluster.fields import ParentalKey
 from modelcluster.models import ClusterableModel
 from wagtail.api import APIField
+from wagtail.api.v2.serializers import PageSerializer
 from wagtail.admin.edit_handlers import FieldPanel, InlinePanel, PageChooserPanel
 from wagtail.core.models import Orderable
 from wagtail.images.edit_handlers import ImageChooserPanel
 from wagtail.snippets.models import register_snippet
 
 from .base import BaseModule
+from webapp.cms.models.page import ModulePage
 from webapp.cms.models.modules.base import register_serializer
 
 
@@ -51,9 +53,14 @@ class PortfolioItem(Orderable):
 
     panels = [
         FieldPanel('text'),
-        FieldPanel('text'),
         ImageChooserPanel('image'),
         PageChooserPanel('link')
+    ]
+
+    api_fields = [
+        APIField('text'),
+        APIField('image'),
+        APIField('link'),
     ]
 
     def __str__(self):
@@ -65,7 +72,21 @@ class PortfolioItem(Orderable):
 
 
 @register_serializer
+class LinkSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = ModulePage
+        fields = '__all__'
+
+    def to_representation(self, instance):
+        data = super().to_representation(instance)
+        data['url'] = instance.url
+        return data
+
+
+@register_serializer
 class PortfolioItemSerializer(serializers.ModelSerializer):
+    link = LinkSerializer()
+
     class Meta:
         model = PortfolioItem
         fields = '__all__'

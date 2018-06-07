@@ -4,8 +4,6 @@ from importlib import import_module
 
 from django.db import models
 from django.db.models import signals
-from django.core import serializers
-from django.forms.models import model_to_dict
 from django.core.cache import cache
 from modelcluster.fields import ParentalKey
 from wagtail.admin.edit_handlers import FieldPanel, InlinePanel
@@ -56,6 +54,7 @@ class ModulePage(Page):
         APIField('header', serializer=HeaderSerializer()),
         APIField('footer', serializer=FooterSerializer()),
         APIField('modules'),
+        APIField('url'),
     ]
 
     def get_context(self, request):
@@ -70,12 +69,9 @@ class ModulePage(Page):
             page_data = []
             # Add url value from page property
             for page in pages:
-                data = model_to_dict(page)
-                data['url'] = page.url
-                page_data.append(data)
+                page_data.append(getApiData(request, page))
 
-            page_data = json.dumps(page_data, default=json_serial)
-
+            page_data = json.dumps(page_data)
             cache.set('pages_data', page_data)
             context['pages'] = page_data
 

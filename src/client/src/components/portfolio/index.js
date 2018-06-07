@@ -56,7 +56,7 @@ class Portfolio extends React.Component {
                   <a className="btn btn-primary btn-lg rounded-pill portfolio-modal-dismiss" href="#">
                     <i className="fa fa-close"></i>
                     Close Project</a>
-                  <NavLink className="btn btn-primary btn-lg rounded-pill portfolio-modal-dismiss" to={item.link.url_path}>
+                  <NavLink className="btn btn-primary btn-lg rounded-pill portfolio-modal-dismiss" to={item.link.url}>
                     <i className="fa fa-external-link"></i>
                     Details</NavLink>
                 </div>
