@@ -1,9 +1,11 @@
-from importlib import import_module
+from datetime import date, datetime
 import json
+from importlib import import_module
 
 from django.db import models
 from django.db.models import signals
 from django.core import serializers
+from django.forms.models import model_to_dict
 from django.core.cache import cache
 from modelcluster.fields import ParentalKey
 from wagtail.admin.edit_handlers import FieldPanel, InlinePanel
@@ -18,6 +20,14 @@ from .modules.base import ModuleSerializer
 from .snippets.header import HeaderSerializer
 from .snippets.footer import FooterSerializer
 from ..logic.api import getApiData
+
+
+
+def json_serial(obj):
+    """JSON serializer for objects not serializable by default json code"""
+    if isinstance(obj, (datetime, date)):
+        return obj.isoformat()
+    raise TypeError ("Type %s not serializable" % type(obj))
 
 
 class ModulePage(Page):
@@ -54,8 +64,18 @@ class ModulePage(Page):
         # Get list of pages to build routes cache it might need to move to a task
         context['pages'] = cache.get('pages_data')
         if not context['pages']:
-            pages = [request.site.root_page] + list(request.site.root_page.get_children().live())
-            page_data = serializers.serialize("json", pages)
+            pages = (
+                [request.site.root_page] +
+                list(request.site.root_page.get_children().live()))
+            page_data = []
+            # Add url value from page property
+            for page in pages:
+                data = model_to_dict(page)
+                data['url'] = page.url
+                page_data.append(data)
+
+            page_data = json.dumps(page_data, default=json_serial)
+
             cache.set('pages_data', page_data)
             context['pages'] = page_data
 
