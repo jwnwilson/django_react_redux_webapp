@@ -20,7 +20,6 @@ $  make run
 
 ## To Do
 
-- Move Media uploads to GCS
 - Deploy to single box using docker compose up with prod image & compare heroku
 - Integrate view logic with wagtail pages
   - Add new page on CMS adds new endpoint page to website

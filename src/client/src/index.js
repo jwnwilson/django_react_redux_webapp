@@ -10,16 +10,23 @@ import registerServiceWorker from './registerServiceWorker'
 import './style/index.css'
 
 let root = document.getElementById('root');
-let page_data = JSON.parse(root.getAttribute('data-page'));
+let api_data = JSON.parse(root.getAttribute('data-api'));
+let pages_data = JSON.parse(root.getAttribute('data-pages'));
+
+// Generate routes from page data
+let routes = pages_data.map((page_data, index) => {
+  let url = page_data.fields.url_path.replace('/home', '');
+  return (
+    <Route key={index} exact path={url} component={() =>
+      <App id={page_data.pk} page={api_data.meta.slug === page_data.fields.slug ? api_data : null}/>} />
+  )
+});
 
 render(
   <Provider store={store}>
     <Router>
       <div>
-        <Route exact path="/" component={() =>
-          <App id="3" page={page_data.id === 3 ? page_data : null}/>} />
-        <Route path="/web-development/" component={() =>
-          <App id="5" page={page_data.id === 5 ? page_data : null}/>} />
+        {routes}
       </div>
     </Router>
   </Provider>,

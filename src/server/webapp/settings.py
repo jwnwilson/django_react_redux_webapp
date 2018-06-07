@@ -247,9 +247,14 @@ def get_cache():
             }
     else:
         return {
+            # Memecached + docker + Mac OS has terrible performance
+            # 'default': {
+            #     'BACKEND': 'django.core.cache.backends.memcached.MemcachedCache',
+            #     'LOCATION': 'memcached:11211'
+            # }
             'default': {
-                'BACKEND': 'django.core.cache.backends.memcached.MemcachedCache',
-                'LOCATION': 'memcached:11211'
+                'BACKEND': 'django.core.cache.backends.locmem.LocMemCache',
+                'LOCATION': 'noelwilson2018'
             }
         }
 

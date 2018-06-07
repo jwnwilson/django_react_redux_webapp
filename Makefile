@@ -66,7 +66,7 @@ shell-fe:
 	$(COMPOSE) run $(CLIENT) bash
 
 shell-db:
-	PGPASSWORD=docker psql -h localhost -U docker
+	PGPASSWORD=docker psql -h localhost -U docker noelwilson2018
 
 collect-static:
 	$(COMPOSE) run $(SERVER) bash -c "rm -rf ./staticfiles/* && python manage.py collectstatic --no-input"

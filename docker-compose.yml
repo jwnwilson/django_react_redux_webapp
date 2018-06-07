@@ -44,19 +44,19 @@ services:
       - static:/app/src/server/staticfiles
     links:
       - db
-      - cache
+      # - cache
     depends_on:
       - db
-      - cache
+      # - cache
       - pyenv
 
-  cache:
-   image: memcached
-   ports:
-     - "11211:11211"
-   entrypoint:
-    - memcached
-    - -m 64
+  # cache:
+  #  image: memcached
+  #  ports:
+  #    - "11211:11211"
+  #  entrypoint:
+  #   - memcached
+  #   - -m 64
 
   db:
     build:
