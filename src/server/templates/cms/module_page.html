@@ -30,6 +30,8 @@
   <script src="{% static "vendor/jqBootstrapValidation/jqBootstrapValidation.min.js" %}"></script>
 {% endblock %}
 
+{% block body_class %}bg-secondary{% endblock %}
+
 {% block content %}
   <div id="root" data-api="{{api_data}}" data-pages="{{pages}}">
   </div>
