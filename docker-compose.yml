@@ -11,7 +11,6 @@ services:
     volumes:
       - .:/app
       - node_modules:/app/src/client/node_modules
-      - static:/app/src/server/staticfiles
 
   pyenv:
     build:
@@ -41,7 +40,6 @@ services:
       - .:/app
       - venv:/usr/local/lib/python3.6/site-packages
       - media:/app/src/server/media
-      - static:/app/src/server/staticfiles
     links:
       - db
       # - cache
@@ -72,4 +70,3 @@ volumes:
   venv:
   db_data:
   media:
-  static:
