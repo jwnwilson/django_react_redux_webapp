@@ -31,8 +31,8 @@ ALLOWED_HOSTS = [
     'localhost',
     '127.0.0.1',
     'noelwilson2018.herokuapp.com',
-    'noel-wilson.co.uk', 
-    'jwnwilson.com'
+    'www.noel-wilson.co.uk',
+    'www.jwnwilson.com'
 ]
 
 
