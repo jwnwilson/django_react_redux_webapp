@@ -20,9 +20,7 @@ $  make run
 
 ## To Do
 
-- Add logic so wagtail preview urls work with FE 
 - Add 400 and 500 pages
-- Add component name to serializer api output as an class attr value not DB value
 - Separate Snippets in CMS by tags
 - Add tests for FE and BE
 - Setup CI

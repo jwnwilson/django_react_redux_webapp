@@ -23,7 +23,6 @@ class ContactMe(BaseModule):
         return self.text
 
 
-
 @register_serializer
 class ContactMeSerializer(serializers.ModelSerializer):
     class Meta:
