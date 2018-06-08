@@ -20,6 +20,7 @@ $  make run
 
 ## To Do
 
+- Test sentry on heroku
 - Add 400 and 500 pages
 - Separate Snippets in CMS by tags
 - Add tests for FE and BE
