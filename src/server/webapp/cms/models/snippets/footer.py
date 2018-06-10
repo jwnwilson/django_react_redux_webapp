@@ -24,6 +24,7 @@ class Footer(ClusterableModel):
     panels = [
         FieldPanel('title'),
         FieldPanel('address'),
+        FieldPanel('text'),
         FieldPanel('google_link'),
         FieldPanel('github_link'),
         FieldPanel('instagram_link'),
