@@ -53,12 +53,12 @@ class Portfolio extends React.Component {
                   <hr className="star-dark mb-5" />
                   <img className="img-fluid mb-5" src={item.image.file} alt="" />
                   <p className="mb-5">{item.text}</p>
-                  <a className="btn btn-primary btn-lg rounded-pill portfolio-modal-dismiss" href="#">
-                    <i className="fa fa-close"></i>
-                    Close Project</a>
-                  <NavLink className="btn btn-primary btn-lg rounded-pill portfolio-modal-dismiss" to={item.link.url}>
-                    <i className="fa fa-external-link"></i>
+                  <NavLink className="btn btn-primary btn-lg rounded-pill portfolio-modal-dismiss mr-2" to={item.link.url}>
+                    <i className="fa fa-external-link mr-2"></i>
                     Details</NavLink>
+                  <a className="btn btn-primary btn-lg rounded-pill portfolio-modal-dismiss" href="#">
+                    <i className="fa fa-close mr-2"></i>
+                    Close</a>
                 </div>
               </div>
             </div>
@@ -68,8 +68,8 @@ class Portfolio extends React.Component {
     });
 
     return (
-     <div>
-       <section className="portfolio" id="portfolio">
+     <footer className="footer">
+       <section className="portfolio bg-white" id="portfolio">
          <div className="container">
            <h2 className="text-center text-uppercase text-secondary mb-0">Portfolio</h2>
            <hr className="star-dark mb-5" />
@@ -79,7 +79,7 @@ class Portfolio extends React.Component {
          </div>
        </section>
        {modals}
-      </div>
+      </footer>
     );
   }
 }

@@ -15,6 +15,7 @@ from webapp.cms.models.modules.base import register_serializer
 class Footer(ClusterableModel):
     title = models.CharField(max_length=255)
     address = models.TextField()
+    text = models.TextField()
     google_link = models.URLField(max_length=255, blank=True, null=True)
     github_link = models.URLField(max_length=255, blank=True, null=True)
     instagram_link = models.URLField(max_length=255, blank=True, null=True)

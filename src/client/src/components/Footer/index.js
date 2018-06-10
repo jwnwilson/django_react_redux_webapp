@@ -21,6 +21,7 @@ class Footer extends React.Component {
   render () {
     let data = this.props.data || {};
     return (
+     !data ? null :
      <div>
        <footer className="footer text-center">
          <div className="container">
@@ -55,9 +56,8 @@ class Footer extends React.Component {
                </ul>
              </div>
              <div className="col-md-4">
-               <h4 className="text-uppercase mb-4">About Freelancer</h4>
-               <p className="lead mb-0">Freelance is a free to use, open source Bootstrap theme created by
-                 <br/><a href="http://startbootstrap.com">Start Bootstrap</a>.</p>
+               <h4 className="text-uppercase mb-4">About Me</h4>
+               <p className="lead mb-0">{data.text}</p>
              </div>
            </div>
          </div>
