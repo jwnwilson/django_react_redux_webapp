@@ -72,4 +72,6 @@ collect-static:
 	$(COMPOSE) run $(SERVER) bash -c "rm -rf ./staticfiles/* && python manage.py collectstatic --no-input"
 
 deploy:
+	make build-prod
+	make collect-static
 	git push heroku master
