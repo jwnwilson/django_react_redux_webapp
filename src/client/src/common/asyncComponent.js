@@ -1,6 +1,7 @@
 import React, { PureComponent } from 'react';
+import {updateComponent} from './../actions'
+import store from './../store'
 
-// TODO: Create singleton value to contain components
 window.COMPONENTS = {};
 
 export default class AsyncComponent extends PureComponent {
@@ -27,13 +28,20 @@ export default class AsyncComponent extends PureComponent {
             window.COMPONENTS[data.component] = Component.default;
             this.setState({
               Component: Component.default
-            });
+            },
+            this.updateComponent);
           });
       }
       else {
-        this.setState({ Component });
+        this.setState(
+          { Component },
+          this.updateComponent);
       }
     }
+  }
+
+  updateComponent() {
+    store.dispatch(updateComponent());
   }
 
   render() {

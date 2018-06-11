@@ -68,8 +68,8 @@ class Portfolio extends React.Component {
     });
 
     return (
-     <footer className="footer">
-       <section className="portfolio bg-white" id="portfolio">
+     <div className="bg-white">
+       <section className="portfolio " id="portfolio">
          <div className="container">
            <h2 className="text-center text-uppercase text-secondary mb-0">Portfolio</h2>
            <hr className="star-dark mb-5" />
@@ -79,7 +79,7 @@ class Portfolio extends React.Component {
          </div>
        </section>
        {modals}
-      </footer>
+      </div>
     );
   }
 }

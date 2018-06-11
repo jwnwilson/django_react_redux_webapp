@@ -103,7 +103,7 @@ class ContactMe extends React.Component {
 
   render () {
      return (
-       <section id="contact">
+       <section id="contact" className="bg-white">
          <div className="container">
            <h2 className="text-center text-uppercase text-secondary mb-0">Contact Me</h2>
            <hr className="star-dark mb-5" />

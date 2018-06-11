@@ -1,28 +1,18 @@
 import React from 'react'
+import { connect } from 'react-redux'
 import {
   NavLink
 } from "react-router-dom";
 
 import './../../style/Header.css'
+import {componentUpdated} from './../../actions'
 
 // Load global jQuery
 const $ = window.$;
 
 class Header extends React.Component {
   componentDidMount () {
-    // Smooth scrolling using jQuery easing
-    $('a.js-scroll-trigger[href*="#"]:not([href="#"])').click(function() {
-      if (window.location.pathname.replace(/^\//, '') == this.pathname.replace(/^\//, '') && window.location.hostname == this.hostname) {
-        var target = $(this.hash);
-        target = target.length ? target : $('[name=' + this.hash.slice(1) + ']');
-        if (target.length) {
-          $('html, body').animate({
-            scrollTop: (target.offset().top - 70)
-          }, 1000, "easeInOutExpo");
-          return false;
-        }
-      }
-    });
+    this.smoothScrolling();
 
     // Closes responsive menu when a scroll trigger link is clicked
     $('.js-scroll-trigger').click(function() {
@@ -39,6 +29,31 @@ class Header extends React.Component {
     this.navbarCollapse();
     // Collapse the navbar when page is scrolled
     $(window).scroll(this.navbarCollapse);
+  }
+
+  componentWillReceiveProps(newProps) {
+    if (newProps.updateComponents) {
+      this.smoothScrolling();
+      this.props.componentUpdated();
+    }
+  }
+
+  smoothScrolling () {
+    // Smooth scrolling using jQuery easing
+    let selector = 'a.js-scroll-trigger[href*="#"]:not([href="#"])';
+    $(selector).unbind('click');
+    $(selector).click(function() {
+      if (window.location.pathname.replace(/^\//, '') == this.pathname.replace(/^\//, '') && window.location.hostname == this.hostname) {
+        var target = $(this.hash);
+        target = target.length ? target : $('[name=' + this.hash.slice(1) + ']');
+        if (target.length) {
+          $('html, body').animate({
+            scrollTop: (target.offset().top - 70)
+          }, 1000, "easeInOutExpo");
+          return false;
+        }
+      }
+    });
   }
 
   navbarCollapse () {
@@ -69,7 +84,7 @@ class Header extends React.Component {
     return (
       !data ? null : <nav className="navbar navbar-expand-lg bg-secondary fixed-top text-uppercase" id="mainNav">
        <div className="container">
-         <NavLink className="navbar-brand js-scroll-trigger" to="/#page-top">{title}</NavLink>
+         <NavLink className="navbar-brand js-scroll-trigger" to="/#intro">{title}</NavLink>
          <button className="navbar-toggler navbar-toggler-right text-uppercase bg-primary text-white rounded" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
            Menu
            <i className="fa fa-bars"></i>
@@ -85,4 +100,15 @@ class Header extends React.Component {
   }
 }
 
-export default Header;
+const mapDispatchToProps = {
+  componentUpdated
+};
+
+const mapStateToProps = state => ({
+  updateComponents: state.updateComponents
+});
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Header);
