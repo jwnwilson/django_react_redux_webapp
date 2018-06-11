@@ -20,11 +20,10 @@ $  make run
 
 ## To Do
 
-- Compare single machine docker compose speed to heroku
 - Add 400 and 500 pages
-- Separate Snippets in CMS by tags
 - Add tests for FE and BE
 - Setup CI
+- Separate Snippets in CMS by tags
 - Import all initial components dynamically?
 
 ## Kubernetes TO DO

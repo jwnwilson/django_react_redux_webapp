@@ -20,6 +20,7 @@ def register_serializer(serializer):
 
 @register_snippet
 class BaseModule(PolymorphicModel):
+    component = None
     title = models.CharField(max_length=255)
 
     panels = [
@@ -33,6 +34,10 @@ class BaseModule(PolymorphicModel):
         verbose_name = 'Module'
         verbose_name_plural = 'Modules'
         ordering = ['title']
+
+
+class BaseSerializer(serializers.ModelSerializer):
+    component = serializers.ReadOnlyField()
 
 
 class ModuleSerializer(serializers.ModelSerializer):

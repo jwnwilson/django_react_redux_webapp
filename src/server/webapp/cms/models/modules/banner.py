@@ -8,6 +8,7 @@ from .base import BaseModule
 
 @register_snippet
 class Banner(BaseModule):
+    component = "Banner"
     text = models.CharField(max_length=255)
     image = models.ForeignKey(
         'wagtailimages.Image',

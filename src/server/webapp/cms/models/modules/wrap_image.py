@@ -10,17 +10,21 @@ from webapp.cms.models.modules.base import register_serializer
 
 
 @register_snippet
-class About(BaseModule):
-    component = "About"
-    text_1 = models.TextField(blank=True, null=True)
-    text_2 = models.TextField(blank=True, null=True)
-    cv_link = models.URLField(max_length=255, blank=True, null=True)
+class WrapImage(BaseModule):
+    component = "WrapImage"
+    text = models.TextField(blank=True, null=True)
+    image = models.ForeignKey(
+        'wagtailimages.Image',
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        related_name='+'
+    )
 
     panels = [
         FieldPanel('title'),
-        FieldPanel('text_1'),
-        FieldPanel('text_2'),
-        FieldPanel('cv_link')
+        FieldPanel('text'),
+        ImageChooserPanel('image')
     ]
 
     def __str__(self):
@@ -29,8 +33,8 @@ class About(BaseModule):
 
 
 @register_serializer
-class AboutSerializer(BaseSerializer):
+class WrapImageSerializer(BaseSerializer):
     class Meta:
-        model = About
+        model = WrapImage
         fields = '__all__'
         depth = 1
