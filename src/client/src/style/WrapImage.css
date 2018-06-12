@@ -1,0 +1,8 @@
+.wrap-image a {
+  color: #fff;
+  font-size: 1.5rem;
+}
+
+.wrap-image a:focus {
+  color: #fff;
+}

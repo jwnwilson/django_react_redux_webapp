@@ -118,13 +118,6 @@ class ModuleContainer(Orderable):
     ]
 
 
-def clear_cache(sender, instance, created, **kwargs):
-    """
-    Clear pages data after creating new page
-    """
-    cache.delete('pages_data')
-
-
 class LinkSerializer(serializers.ModelSerializer):
     class Meta:
         model = ModulePage
@@ -134,6 +127,13 @@ class LinkSerializer(serializers.ModelSerializer):
         data = super().to_representation(instance)
         data['url'] = instance.url
         return data
+
+
+def clear_cache(sender, instance, created, **kwargs):
+    """
+    Clear pages data after creating new page
+    """
+    cache.delete('pages_data')
 
 
 signals.post_save.connect(receiver=clear_cache, sender=ModulePage)

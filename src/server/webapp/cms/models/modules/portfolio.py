@@ -68,6 +68,7 @@ class PortfolioItem(Orderable):
     class Meta(ClusterableModel.Meta):
         verbose_name = 'Portfolio Item'
         verbose_name_plural = 'Portfolio Items'
+        ordering = ['sort_order']
 
 
 @register_serializer

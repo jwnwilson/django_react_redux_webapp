@@ -20,11 +20,13 @@ class WrapImage(BaseModule):
         on_delete=models.SET_NULL,
         related_name='+'
     )
+    link = models.URLField(max_length=255, blank=True, null=True)
 
     panels = [
         FieldPanel('title'),
         FieldPanel('text'),
-        ImageChooserPanel('image')
+        ImageChooserPanel('image'),
+        FieldPanel('link')
     ]
 
     def __str__(self):

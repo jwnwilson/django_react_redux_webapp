@@ -110,19 +110,19 @@ section h2 {
   letter-spacing: 0.0625rem;
 }
 
-#mainNav .navbar-nav li.nav-item a.nav-link {
+#mainNav .navbar-nav li.nav-item a.nav-link a.page-link {
   color: #fff;
 }
 
-#mainNav .navbar-nav li.nav-item a.nav-link:hover {
+#mainNav .navbar-nav li.nav-item a.nav-link:hover a.page-link {
   color: #18BC9C;
 }
 
-#mainNav .navbar-nav li.nav-item a.nav-link:active, #mainNav .navbar-nav li.nav-item a.nav-link:focus {
+#mainNav .navbar-nav li.nav-item a.nav-link:active, #mainNav .navbar-nav li.nav-item a.nav-link:focus a.page-link:focus {
   color: #fff;
 }
 
-#mainNav .navbar-nav li.nav-item a.nav-link.active {
+#mainNav .navbar-nav li.nav-item a.nav-link.active a.page-link.active {
   color: #18BC9C;
 }
 

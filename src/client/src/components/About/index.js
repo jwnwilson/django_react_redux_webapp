@@ -19,7 +19,7 @@ class About extends React.Component {
            </div>
          </div>
          <div className="text-center mt-4">
-           <a className="btn btn-xl btn-outline-light" href={module.cv_link}>
+           <a className="btn btn-xl btn-outline-light" target="_blank" href={module.cv_link}>
              <i className="fa fa-download mr-2"></i>
               CV Link
            </a>
