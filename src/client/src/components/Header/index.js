@@ -43,7 +43,7 @@ class Header extends React.Component {
     let selector = 'a.js-scroll-trigger[href*="#"]:not([href="#"])';
     $(selector).unbind('click');
     $(selector).click(function() {
-      if (window.location.pathname.replace(/^\//, '') == this.pathname.replace(/^\//, '') && window.location.hostname == this.hostname) {
+      if (window.location.pathname.replace(/^\//, '') === this.pathname.replace(/^\//, '') && window.location.hostname === this.hostname) {
         var target = $(this.hash);
         target = target.length ? target : $('[name=' + this.hash.slice(1) + ']');
         if (target.length) {
