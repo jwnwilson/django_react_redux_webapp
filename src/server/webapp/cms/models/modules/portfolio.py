@@ -9,14 +9,13 @@ from wagtail.core.models import Orderable
 from wagtail.images.edit_handlers import ImageChooserPanel
 from wagtail.snippets.models import register_snippet
 
-from .base import BaseModule, BaseSerializer
-from webapp.cms.models.page import ModulePage
-from webapp.cms.models.modules.base import register_serializer
+from .base import BaseModule, register_serializer
+from webapp.cms.models.page import LinkSerializer
 
 
 @register_snippet
 class Portfolio(ClusterableModel, BaseModule):
-    component = "Portfolio"
+    component = 'Portfolio'
     text = models.CharField(max_length=255)
     panels = [
         FieldPanel('title'),
@@ -72,18 +71,6 @@ class PortfolioItem(Orderable):
 
 
 @register_serializer
-class LinkSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = ModulePage
-        fields = '__all__'
-
-    def to_representation(self, instance):
-        data = super().to_representation(instance)
-        data['url'] = instance.url
-        return data
-
-
-@register_serializer
 class PortfolioItemSerializer(serializers.ModelSerializer):
     link = LinkSerializer()
 
@@ -94,7 +81,7 @@ class PortfolioItemSerializer(serializers.ModelSerializer):
 
 
 @register_serializer
-class PortfolioSerializer(BaseSerializer):
+class PortfolioSerializer(serializers.ModelSerializer):
     portfolio_items = PortfolioItemSerializer(many=True, read_only=True)
 
     class Meta:

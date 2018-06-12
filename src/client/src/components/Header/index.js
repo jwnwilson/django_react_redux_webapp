@@ -73,11 +73,23 @@ class Header extends React.Component {
     if (data) {
       title = data.title;
       headerLinks = data.ctas.map((cta, index) => {
+        let link;
+        if (cta.link) {
+          link = (
+            <a className="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger" href={cta.link.url}>{cta.text}</a>
+          );
+        } else {
+          link = (
+            <a className="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger" href={'#' + cta.selector}>{cta.text}</a>
+          );
+        }
+
         return (
           <li className="nav-item mx-0 mx-lg-1" key={index}>
-            <a className="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger" href={'#' + cta.selector}>{cta.text}</a>
+            {link}
           </li>
         );
+
       });
     }
 

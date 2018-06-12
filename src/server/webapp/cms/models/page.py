@@ -6,6 +6,7 @@ from django.db import models
 from django.db.models import signals
 from django.core.cache import cache
 from modelcluster.fields import ParentalKey
+from rest_framework import serializers
 from wagtail.admin.edit_handlers import FieldPanel, InlinePanel
 from wagtail.api import APIField
 from wagtail.api.v2.serializers import ChildRelationField, RelatedField
@@ -15,10 +16,7 @@ from wagtail.snippets.edit_handlers import SnippetChooserPanel
 from wagtail.snippets.models import register_snippet
 
 from .modules.base import ModuleSerializer
-from .snippets.header import HeaderSerializer
-from .snippets.footer import FooterSerializer
 from ..logic.api import getApiData
-
 
 
 def json_serial(obj):
@@ -51,8 +49,8 @@ class ModulePage(Page):
     ]
 
     api_fields = [
-        APIField('header', serializer=HeaderSerializer()),
-        APIField('footer', serializer=FooterSerializer()),
+        APIField('header', serializer=ModuleSerializer()),
+        APIField('footer', serializer=ModuleSerializer()),
         APIField('modules'),
         APIField('url'),
     ]
@@ -125,6 +123,17 @@ def clear_cache(sender, instance, created, **kwargs):
     Clear pages data after creating new page
     """
     cache.delete('pages_data')
+
+
+class LinkSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = ModulePage
+        fields = '__all__'
+
+    def to_representation(self, instance):
+        data = super().to_representation(instance)
+        data['url'] = instance.url
+        return data
 
 
 signals.post_save.connect(receiver=clear_cache, sender=ModulePage)

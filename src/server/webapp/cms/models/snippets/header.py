@@ -9,6 +9,7 @@ from wagtail.core.models import Orderable
 from wagtail.snippets.models import register_snippet
 
 from webapp.cms.models.modules.base import register_serializer
+from webapp.cms.models.page import LinkSerializer
 
 
 @register_snippet
@@ -59,6 +60,7 @@ class CTA(Orderable):
 
 @register_serializer
 class CtaSerializer(serializers.ModelSerializer):
+    link = LinkSerializer()
     class Meta:
         model = CTA
         fields = '__all__'
