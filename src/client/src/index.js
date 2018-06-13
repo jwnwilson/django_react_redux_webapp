@@ -27,7 +27,7 @@ if (window.location.pathname.match(/\/cms\/pages\/\d+\/edit\/preview/g)) {
     let url = page_data.url;
     return (
       <Route key={index} exact path={url} component={() =>
-        <App id={page_data.id} page={api_data.meta.slug === page_data.slug ? api_data : null}/>} />
+        <App id={page_data.id} page={api_data.meta.slug === page_data.meta.slug ? api_data : null}/>} />
     );
   });
 }
