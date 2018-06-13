@@ -1,0 +1,10 @@
+.placeholder {
+  min-height: 800px;
+  opacity: 0;
+}
+
+.fade-in {
+  opacity: 1;
+  transition-duration: .2s;
+  transition-property: opacity;
+}

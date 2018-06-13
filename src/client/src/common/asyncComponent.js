@@ -2,6 +2,8 @@ import React, { PureComponent } from 'react';
 import {updateComponent} from './../actions'
 import store from './../store'
 
+import './../style/Async.css'
+
 window.COMPONENTS = {};
 
 export default class AsyncComponent extends PureComponent {
@@ -10,7 +12,7 @@ export default class AsyncComponent extends PureComponent {
 
     this.state = {
       Component: null
-    }
+    };
   }
 
   componentWillMount() {
@@ -48,8 +50,8 @@ export default class AsyncComponent extends PureComponent {
     const { Component } = this.state;
 
     return (
-      <div>
-        {Component ? <Component data={this.props.data} /> : <div></div>}
+      <div className={!Component ? 'placeholder' : 'fade-in'}>
+        {Component ? <Component data={this.props.data} /> : <section></section>}
       </div>
     );
   }

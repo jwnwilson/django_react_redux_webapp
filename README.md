@@ -21,6 +21,7 @@ $  make run
 ## To Do
 
 - Investigate slow second page load next page
+- Add fade in after loading
 - Add service worker job for API page calls
 - Add 400 and 500 pages
 - Add tests for FE and BE
