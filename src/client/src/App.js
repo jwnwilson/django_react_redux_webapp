@@ -87,6 +87,12 @@ class App extends Component {
 
   render() {
     let components = this.dynamicallyLoadComponents();
+    if (components.length === 0) {
+      components = (
+        <div className="placeholder">
+        </div>
+      )
+    }
 
     return (
       <div>

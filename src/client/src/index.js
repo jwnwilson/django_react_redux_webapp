@@ -25,9 +25,19 @@ if (window.location.pathname.match(/\/cms\/pages\/\d+\/edit\/preview/g)) {
   // Generate routes from page data
   routes = pages_data.map((page_data, index) => {
     let url = page_data.url;
+    let current_page_page;
+    if (api_data.meta.slug === page_data.meta.slug) {
+      current_page_page = api_data;
+    } else {
+      current_page_page = {
+        header: api_data.header,
+        footer: api_data.footer,
+        modules: []
+      };
+    }
     return (
       <Route key={index} exact path={url} component={() =>
-        <App id={page_data.id} page={api_data.meta.slug === page_data.meta.slug ? api_data : null}/>} />
+        <App id={page_data.id} page={current_page_page}/>} />
     );
   });
 }
