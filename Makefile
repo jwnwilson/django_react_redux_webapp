@@ -25,6 +25,9 @@ build:
 build-prod:
 	$(COMPOSE) -f docker-production.yml build
 
+build-fe:
+	$(COMPOSE) run $(CLIENT) bash -c "PROD_ENV=1 npm run build"
+
 setup:
 	$(COMPOSE) run ${PYENV}
 	$(COMPOSE) run ${CLIENT} bash -c "npm install"
@@ -46,9 +49,6 @@ run-fe:
 
 run-prod:
 	COMPOSE_HTTP_TIMEOUT=$(COMPOSE_HTTP_TIMEOUT) $(COMPOSE) -f docker-production.yml up
-
-build-fe:
-		$(COMPOSE) run $(CLIENT) bash -c "PROD_ENV=1 npm run build"
 
 test: test-be test-fe
 
@@ -72,6 +72,7 @@ collect-static:
 	$(COMPOSE) run $(SERVER) bash -c "rm -rf ./staticfiles/* && python manage.py collectstatic --no-input"
 
 deploy:
-	make build-prod
+	make build-fe
 	make collect-static
+	git commit -am "Updating FE for deployment"
 	git push heroku master
