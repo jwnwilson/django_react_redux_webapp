@@ -74,5 +74,6 @@ collect-static:
 deploy:
 	make build-fe
 	make collect-static
+	git add src/client/build/
 	git commit -am "Updating FE for deployment"
 	git push heroku master
