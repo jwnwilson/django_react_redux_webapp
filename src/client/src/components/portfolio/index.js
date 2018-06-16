@@ -40,6 +40,7 @@ class Portfolio extends React.Component {
       )
     });
     let modals = module.portfolio_items.map((item, index) => {
+      let url = !item.link ? '' : item.link.url;
       return (
         <div key={index} className="portfolio-modal mfp-hide" id={"portfolio-modal-" + index}>
           <div className="portfolio-modal-dialog bg-white">
@@ -53,7 +54,7 @@ class Portfolio extends React.Component {
                   <hr className="star-dark mb-5" />
                   <img className="img-fluid mb-5" src={item.image.file} alt="" />
                   <p className="mb-5">{item.text}</p>
-                  <NavLink className="btn btn-primary btn-lg rounded-pill portfolio-modal-dismiss mr-2" to={item.link.url}>
+                  <NavLink className="btn btn-primary btn-lg rounded-pill portfolio-modal-dismiss mr-2" to={url}>
                     <i className="fa fa-external-link mr-2"></i>
                     Details</NavLink>
                   <a className="btn btn-primary btn-lg rounded-pill portfolio-modal-dismiss" href="#">
