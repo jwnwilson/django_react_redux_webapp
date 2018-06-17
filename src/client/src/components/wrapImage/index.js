@@ -15,6 +15,7 @@ class WrapImage extends React.Component {
       </a>
     )
     let img = !module.image ? '' : module.image.file;
+    // Build optional additional paragraphs
     let additional_paragraphs = module.paragraphs.map((paragraph, index) => {
       let additional_paras = paragraph.text.split('\n').map((para) => {
         return (<p>{para}</p>);

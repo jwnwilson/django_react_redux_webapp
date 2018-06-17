@@ -37,6 +37,7 @@ class App extends Component {
     else {
       this.loadComponents(this.state.componentsData);
     }
+    window.scrollTo(0, 0);
   }
 
   componentWillUnmount() {

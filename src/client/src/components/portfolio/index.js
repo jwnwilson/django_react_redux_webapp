@@ -12,13 +12,11 @@ class Portfolio extends React.Component {
   componentDidMount () {
     // Modal popup
     $('.portfolio-item').magnificPopup({
-      type: 'inline',
-      preloader: false,
-      focus: '#username',
-      modal: true
+      type: 'inline'
     });
 
     $(document).on('click', '.portfolio-modal-dismiss', function(e) {
+      e.preventDefault();
       $.magnificPopup.close();
     });
   }
