@@ -6,7 +6,7 @@ import './../../style/WrapImage.css'
 class WrapImage extends React.Component {
   render () {
     let module = this.props.data.module;
-    let paras = module.text.split('\n').map((para, index) => {
+    let paras = module.text.split('\n\n').map((para, index) => {
       return (<p key={index}>{para}</p>);
     });
     let link = !module.link ? null : (
