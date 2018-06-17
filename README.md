@@ -20,7 +20,7 @@ $  make run
 
 ## To Do
 
-- Fix page scrolling on portfollio item close and page change
+- Resize images to sensible sizes
 - Add service worker job for API page calls
 - Add pagination
 - Add 400 and 500 pages
