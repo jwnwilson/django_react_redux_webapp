@@ -1,4 +1,5 @@
 import React from 'react'
+import ReactMarkdown from 'react-markdown'
 
 import './../../style/core.css'
 import './../../style/WrapImage.css'
@@ -6,20 +7,20 @@ import './../../style/WrapImage.css'
 class WrapImage extends React.Component {
   render () {
     let module = this.props.data.module;
-    let paras = module.text.split('\n\n').map((para, index) => {
-      return (<p key={index}>{para}</p>);
-    });
+    let paras = (
+      <ReactMarkdown source={module.text} />
+    );
     let link = !module.link ? null : (
-      <a href={module.link} target="_blank">
+      <a href={module.link} target="_blank" className="wrap-image-link">
         <i className="fa fa-link mr-2"></i>Link
       </a>
     )
     let img = !module.image ? '' : module.image.file;
     // Build optional additional paragraphs
     let additional_paragraphs = module.paragraphs.map((paragraph, index) => {
-      let additional_paras = paragraph.text.split('\n').map((para) => {
-        return (<p>{para}</p>);
-      });
+      let additional_paras = (
+        <ReactMarkdown source={paragraph.text} />
+      );
       return (
         <div className="clear-fix">
           <div key={index} className="pull-left col-12 col-md-5 mb-3">
