@@ -6,7 +6,7 @@ from django.http import (
     JsonResponse
 )
 
-def post(self, request):
+def post(request):
     if request.is_ajax():
         content = (
             'Name: ' + request.POST.get('name') + '\n'
