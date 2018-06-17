@@ -16,6 +16,10 @@ class Portfolio extends React.Component {
     });
 
     $(document).on('click', '.portfolio-modal-dismiss', function(e) {
+      $.magnificPopup.close();
+    });
+
+    $(document).on('click', '.portfolio-modal-close', function(e) {
       e.preventDefault();
       $.magnificPopup.close();
     });
@@ -42,7 +46,7 @@ class Portfolio extends React.Component {
       return (
         <div key={index} className="portfolio-modal mfp-hide" id={"portfolio-modal-" + index}>
           <div className="portfolio-modal-dialog bg-white">
-            <a className="close-button d-none d-md-block portfolio-modal-dismiss" href="#">
+            <a className="close-button d-none d-md-block portfolio-modal-close" href="#">
               <i className="fa fa-3x fa-times"></i>
             </a>
             <div className="container text-center">
@@ -55,7 +59,7 @@ class Portfolio extends React.Component {
                   <NavLink className="btn btn-primary btn-lg rounded-pill portfolio-modal-dismiss mr-2" to={url}>
                     <i className="fa fa-external-link mr-2"></i>
                     Details</NavLink>
-                  <a className="btn btn-primary btn-lg rounded-pill portfolio-modal-dismiss" href="#">
+                  <a className="btn btn-primary btn-lg rounded-pill portfolio-modal-close" href="">
                     <i className="fa fa-close mr-2"></i>
                     Close</a>
                 </div>
