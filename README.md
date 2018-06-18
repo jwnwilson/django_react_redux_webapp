@@ -20,11 +20,11 @@ $  make run
 
 ## To Do
 
+- Add tests for FE and BE
 - Resize images to sensible sizes
 - Add service worker job for API page calls
 - Add pagination
 - Add 400 and 500 pages
-- Add tests for FE and BE
 - Setup CI
 - Separate Snippets in CMS by tags
 - Import all initial components dynamically?

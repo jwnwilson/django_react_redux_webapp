@@ -57,7 +57,11 @@ test-be:
 	$(COMPOSE) run $(SERVER) bash -c "./scripts/test.sh"
 
 test-fe:
-	$(COMPOSE) run $(CLIENT) npm test
+	$(COMPOSE) run $(CLIENT) npm run test
+
+test:
+	make test-be
+	make test-fe
 
 shell:
 	$(COMPOSE) run $(SERVER) bash
