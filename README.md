@@ -20,6 +20,7 @@ $  make run
 
 ## To Do
 
+- Remove jquery global dependancy or injest into tests
 - Add tests for FE and BE
 - Resize images to sensible sizes
 - Add service worker job for API page calls
