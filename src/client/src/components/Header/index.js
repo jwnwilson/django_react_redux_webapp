@@ -70,7 +70,7 @@ class Header extends React.Component {
     let title = '';
     let data = this.props.data;
     let headerLinks = [];
-    if (data) {
+    if (data && data.ctas) {
       title = data.title;
       headerLinks = data.ctas.map((cta, index) => {
         let link;
