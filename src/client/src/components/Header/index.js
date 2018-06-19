@@ -1,11 +1,11 @@
-import React from 'react'
-import { connect } from 'react-redux'
+import React from 'react';
+import { connect } from 'react-redux';
 import {
   NavLink
 } from "react-router-dom";
 
-import './../../style/Header.css'
-import {componentUpdated} from './../../actions'
+import './../../style/Header.css';
+import {componentUpdated} from './../../actions';
 
 // Load global jQuery
 const $ = window.$;

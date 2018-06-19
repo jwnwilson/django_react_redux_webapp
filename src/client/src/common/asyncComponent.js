@@ -1,8 +1,8 @@
 import React, { PureComponent } from 'react';
-import {updateComponent} from './../actions'
-import store from './../store'
+import {updateComponent} from './../actions';
+import store from './../store';
 
-import './../style/Async.css'
+import './../style/Async.css';
 
 window.COMPONENTS = {};
 

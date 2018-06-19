@@ -1,6 +1,6 @@
-import {combineReducers} from 'redux'
-import apiReducer from './apiReducer'
-import componentReducer from './componentReducer'
+import {combineReducers} from 'redux';
+import apiReducer from './apiReducer';
+import componentReducer from './componentReducer';
 
 const rootReducer = combineReducers({
   components : apiReducer.components,

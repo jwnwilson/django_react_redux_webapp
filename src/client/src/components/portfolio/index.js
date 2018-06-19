@@ -1,9 +1,9 @@
-import React from 'react'
+import React from 'react';
 import {
   NavLink
 } from "react-router-dom";
 
-import './../../style/Portfolio.css'
+import './../../style/Portfolio.css';
 
 // Load global jQuery
 const $ = window.$;

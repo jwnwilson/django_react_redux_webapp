@@ -1,6 +1,6 @@
-import React from 'react'
+import React from 'react';
 
-import './../../style/Intro.css'
+import './../../style/Intro.css';
 
 class HeroImage extends React.Component {
   render () {

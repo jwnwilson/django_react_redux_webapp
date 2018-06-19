@@ -1,15 +1,14 @@
-import React, { Component } from 'react'
-import { connect } from 'react-redux'
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
 
-import AsyncComponent from './common/asyncComponent'
-import Header from './components/header'
-import Footer from './components/footer'
-import {getApiData} from './actions'
+import AsyncComponent from './common/asyncComponent';
+import Header from './components/header';
+import Footer from './components/footer';
+import {getApiData} from './actions';
 
 // Import first module in page to avoid that being lazy loaded for quicker first paint
-import HeroImage from './components/heroimage'
-
-import './style/App.css'
+import HeroImage from './components/heroimage';
+import './style/App.css';
 
 class App extends Component {
   constructor(props) {

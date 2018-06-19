@@ -1,6 +1,6 @@
-import React from 'react'
-import utils from './../../utils'
-import './../../style/ContactMe.css'
+import React from 'react';
+import utils from './../../utils';
+import './../../style/ContactMe.css';
 
 // Load global jQuery
 const $ = window.$;

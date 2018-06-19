@@ -1,6 +1,6 @@
-import React from 'react'
+import React from 'react';
 
-import './../../style/Footer.css'
+import './../../style/Footer.css';
 
 // Load global jQuery
 const $ = window.$;

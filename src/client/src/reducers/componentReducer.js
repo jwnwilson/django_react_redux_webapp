@@ -1,7 +1,7 @@
 import {
   COMPONENT_NEEDS_UPDATE,
   COMPONENT_UPDATED
-} from './../actions/actionTypes'
+} from './../actions/actionTypes';
 
 function componetUpdate(state = false, action) {
   switch (action.type) {

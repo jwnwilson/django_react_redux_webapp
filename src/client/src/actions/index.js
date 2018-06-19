@@ -3,7 +3,7 @@ import {
   GET_DATA_FAILURE,
   COMPONENT_UPDATED,
   COMPONENT_NEEDS_UPDATE
-} from './actionTypes'
+} from './actionTypes';
 
 export function getApiData(id) {
   return dispatch => fetch('//' + window.location.host + `/api/pages/${id}/?format=json`)

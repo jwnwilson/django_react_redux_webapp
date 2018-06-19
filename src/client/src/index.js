@@ -1,13 +1,13 @@
-import { BrowserRouter as Router, Route } from 'react-router-dom'
-import React from 'react'
-import { render } from 'react-dom'
-import { Provider } from 'react-redux'
+import { BrowserRouter as Router, Route } from 'react-router-dom';
+import React from 'react';
+import { render } from 'react-dom';
+import { Provider } from 'react-redux';
 
-import App from './App'
-import store from './store'
-import registerServiceWorker from './registerServiceWorker'
+import App from './App';
+import store from './store';
+import registerServiceWorker from './registerServiceWorker';
 
-import './style/index.css'
+import './style/index.css';
 
 let root = document.getElementById('root');
 let api_data = JSON.parse(root.getAttribute('data-api'));
