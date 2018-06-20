@@ -1,0 +1,16 @@
+{
+    "version": "0.2.0",
+    "configurations": [{
+      "type": "node",
+      "request": "launch",
+      "name": "Launch Jest",
+      "program": "${workspaceRoot}/src/client/node_modules/.bin/jest",
+      "cwd": "${workspaceRoot}/src/client",
+      "args": ["--runInBand", "--env=jsdom"],
+      "runtimeArgs": [],
+      "env": {
+        "NODE_ENV": "development"
+      },
+      "sourceMaps": true
+    }]
+  }
