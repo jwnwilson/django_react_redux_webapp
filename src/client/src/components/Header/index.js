@@ -20,10 +20,15 @@ class Header extends React.Component {
     });
 
     // Activate scrollspy to add active class to navbar items on scroll
-    $('body').scrollspy({
-      target: '#mainNav',
-      offset: 80
-    });
+    try {
+      $('body').scrollspy({
+        target: '#mainNav',
+        offset: 80
+      });
+    } catch(e) {
+      console.log('Ignoring scrollspy error until its replaced');
+    }
+    
 
     // Collapse now if page is not at top
     this.navbarCollapse();

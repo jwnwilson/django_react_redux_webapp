@@ -46,7 +46,9 @@ if (window.location.pathname.match(/\/cms\/pages\/\d+\/edit\/preview/g)) {
 render(
   <Provider store={store}>
     <Router>
-      {routes}
+      <div>
+        {routes}
+      </div>
     </Router>
   </Provider>,
   root
