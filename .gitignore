@@ -5,6 +5,7 @@
 src/client/node_modules
 src/server/venv
 src/server/.coverage
+src/server/.pytest_cache
 src/server/staticfiles
 src/client/webpack-stats.dev.json
 static/*

@@ -20,7 +20,10 @@ $  make run
 
 ## To Do
 
+- Add noscript element to website
 - Remove jquery replace with modular libraries
+- Improve lighthouse score 
+- Pre-render html option?
 - Add tests for FE and BE
 - Resize images to sensible sizes
 - Add service worker job for API page calls

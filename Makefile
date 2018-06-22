@@ -12,6 +12,7 @@ help:
 
 SHELL := /bin/bash
 COMPOSE = docker-compose
+SERVER_NODB = server-no-db
 SERVER = server
 CLIENT = client
 PYENV = pyenv
@@ -52,9 +53,11 @@ run-prod:
 
 test: test-be test-fe
 
+lint-be:
+	$(COMPOSE) run $(SERVER_NODB) bash -c "find webapp -iname *.py | xargs pylint"
+
 test-be:
-	$(COMPOSE) run $(SERVER) bash -c "./scripts/pylint.sh"
-	$(COMPOSE) run $(SERVER) bash -c "./scripts/test.sh"
+	$(COMPOSE) run $(SERVER_NODB) pytest webapp
 
 test-fe:
 	$(COMPOSE) run $(CLIENT) npm run test
@@ -73,7 +76,7 @@ shell-db:
 	PGPASSWORD=docker psql -h localhost -U docker noelwilson2018
 
 collect-static:
-	$(COMPOSE) run $(SERVER) bash -c "rm -rf ./staticfiles/* && python manage.py collectstatic --no-input"
+	$(COMPOSE) run $(SERVER_NODB) bash -c "rm -rf ./staticfiles/* && python manage.py collectstatic --no-input"
 
 deploy:
 	make build-fe

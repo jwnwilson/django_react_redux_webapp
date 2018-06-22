@@ -19,6 +19,8 @@ pylibmc = "*"
 django-storages = "*"
 boto = "*"
 "boto3" = "*"
+pytest = "*"
+pylint = "*"
 
 [dev-packages]
 pytest = "*"

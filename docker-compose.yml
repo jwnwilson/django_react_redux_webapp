@@ -47,7 +47,24 @@ services:
       - db
       # - cache
       - pyenv
-
+  
+  server-no-db: 
+    build:
+      context: .
+      dockerfile: ./ops/Dockerfile_server
+    user: root
+    env_file:
+      - web.env
+    working_dir: /app/src/server
+    command: python manage.py test
+    tty: true
+    volumes:
+      - .:/app
+      - venv:/usr/local/lib/python3.6/site-packages
+      - media:/app/src/server/media
+    depends_on:
+      - pyenv
+  
   # cache:
   #  image: memcached
   #  ports:

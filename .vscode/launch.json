@@ -9,7 +9,7 @@
       "args": ["--runInBand", "--env=jsdom"],
       "runtimeArgs": [],
       "env": {
-        "NODE_ENV": "development"
+        "NODE_ENV": "test"
       },
       "sourceMaps": true
     }]
