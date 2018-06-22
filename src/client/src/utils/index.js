@@ -23,6 +23,17 @@ function getCookie(name) {
   return cookieValue;
 }
 
+/**
+ * Capitalize first letter of string
+ * 
+ * @param {String} string to capitalize
+ */
+function capitalize(s)
+{
+    return s[0].toUpperCase() + s.slice(1);
+}
+
 export default {
+  capitalize,
   getCookie
 }

@@ -3,8 +3,9 @@ import { connect } from 'react-redux';
 import {
   NavLink
 } from "react-router-dom";
+import Scrollspy from 'react-scrollspy'
 
-import './../../style/Header.css';
+import './Header.css';
 import {componentUpdated} from './../../actions';
 
 // Load global jQuery
@@ -18,18 +19,7 @@ class Header extends React.Component {
     $('.js-scroll-trigger').click(function() {
       $('.navbar-collapse').collapse('hide');
     });
-
-    // Activate scrollspy to add active class to navbar items on scroll
-    try {
-      $('body').scrollspy({
-        target: '#mainNav',
-        offset: 80
-      });
-    } catch(e) {
-      console.log('Ignoring scrollspy error until its replaced');
-    }
     
-
     // Collapse now if page is not at top
     this.navbarCollapse();
     // Collapse the navbar when page is scrolled
@@ -74,11 +64,15 @@ class Header extends React.Component {
   render () {
     let title = '';
     let data = this.props.data;
-    let headerLinks = [];
+    let links = [];
+    let selectors = [];
+    let headerLinks = null;
+
     if (data && data.ctas) {
       title = data.title;
-      headerLinks = data.ctas.map((cta, index) => {
+      links = data.ctas.map((cta, index) => {
         let link;
+        selectors.push(cta.selector);
         if (cta.link) {
           link = (
             <a className="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger" href={cta.link.url}>{cta.text}</a>
@@ -88,32 +82,37 @@ class Header extends React.Component {
             <a className="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger" href={'#' + cta.selector}>{cta.text}</a>
           );
         }
-
         return (
           <li className="nav-item mx-0 mx-lg-1" key={index}>
             {link}
           </li>
         );
-
       });
+      headerLinks = (
+        <Scrollspy 
+          className="navbar-nav ml-auto"
+          items={ selectors } 
+          currentClassName="active" 
+          offset={80}>
+          {links}
+        </Scrollspy>
+      );
     }
 
     return (
       <nav className="navbar navbar-expand-lg bg-secondary fixed-top text-uppercase" id="mainNav">
-       <div className="container">
-         <NavLink className="navbar-brand js-scroll-trigger" to="/#intro">{title}</NavLink>
-         <button className="navbar-toggler navbar-toggler-right text-uppercase bg-primary text-white rounded" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
-           Menu
-           <i className="fa fa-bars"></i>
-         </button>
-         <div className="collapse navbar-collapse" id="navbarResponsive">
-           <ul className="navbar-nav ml-auto">
+        <div className="container">
+          <NavLink className="navbar-brand js-scroll-trigger" to="/#intro">{title}</NavLink>
+          <button className="navbar-toggler navbar-toggler-right text-uppercase bg-primary text-white rounded" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+            Menu
+            <i className="fa fa-bars"></i>
+          </button>
+          <div className="collapse navbar-collapse" id="navbarResponsive">
             {headerLinks}
-           </ul>
-         </div>
-       </div>
+          </div>
+        </div>
       </nav>
-    );
+  );
   }
 }
 

@@ -2,13 +2,15 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
 import AsyncComponent from './common/asyncComponent';
-import Header from './components/header';
-import Footer from './components/footer';
+import Header from './components/Header';
+import Footer from './components/Footer';
 import {getApiData} from './actions';
+import utils from './utils';
 
 // Import first module in page to avoid that being lazy loaded for quicker first paint
-import HeroImage from './components/heroimage';
+import HeroImage from './components/Heroimage';
 import './style/App.css';
+import './style/core.css';
 
 class App extends Component {
   constructor(props) {
@@ -75,7 +77,9 @@ class App extends Component {
     let components = [];
     for (let i=0; i<this.state.componentsData.length;i++ ) {
       let componentData = this.state.componentsData[i];
-      let componentType = componentData.module.polymorphic_ctype.model;
+      let componentType = utils.capitalize(
+        componentData.module.polymorphic_ctype.model
+      );
       // Use webpack dynamic import to get the module
       let componentImport = () => {
         return import(`./components/${componentType}/index`);

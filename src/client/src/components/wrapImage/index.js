@@ -2,7 +2,7 @@ import React from 'react';
 import ReactMarkdown from 'react-markdown';
 
 import './../../style/core.css';
-import './../../style/WrapImage.css';
+import './WrapImage.css';
 
 class WrapImage extends React.Component {
   render () {

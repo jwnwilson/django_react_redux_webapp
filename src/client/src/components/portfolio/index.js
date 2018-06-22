@@ -3,7 +3,7 @@ import {
   NavLink
 } from "react-router-dom";
 
-import './../../style/Portfolio.css';
+import './Portfolio.css';
 
 // Load global jQuery
 const $ = window.$;
