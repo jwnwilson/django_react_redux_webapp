@@ -1,14 +1,6 @@
 {
-  "main.css": "static/css/main.7fa0bf86.css",
-  "main.css.map": "static/css/main.7fa0bf86.css.map",
+  "main.css": "static/css/main.764406a5.css",
+  "main.css.map": "static/css/main.764406a5.css.map",
   "main.js": "static/js/bundle.js",
-  "main.js.map": "static/js/bundle.js.map",
-  "static/js/0.0701a42c.chunk.js": "static/js/0.0701a42c.chunk.js",
-  "static/js/0.0701a42c.chunk.js.map": "static/js/0.0701a42c.chunk.js.map",
-  "static/js/1.8017a405.chunk.js": "static/js/1.8017a405.chunk.js",
-  "static/js/1.8017a405.chunk.js.map": "static/js/1.8017a405.chunk.js.map",
-  "static/js/2.f9c34941.chunk.js": "static/js/2.f9c34941.chunk.js",
-  "static/js/2.f9c34941.chunk.js.map": "static/js/2.f9c34941.chunk.js.map",
-  "static/js/3.99ff6a58.chunk.js": "static/js/3.99ff6a58.chunk.js",
-  "static/js/3.99ff6a58.chunk.js.map": "static/js/3.99ff6a58.chunk.js.map"
+  "main.js.map": "static/js/bundle.js.map"
 }
