@@ -80,6 +80,9 @@ shell-db:
 collect-static:
 	$(COMPOSE) run $(SERVER_NODB) bash -c "source ./.venv/bin/activate && rm -rf ./staticfiles/* && python manage.py collectstatic --no-input"
 
+clean:
+	find ./src/server -name \*.pyc -delete
+
 deploy:
 	make build-fe
 	make collect-static

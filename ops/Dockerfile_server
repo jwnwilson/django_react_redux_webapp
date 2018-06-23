@@ -13,8 +13,5 @@ COPY . /app
 
 WORKDIR /app/src/server
 
-ENV PIPENV_VENV_IN_PROJECT True
-
-RUN python3 -m venv .venv && \
-  pip3 install pipenv && \
-  pipenv install --dev
+RUN pip3 install pipenv && \
+  pipenv install --system --deploy

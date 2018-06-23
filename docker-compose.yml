@@ -34,7 +34,7 @@ services:
     env_file:
       - web.env
     working_dir: /app/src/server
-    command: source ./.venv/bin/activate && python manage.py runserver 0.0.0.0:8000
+    command: ./.venv/bin/python manage.py runserver 0.0.0.0:8000
     tty: true
     ports:
       - 0.0.0.0:8000:8000
@@ -58,7 +58,7 @@ services:
     env_file:
       - web.env
     working_dir: /app/src/server
-    command: source ./.venv/bin/activate && python manage.py test
+    command: ./.venv/bin/pytest
     tty: true
     volumes:
       - .:/app
