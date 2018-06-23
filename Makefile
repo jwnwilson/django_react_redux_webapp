@@ -1,3 +1,5 @@
+include .env
+
 ifndef VERSION
 	# Get the active git branch
 	VERSION=$(shell ./server/scripts/version.sh)
@@ -54,10 +56,10 @@ run-prod:
 test: test-be test-fe
 
 lint-be:
-	$(COMPOSE) run $(SERVER_NODB) bash -c "find webapp -iname *.py | xargs pylint"
+	$(COMPOSE) run $(SERVER_NODB) bash -c "source ./.venv/bin/activate && find webapp -iname *.py | xargs pylint"
 
 test-be:
-	$(COMPOSE) run $(SERVER_NODB) pytest webapp
+	$(COMPOSE) run $(SERVER_NODB) bash -c "source ./.venv/bin/activate && pytest webapp"
 
 test-fe:
 	$(COMPOSE) run $(CLIENT) npm run test
@@ -76,7 +78,7 @@ shell-db:
 	PGPASSWORD=docker psql -h localhost -U docker noelwilson2018
 
 collect-static:
-	$(COMPOSE) run $(SERVER_NODB) bash -c "rm -rf ./staticfiles/* && python manage.py collectstatic --no-input"
+	$(COMPOSE) run $(SERVER_NODB) bash -c "source ./.venv/bin/activate && rm -rf ./staticfiles/* && python manage.py collectstatic --no-input"
 
 deploy:
 	make build-fe

@@ -17,12 +17,14 @@ services:
       context: .
       dockerfile: ./ops/Dockerfile_server
     user: root
+    env_file:
+      - .env
     working_dir: /app/src/server
-    command: pipenv install --system --deploy
+    command: pipenv install --dev
     tty: true
     volumes:
       - .:/app
-      - venv:/usr/local/lib/python3.6/site-packages
+      - venv:/app/src/server/.venv
 
   server:
     build:
@@ -30,15 +32,15 @@ services:
       dockerfile: ./ops/Dockerfile_server
     user: root
     env_file:
-      - web.env
+      - .env
     working_dir: /app/src/server
-    command: python manage.py runserver 0.0.0.0:8000
+    command: source ./.venv/bin/activate && python manage.py runserver 0.0.0.0:8000
     tty: true
     ports:
       - 0.0.0.0:8000:8000
     volumes:
       - .:/app
-      - venv:/usr/local/lib/python3.6/site-packages
+      - venv:/app/src/server/.venv
       - media:/app/src/server/media
     links:
       - db
@@ -54,13 +56,13 @@ services:
       dockerfile: ./ops/Dockerfile_server
     user: root
     env_file:
-      - web.env
+      - .env
     working_dir: /app/src/server
-    command: python manage.py test
+    command: source ./.venv/bin/activate && python manage.py test
     tty: true
     volumes:
       - .:/app
-      - venv:/usr/local/lib/python3.6/site-packages
+      - venv:/app/src/server/.venv
       - media:/app/src/server/media
     depends_on:
       - pyenv

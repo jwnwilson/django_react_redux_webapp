@@ -20,10 +20,12 @@ django-storages = "*"
 boto = "*"
 "boto3" = "*"
 pytest = "*"
-pylint = "*"
+pytest-django = "*"
 
 [dev-packages]
 pytest = "*"
+pylint = "*"
+pytest-django = "*"
 
 [requires]
 python_version = "3.6.5"

@@ -20,7 +20,9 @@ $  make run
 
 ## To Do
 
-- Add noscript element to website
+- Setup CI
+- Add 400 and 500 pages
+- Setup offline and service worker option
 - Remove jquery replace with modular libraries
 - Improve lighthouse score 
 - Pre-render html option?
@@ -28,8 +30,7 @@ $  make run
 - Resize images to sensible sizes
 - Add service worker job for API page calls
 - Add pagination
-- Add 400 and 500 pages
-- Setup CI
+
 - Separate Snippets in CMS by tags
 - Import all initial components dynamically?
 
