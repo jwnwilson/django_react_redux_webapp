@@ -1,8 +1,6 @@
 from django.test import TestCase
 from django.test import Client
-import pdb;pdb.set_trace()
-from django.contrib.sites.models import Site
-from ..models.page import Page
+from webapp.cms.models.page import Page
 
 class ModularPageTestCase(TestCase):
     def setUp(self):
