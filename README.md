@@ -3,7 +3,7 @@ Noel Wilson
 
 ## Build status
 
-[![CircleCI](https://circleci.com/gh/jwnwilson/noelwilson_2017.svg?style=svg)](https://circleci.com/gh/jwnwilson/noelwilson_2017)
+[![CircleCI](https://circleci.com/gh/jwnwilson/django_react_redux_webapp.svg?style=svg)](https://circleci.com/gh/jwnwilson/django_react_redux_webapp)
 
 ## Description
 
