@@ -1,7 +1,7 @@
 version: 2
 jobs:
   build-be:
-    working_directory: /
+    working_directory: /app
     docker:
       - image: python
     environment:
@@ -11,17 +11,17 @@ jobs:
       - restore_cache:
           key: v1-be-{{ checksum "Pipfile.lock" }}
           paths:
-            - /src/server/.venv
+            - /app/src/server/.venv
       - run:
           command: 'make setup-be'
       - save_cache:
           key: v1-be-{{ checksum "Pipfile.lock" }}
           paths:
-            - /src/server/.venv
+            - /app/src/server/.venv
       - run:
           command: 'make test-be'
   build-fe:
-    working_directory: /
+    working_directory: /app
     docker:
       - image: node:6.11.2
     steps:
@@ -29,13 +29,13 @@ jobs:
       - restore_cache:
           key: v1-fe-{{ checksum "client/package.json" }}
           paths:
-            - /src/client/node_modules
+            - /app/src/client/node_modules
       - run:
           command: 'make setup-fe'
       - save_cache:
           key: v1-fe-{{ checksum "client/package.json" }}
           paths:
-            - /src/client/node_modules
+            - /app/src/client/node_modules
       - run:
           command: 'make test-fe'
 workflows:

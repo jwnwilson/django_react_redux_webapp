@@ -27,6 +27,7 @@ SECRET_KEY = '#o%o#3c6s*wuk50&8a7-(ke+qho%a8!dxfr=-dat!d-u+4a-tu'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.environ.get('DEV') == 'True'
+TESTING = "pytest" in sys.modules
 
 ALLOWED_HOSTS = [
     'localhost',
@@ -110,7 +111,7 @@ if os.environ.get('ON_HEROKU'):
     DATABASES = {
         'default': dj_database_url.config(conn_max_age=600, ssl_require=True)
     }
-elif "pytest" in sys.modules:
+elif TESTING:
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.sqlite3',
@@ -197,7 +198,7 @@ else:
         }
     }
 
-if not DEBUG:
+if not DEBUG and not TESTING:
     RAVEN_CONFIG = {
         'dsn': 'https://4455bc30a01746f6ad07e8bb17fdcb7e:244d3d07cc2641b09cfede93ef8dad8e@sentry.io/646552',
         # If you are using git, you can also automatically configure the
@@ -285,3 +286,6 @@ if os.environ.get('ON_HEROKU'):
 FIXTURE_DIRS = [
     os.path.join(BASE_DIR, 'fixtures')
 ]
+
+if TESTING:
+    DEBUG = False

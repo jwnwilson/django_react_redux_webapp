@@ -72,7 +72,7 @@ test:
 	make test-fe
 
 test-be:
-	$(COMPOSE) run $(SERVER_NODB) bash -c "source ./.venv/bin/activate && pytest"
+	$(COMPOSE) run $(SERVER_NODB) bash -c "source ./.venv/bin/activate && pytest -s"
 
 test-fe:
 	$(COMPOSE) run $(CLIENT) npm run test
