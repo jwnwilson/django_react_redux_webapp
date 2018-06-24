@@ -13,7 +13,7 @@ jobs:
           paths:
             - '/app/src/server/.venv'
       - run:
-          command: 'cd src/server && pipenv install --dev'
+          command: 'cd src/server && pip3 install pipenv && pipenv install --dev'
       - save_cache:
           key: v1-be-{{ checksum "Pipfile.lock" }}
           paths:
