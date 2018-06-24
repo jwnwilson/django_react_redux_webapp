@@ -29,13 +29,13 @@ jobs:
     steps:
       - checkout
       - restore_cache:
-          key: v1-fe-{{ checksum "src/client/package.json" }}
+          key: v2-fe-{{ checksum "src/client/package.json" }}
           paths:
             - /app/src/client/node_modules
       - run:
           command: 'cd src/client && npm install'
       - save_cache:
-          key: v1-fe-{{ checksum "src/client/package.json" }}
+          key: v2-fe-{{ checksum "src/client/package.json" }}
           paths:
             - /app/src/client/node_modules
       - run:

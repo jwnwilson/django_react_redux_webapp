@@ -21,6 +21,7 @@ $  make run
 ## To Do
 
 - Setup CI
+- Fix test --nomigrations 
 - Add 400 and 500 pages
 - Setup offline and service worker option
 - Remove jquery replace with modular libraries
