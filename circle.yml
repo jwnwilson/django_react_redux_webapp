@@ -21,7 +21,7 @@ jobs:
           paths:
             - /app/src/server/.venv
       - run:
-          command: 'cd src/server && pytest'
+          command: 'cd src/server && ./.venv/bin/pytest'
   build-fe:
     working_directory: /app
     docker:
