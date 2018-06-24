@@ -1,4 +1,4 @@
-include .env
+-include .env
 
 ifndef VERSION
 	# Get the active git branch
