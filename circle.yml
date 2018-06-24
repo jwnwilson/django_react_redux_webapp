@@ -9,7 +9,7 @@ jobs:
     steps:
       - checkout
       - run:
-        command: 'apt-get update && apt-get install -y libmemcached-dev zlib1g-dev && curl https://bootstrap.pypa.io/get-pip.py | python'
+          command: 'apt-get update && apt-get install -y libmemcached-dev zlib1g-dev && curl https://bootstrap.pypa.io/get-pip.py | python'
       - restore_cache:
           key: v1-be-{{ checksum "Pipfile.lock" }}
           paths:
