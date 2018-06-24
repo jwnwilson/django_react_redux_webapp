@@ -1,56 +1,43 @@
 version: 2
 jobs:
   build-be:
-    working_directory: /src
+    working_directory: /
     docker:
-      - image: jwnwilson/noelwilson_2017
-      - image: mongo:3.4.0
+      - image: python
+    environment:
+      PIPENV_VENV_IN_PROJECT: "True"
     steps:
       - checkout
       - restore_cache:
-          key: v3-be-{{ checksum "server/requirements/common.txt" }}
+          key: v1-be-{{ checksum "Pipfile.lock" }}
           paths:
-            - /src/server/venv
+            - /src/server/.venv
       - run:
-          command: './ops/reset_db.sh;'
-      - run:
-          command: 'cd server; ./scripts/setup.sh'
+          command: 'make setup-be'
       - save_cache:
-          key: v3-be-{{ checksum "server/requirements/common.txt" }}
+          key: v1-be-{{ checksum "Pipfile.lock" }}
           paths:
-            - /src/server/venv
+            - /src/server/.venv
       - run:
-          command: 'cd server; ./scripts/pylint.sh; ./scripts/test.sh'
-      - store_artifacts:
-          path: ./server/.cov
-          prefix: be-tests
+          command: 'make test-be'
   build-fe:
-    working_directory: /src
+    working_directory: /
     docker:
       - image: node:6.11.2
     steps:
       - checkout
       - restore_cache:
-          key: v2-fe-{{ checksum "client/package.json" }}
+          key: v1-fe-{{ checksum "client/package.json" }}
           paths:
             - /src/client/node_modules
       - run:
-          command: 'cd client; npm install'
+          command: 'make setup-fe'
       - save_cache:
-          key: v2-fe-{{ checksum "client/package.json" }}
+          key: v1-fe-{{ checksum "client/package.json" }}
           paths:
             - /src/client/node_modules
       - run:
-          command: 'cd client; ./node_modules/.bin/webpack'
-      - save_cache:
-          key: v1-fe-static-{{ .Revision }}
-          paths:
-            - /src/static
-      - run:
-          command: 'cd client; npm test'
-      - store_artifacts:
-          path: /src/client/test-results
-          prefix: fe-tests
+          command: 'make test-fe'
 workflows:
   version: 2
   build:

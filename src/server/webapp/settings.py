@@ -281,3 +281,7 @@ if os.environ.get('ON_HEROKU'):
     AWS_ACCESS_KEY_ID = os.environ.get('ACCESS_KEY')
     AWS_SECRET_ACCESS_KEY = os.environ.get('SECRET')
     AWS_QUERYSTRING_AUTH = False
+
+FIXTURE_DIRS = [
+    os.path.join(BASE_DIR, 'fixtures')
+]

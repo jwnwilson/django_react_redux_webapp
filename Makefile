@@ -32,11 +32,17 @@ build-fe:
 	$(COMPOSE) run $(CLIENT) bash -c "PROD_ENV=1 npm run build"
 
 setup:
+	make setup-be
+	make setup-fe
+
+setup-be:
 	$(COMPOSE) run ${PYENV}
+
+setup-fe:
 	$(COMPOSE) run ${CLIENT} bash -c "npm install"
 
 setup-local:
-	python3 -m venv ./src/server/venv && source ./src/server/venv/bin/activate
+	python3 -m venv ./src/server/.venv
 
 run:
 	COMPOSE_HTTP_TIMEOUT=$(COMPOSE_HTTP_TIMEOUT) $(COMPOSE) up
@@ -53,20 +59,23 @@ run-fe:
 run-prod:
 	COMPOSE_HTTP_TIMEOUT=$(COMPOSE_HTTP_TIMEOUT) $(COMPOSE) -f docker-production.yml up
 
+dump-data:
+	$(COMPOSE) run $(SERVER) bash -c "source ./.venv/bin/activate && python manage.py dumpdata --natural-foreign --indent=4 -e contenttypes -e auth.Permission -e sessions -e wagtailcore.GroupCollectionPermission > fixtures/default.json"
+
 test: test-be test-fe
 
 lint-be:
 	$(COMPOSE) run $(SERVER_NODB) bash -c "source ./.venv/bin/activate && find webapp -iname *.py | xargs pylint"
 
-test-be:
-	$(COMPOSE) run $(SERVER_NODB) bash -c "source ./.venv/bin/activate && pytest webapp"
-
-test-fe:
-	$(COMPOSE) run $(CLIENT) npm run test
-
 test:
 	make test-be
 	make test-fe
+
+test-be:
+	$(COMPOSE) run $(SERVER_NODB) bash -c "source ./.venv/bin/activate && pytest"
+
+test-fe:
+	$(COMPOSE) run $(CLIENT) npm run test
 
 shell:
 	$(COMPOSE) run $(SERVER) bash
