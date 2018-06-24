@@ -1,0 +1,15 @@
+.wrap-image-link {
+  font-size: 1.5rem;
+}
+
+.wrap-image a {
+  color: #66ffcc
+}
+
+.wrap-image a:focus {
+  color: #66ffcc;
+}
+
+.wrap-image ul {
+  display: inline-block;
+}
