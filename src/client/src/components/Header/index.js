@@ -4,12 +4,13 @@ import {
   NavLink
 } from "react-router-dom";
 import Scrollspy from 'react-scrollspy'
+import root from 'window-or-global';
 
 import './Header.css';
 import {componentUpdated} from './../../actions';
 
 // Load global jQuery
-const $ = window.$;
+const $ = root.$;
 
 class Header extends React.Component {
   componentDidMount () {
@@ -23,7 +24,7 @@ class Header extends React.Component {
     // Collapse now if page is not at top
     this.navbarCollapse();
     // Collapse the navbar when page is scrolled
-    $(window).scroll(this.navbarCollapse);
+    $(root).scroll(this.navbarCollapse);
   }
 
   componentWillReceiveProps(newProps) {
@@ -38,7 +39,7 @@ class Header extends React.Component {
     let selector = 'a.js-scroll-trigger[href*="#"]:not([href="#"])';
     $(selector).unbind('click');
     $(selector).click(function() {
-      if (window.location.pathname.replace(/^\//, '') === this.pathname.replace(/^\//, '') && window.location.hostname === this.hostname) {
+      if (root.location.pathname.replace(/^\//, '') === this.pathname.replace(/^\//, '') && root.location.hostname === this.hostname) {
         var target = $(this.hash);
         target = target.length ? target : $('[name=' + this.hash.slice(1) + ']');
         if (target.length) {

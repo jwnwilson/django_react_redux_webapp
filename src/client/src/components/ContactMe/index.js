@@ -1,9 +1,11 @@
 import React from 'react';
+import root from 'window-or-global';
+
 import utils from './../../utils';
 import './ContactMe.css';
 
 // Load global jQuery
-const $ = window.$;
+const $ = root.$;
 
 class ContactMe extends React.Component {
   componentDidMount () {
@@ -38,7 +40,7 @@ class ContactMe extends React.Component {
         let elem = $("#sendMessageButton");
         elem.prop("disabled", true); // Disable submit button until AJAX call is complete to prevent duplicate messages
         $.ajax({
-          url: window.location.pathname,
+          url: root.location.pathname,
           type: "POST",
           data: {
             name: name,

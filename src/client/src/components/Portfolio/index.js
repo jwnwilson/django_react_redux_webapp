@@ -2,11 +2,12 @@ import React from 'react';
 import {
   NavLink
 } from "react-router-dom";
+import root from 'window-or-global';
 
 import './Portfolio.css';
 
 // Load global jQuery
-const $ = window.$;
+const $ = root.$;
 
 class Portfolio extends React.Component {
   componentDidMount () {

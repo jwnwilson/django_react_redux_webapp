@@ -1,7 +1,5 @@
 import React from 'react';
 
-import './../../style/Intro.css';
-
 class HeroImage extends React.Component {
   render () {
     var data = this.props.data.module;

@@ -1,9 +1,10 @@
 import React from 'react';
+import root from 'window-or-global';
 
 import './Footer.css';
 
 // Load global jQuery
-const $ = window.$;
+const $ = root.$;
 
 class Footer extends React.Component {
   componentDidMount () {

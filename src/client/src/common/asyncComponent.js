@@ -1,10 +1,11 @@
 import React, { PureComponent } from 'react';
 import {updateComponent} from './../actions';
 import store from './../store';
+import root from 'window-or-global';
 
 import './../style/Async.css';
 
-window.COMPONENTS = {};
+root.COMPONENTS = {};
 
 export default class AsyncComponent extends PureComponent {
   constructor(props) {
@@ -21,13 +22,13 @@ export default class AsyncComponent extends PureComponent {
       let data = this.props.data.module;
       // Check if the component is already loaded
       if (data && data.component) {
-        Component = window.COMPONENTS[data.component];
+        Component = root.COMPONENTS[data.component];
       }
       if (!Component) {
         // Dynamically load component
         this.props.moduleProvider().then(
           (Component) => {
-            window.COMPONENTS[data.component] = Component.default;
+            root.COMPONENTS[data.component] = Component.default;
             this.setState({
               Component: Component.default
             },

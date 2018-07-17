@@ -4,9 +4,10 @@ import {
   COMPONENT_UPDATED,
   COMPONENT_NEEDS_UPDATE
 } from './actionTypes';
+import root from 'window-or-global';
 
 export function getApiData(id) {
-  return dispatch => fetch('//' + window.location.host + `/api/pages/${id}/?format=json`)
+  return dispatch => fetch('//' + root.location.host + `/api/pages/${id}/?format=json`)
     .then(res => res.json())
     .then(
       data => dispatch({ type: GET_DATA_SUCCESS, data }),

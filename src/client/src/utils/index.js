@@ -1,5 +1,7 @@
+import root from 'window-or-global';
+
 // Load global jQuery
-const $ = window.$;
+const $ = root.$;
 
 /**
  * Get cookie value
