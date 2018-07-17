@@ -27,6 +27,7 @@ services:
       - 8000
     volumes:
       - media:/app/src/server/media
+      - site-packages:/usr/local/lib/python3.6/site-packages
     depends_on:
       - db
       - cache
@@ -52,3 +53,4 @@ services:
 volumes:
   db_data:
   media:
+  site-packages:
