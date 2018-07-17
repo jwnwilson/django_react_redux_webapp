@@ -3,7 +3,7 @@ jobs:
   build-be:
     working_directory: /app
     docker:
-      - image: python
+      - image: python:3.6
     environment:
       PIPENV_VENV_IN_PROJECT: "True"
     steps:
