@@ -7,8 +7,6 @@ import Footer from './components/Footer';
 import {getApiData} from './actions';
 import utils from './utils';
 
-// Import first module in page to avoid that being lazy loaded for quicker first paint
-import HeroImage from './components/Heroimage';
 import './style/App.css';
 import './style/core.css';
 

@@ -1,6 +1,6 @@
 import { BrowserRouter as Router, Route } from 'react-router-dom';
 import React from 'react';
-import { render } from 'react-dom';
+import { hydrate, render } from 'react-dom';
 import { Provider } from 'react-redux';
 
 import App from './App';
@@ -10,9 +10,15 @@ import registerServiceWorker from './registerServiceWorker';
 import './style/index.css';
 
 let root = document.getElementById('root');
-let api_data = JSON.parse(root.getAttribute('data-api'));
-let pages_data = JSON.parse(root.getAttribute('data-pages'));
-let routes;
+let api_data = [], pages_data = [], routes = [];
+
+// Load initial API and Page data from server if it exists
+if (typeof API_DATA !== 'undefined') {
+  api_data = JSON.parse(API_DATA); // eslint-disable-line no-undef
+}
+if (typeof PAGE_DATA !== 'undefined') {
+  pages_data = JSON.parse(PAGE_DATA); // eslint-disable-line no-undef
+}
 
 // For preview pages
 if (window.location.pathname.match(/\/cms\/pages\/\d+\/edit\/preview/g)) {
@@ -53,5 +59,27 @@ render(
   </Provider>,
   root
 );
+
+if (root.hasChildNodes()) {
+  hydrate( 
+    <Provider store={store}>
+      <Router>
+        <div>
+          {routes}
+        </div>
+      </Router>
+    </Provider>, 
+    root);
+} else {
+  render(
+    <Provider store={store}>
+      <Router>
+        <div>
+          {routes}
+        </div>
+      </Router>
+    </Provider>, 
+    root);
+}
 
 registerServiceWorker();

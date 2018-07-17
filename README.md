@@ -20,12 +20,19 @@ $  make run
 
 ## To Do
 
-- Setup CI
-- Fix test --nomigrations 
+- Initial HTML generation for faster load times
+    - Create celery worker that will built html using react + API data for each page. (mircoservice?)
+    - Wagtail triger page rebuild on publish
+    - Add server logic to load RAW html from worker process
+    - Fall back to loading page normally with React build divs on front end
+    - Remove hardcoded initial react component loading
+- Look at javascript image optimisation
+
 - Add 400 and 500 pages
 - Setup offline and service worker option
 - Remove jquery replace with modular libraries
 - Improve lighthouse score 
+- Fix test --nomigrations try new data set?
 - Pre-render html option?
 - Add tests for FE and BE
 - Resize images to sensible sizes

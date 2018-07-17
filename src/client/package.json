@@ -61,6 +61,7 @@
   "scripts": {
     "start": "node scripts/start.js",
     "build": "node scripts/build.js",
+    "postbuild": "react-snap",
     "test": "./node_modules/.bin/jest --env=jsdom",
     "test-i": "node --inspect-brk ./node_modules/.bin/jest --runInBand --env=jsdom"
   },
@@ -109,6 +110,7 @@
     "jest": "^23.1.0",
     "jest-cli": "^23.1.0",
     "jsdom": "^11.11.0",
+    "react-snap": "^1.15.0",
     "webpack-bundle-tracker": "^0.3.0"
   }
 }

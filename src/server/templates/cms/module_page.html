@@ -30,6 +30,10 @@
 {% block body_class %}bg-secondary{% endblock %}
 
 {% block content %}
-  <div id="root" data-api="{{api_data}}" data-pages="{{pages}}">
+  <div id="root">
   </div>
+  <script>
+     var API_DATA="{{api_data}}";
+     var PAGE_DATA="{{pages}}";
+  </script>
 {% endblock %}
