@@ -1,8 +1,8 @@
 import React, { PureComponent } from 'react';
-import {updateComponent} from './../actions';
-import store from './../store';
+import { updateComponent } from '../actions';
+import store from '../store';
 
-import './../style/Async.css';
+import './async.css';
 
 window.COMPONENTS = {};
 
@@ -11,14 +11,14 @@ export default class AsyncComponent extends PureComponent {
     super(props);
 
     this.state = {
-      Component: null
+      Component: null,
     };
   }
 
   componentWillMount() {
-    if(!this.state.Component) {
+    if (!this.state.Component) {
       let Component;
-      let data = this.props.data.module;
+      const data = this.props.data.module;
       // Check if the component is already loaded
       if (data && data.component) {
         Component = window.COMPONENTS[data.component];

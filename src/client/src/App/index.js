@@ -1,15 +1,15 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
-import AsyncComponent from './common/asyncComponent';
-import Header from './components/Header';
-import Footer from './components/Footer';
-import {getApiData} from './actions';
-import utils from './utils';
+import AsyncComponent from '../common/asyncComponent';
+import Header from '../components/Header';
+import Footer from '../components/Footer';
+import {getApiData} from '../actions';
+import utils from '../utils';
 
 // Import first module in page to avoid that being lazy loaded for quicker first paint
-import HeroImage from './components/Heroimage';
-import './style/App.css';
+import HeroImage from '../components/Heroimage';
+import './App.css';
 import './style/core.css';
 
 class App extends Component {
@@ -82,7 +82,7 @@ class App extends Component {
       );
       // Use webpack dynamic import to get the module
       let componentImport = () => {
-        return import(`./components/${componentType}/index`);
+        return import(`./components/${componentType}/index`); 
       }
       components.push((<AsyncComponent moduleProvider={componentImport} data={componentData} key={i}/>));
     }
