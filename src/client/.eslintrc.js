@@ -10,8 +10,11 @@ module.exports = {
         "import/no-named-as-default": 0,
         "import/no-named-as-default-member": 0,
         "react/no-array-index-key": 0,
+        "react/destructuring-assignment": 0,
+        "react/jsx-no-target-blank": 0,
         "no-plusplus": 0,
-        "prefer-template": 0
+        "prefer-template": 0,
+        "no-underscore-dangle": 0
     },
     "plugins": [
         "react",

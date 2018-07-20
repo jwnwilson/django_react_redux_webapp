@@ -1,4 +1,5 @@
 import React, { PureComponent } from 'react';
+import PropTypes from 'prop-types';
 import { updateComponent } from '../actions';
 import store from '../store';
 
@@ -29,15 +30,17 @@ export default class AsyncComponent extends PureComponent {
           (Component) => {
             window.COMPONENTS[data.component] = Component.default;
             this.setState({
-              Component: Component.default
+              Component: Component.default,
             },
             this.updateComponent);
-          });
+          }
+        );
       }
       else {
         this.setState(
           { Component },
-          this.updateComponent);
+          this.updateComponent,
+        );
       }
     }
   }
@@ -55,4 +58,9 @@ export default class AsyncComponent extends PureComponent {
       </div>
     );
   }
+};
+
+AsyncComponent.propTypes = {
+  data: PropTypes.object.isRequired,
+  moduleProvider: PropTypes.func.isRequired,
 };
