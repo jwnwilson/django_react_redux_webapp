@@ -33,10 +33,9 @@ export default class AsyncComponent extends PureComponent {
               Component: Component.default,
             },
             this.updateComponent);
-          }
+          },
         );
-      }
-      else {
+      } else {
         this.setState(
           { Component },
           this.updateComponent,
@@ -54,11 +53,11 @@ export default class AsyncComponent extends PureComponent {
 
     return (
       <div className={!Component ? 'placeholder' : 'fade-in'}>
-        {Component ? <Component data={this.props.data} /> : <section></section>}
+        {Component ? <Component data={this.props.data} /> : <section />}
       </div>
     );
   }
-};
+}
 
 AsyncComponent.propTypes = {
   data: PropTypes.object.isRequired,

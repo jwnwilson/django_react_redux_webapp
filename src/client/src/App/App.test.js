@@ -18,7 +18,8 @@ it('renders without crashing', () => {
       <Router>
         <App id={1} page={pageData} />
       </Router>
-    </Provider>
-    , div);
+    </Provider>,
+    div,
+  );
   ReactDOM.unmountComponentAtNode(div);
 });

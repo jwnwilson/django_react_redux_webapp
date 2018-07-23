@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import AsyncComponent from '../common/asyncComponent';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
-import {getApiData} from '../actions';
+import { getApiData } from '../actions';
 import utils from '../utils';
 
 // Import first module in page to avoid that being lazy loaded for quicker first paint
@@ -21,21 +21,20 @@ class App extends Component {
     if (props.page) {
       initComponents = props.page.modules;
       initHeader = props.page.header;
-      initFooter = props.page.footer
+      initFooter = props.page.footer;
     }
     this.state = {
       componentsData: initComponents,
       header: initHeader,
-      footer: initFooter
-    }
+      footer: initFooter,
+    };
   }
 
   componentWillMount() {
     // Attempt to load data from data attribute
-    if(this.state.componentsData.length === 0) {
+    if (this.state.componentsData.length === 0) {
       this.props.dispatch(getApiData(this.props.id));
-    }
-    else {
+    } else {
       this.loadComponents(this.state.componentsData);
     }
     window.scrollTo(0, 0);
@@ -43,48 +42,46 @@ class App extends Component {
 
   componentWillUnmount() {
     this.setState({
-      componentsData: []
-    })
+      componentsData: [],
+    });
   }
 
   componentWillReceiveProps(newProps) {
     // Dispatch action to change the page with new data if id changes
-    if(newProps.id !==  this.props.id) {
+    if (newProps.id !== this.props.id) {
       this.props.dispatch(getApiData(this.props.id));
     }
     // If we have recieved new components load them
-    if(newProps.components !== this.props.components) {
+    if (newProps.components !== this.props.components) {
       this.loadComponents(newProps.components);
     }
     // Update header & footer
-    if(newProps.header !== this.props.header) {
+    if (newProps.header !== this.props.header) {
       this.setState({
-        header: newProps.header
+        header: newProps.header,
       });
     }
-    if(newProps.footer !== this.props.footer) {
+    if (newProps.footer !== this.props.footer) {
       this.setState({
-        footer: newProps.footer
+        footer: newProps.footer,
       });
     }
   }
 
   loadComponents(componentsData) {
-    this.setState({componentsData});
+    this.setState({ componentsData });
   }
 
   dynamicallyLoadComponents() {
-    let components = [];
-    for (let i=0; i<this.state.componentsData.length;i++ ) {
-      let componentData = this.state.componentsData[i];
-      let componentType = utils.capitalize(
-        componentData.module.polymorphic_ctype.model
+    const components = [];
+    for (let i = 0; i < this.state.componentsData.length; i++) {
+      const componentData = this.state.componentsData[i];
+      const componentType = utils.capitalize(
+        componentData.module.polymorphic_ctype.model,
       );
       // Use webpack dynamic import to get the module
-      let componentImport = () => {
-        return import(`./components/${componentType}/index`); 
-      }
-      components.push((<AsyncComponent moduleProvider={componentImport} data={componentData} key={i}/>));
+      const componentImport = () => import(`./components/${componentType}/index`);
+      components.push((<AsyncComponent moduleProvider={componentImport} data={componentData} key={i} />));
     }
     return components;
   }
@@ -93,16 +90,15 @@ class App extends Component {
     let components = this.dynamicallyLoadComponents();
     if (components.length === 0) {
       components = (
-        <div className="placeholder">
-        </div>
-      )
+        <div className="placeholder" />
+      );
     }
 
     return (
       <div>
-        <Header data={this.state.header}/>
+        <Header data={this.state.header} />
         {components}
-        <Footer data={this.state.footer}/>
+        <Footer data={this.state.footer} />
       </div>
     );
   }
@@ -112,6 +108,6 @@ export default connect(
   state => ({
     components: state.components,
     footer: state.footer,
-    header: state.header
-  })
+    header: state.header,
+  }),
 )(App);

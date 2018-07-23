@@ -1,25 +1,26 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import {
-  NavLink
-} from "react-router-dom";
-import Scrollspy from 'react-scrollspy'
+  NavLink,
+} from 'react-router-dom';
+import Scrollspy from 'react-scrollspy';
+import PropTypes from 'prop-types';
 
 import './Header.css';
-import {componentUpdated} from './../../actions';
+import { componentUpdated } from '../../actions';
 
 // Load global jQuery
-const $ = window.$;
+const { $ } = window;
 
 class Header extends React.Component {
-  componentDidMount () {
+  componentDidMount() {
     this.smoothScrolling();
 
     // Closes responsive menu when a scroll trigger link is clicked
-    $('.js-scroll-trigger').click(function() {
+    $('.js-scroll-trigger').click(() => {
       $('.navbar-collapse').collapse('hide');
     });
-    
+
     // Collapse now if page is not at top
     this.navbarCollapse();
     // Collapse the navbar when page is scrolled
@@ -33,53 +34,57 @@ class Header extends React.Component {
     }
   }
 
-  smoothScrolling () {
+  smoothScrolling() {
     // Smooth scrolling using jQuery easing
-    let selector = 'a.js-scroll-trigger[href*="#"]:not([href="#"])';
+    const selector = 'a.js-scroll-trigger[href*="#"]:not([href="#"])';
     $(selector).unbind('click');
-    $(selector).click(function() {
+    $(selector).click(() => {
       if (window.location.pathname.replace(/^\//, '') === this.pathname.replace(/^\//, '') && window.location.hostname === this.hostname) {
-        var target = $(this.hash);
+        let target = $(this.hash);
         target = target.length ? target : $('[name=' + this.hash.slice(1) + ']');
         if (target.length) {
           $('html, body').animate({
-            scrollTop: (target.offset().top - 70)
-          }, 1000, "easeInOutExpo");
+            scrollTop: (target.offset().top - 70),
+          }, 1000, 'easeInOutExpo');
           return false;
         }
       }
+      return null;
     });
   }
 
-  navbarCollapse () {
-    let element = $("#mainNav");
+  navbarCollapse() {
+    const element = $('#mainNav');
     if (!element.offset()) return;
     if (element.offset().top > 100) {
-      element.addClass("navbar-shrink");
+      element.addClass('navbar-shrink');
     } else {
-      element.removeClass("navbar-shrink");
+      element.removeClass('navbar-shrink');
     }
   }
 
-  render () {
-    let title = '';
-    let data = this.props.data;
+  render() {
+    const { data } = this.props;
+    const { title } = data;
     let links = [];
-    let selectors = [];
+    const selectors = [];
     let headerLinks = null;
 
     if (data && data.ctas) {
-      title = data.title;
       links = data.ctas.map((cta, index) => {
         let link;
         selectors.push(cta.selector);
         if (cta.link) {
           link = (
-            <a className="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger" href={cta.link.url}>{cta.text}</a>
+            <a className="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger" href={cta.link.url}>
+              {cta.text}
+            </a>
           );
         } else {
           link = (
-            <a className="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger" href={'#' + cta.selector}>{cta.text}</a>
+            <a className="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger" href={'#' + cta.selector}>
+              {cta.text}
+            </a>
           );
         }
         return (
@@ -89,11 +94,12 @@ class Header extends React.Component {
         );
       });
       headerLinks = (
-        <Scrollspy 
+        <Scrollspy
           className="navbar-nav ml-auto"
-          items={ selectors } 
-          currentClassName="active" 
-          offset={80}>
+          items={selectors}
+          currentClassName="active"
+          offset={80}
+        >
           {links}
         </Scrollspy>
       );
@@ -102,29 +108,36 @@ class Header extends React.Component {
     return (
       <nav className="navbar navbar-expand-lg bg-secondary fixed-top text-uppercase" id="mainNav">
         <div className="container">
-          <NavLink className="navbar-brand js-scroll-trigger" to="/#intro">{title}</NavLink>
+          <NavLink className="navbar-brand js-scroll-trigger" to="/#intro">
+            {title}
+          </NavLink>
           <button className="navbar-toggler navbar-toggler-right text-uppercase bg-primary text-white rounded" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
             Menu
-            <i className="fa fa-bars"></i>
+            <i className="fa fa-bars" />
           </button>
           <div className="collapse navbar-collapse" id="navbarResponsive">
             {headerLinks}
           </div>
         </div>
       </nav>
-  );
+    );
   }
 }
 
 const mapDispatchToProps = {
-  componentUpdated
+  componentUpdated,
 };
 
 const mapStateToProps = state => ({
-  updateComponents: state.updateComponents
+  updateComponents: state.updateComponents,
 });
+
+Header.propTypes = {
+  data: PropTypes.object.isRequired,
+  componentUpdated: PropTypes.func.isRequired,
+};
 
 export default connect(
   mapStateToProps,
-  mapDispatchToProps
+  mapDispatchToProps,
 )(Header);
