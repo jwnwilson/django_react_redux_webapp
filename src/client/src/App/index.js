@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
 import AsyncComponent from '../common/asyncComponent';
@@ -8,9 +9,9 @@ import { getApiData } from '../actions';
 import utils from '../utils';
 
 // Import first module in page to avoid that being lazy loaded for quicker first paint
-import HeroImage from '../components/Heroimage';
+import HeroImage from '../components/Heroimage'; // eslint-disable-line no-unused-vars
 import './App.css';
-import './style/core.css';
+import '../style/core.css';
 
 class App extends Component {
   constructor(props) {
@@ -40,12 +41,6 @@ class App extends Component {
     window.scrollTo(0, 0);
   }
 
-  componentWillUnmount() {
-    this.setState({
-      componentsData: [],
-    });
-  }
-
   componentWillReceiveProps(newProps) {
     // Dispatch action to change the page with new data if id changes
     if (newProps.id !== this.props.id) {
@@ -68,6 +63,12 @@ class App extends Component {
     }
   }
 
+  componentWillUnmount() {
+    this.setState({
+      componentsData: [],
+    });
+  }
+
   loadComponents(componentsData) {
     this.setState({ componentsData });
   }
@@ -80,8 +81,9 @@ class App extends Component {
         componentData.module.polymorphic_ctype.model,
       );
       // Use webpack dynamic import to get the module
-      const componentImport = () => import(`./components/${componentType}/index`);
-      components.push((<AsyncComponent moduleProvider={componentImport} data={componentData} key={i} />));
+      const componentImport = () => import(`../components/${componentType}/index`);
+      components.push((
+        <AsyncComponent moduleProvider={componentImport} data={componentData} key={i} />));
     }
     return components;
   }
@@ -103,6 +105,15 @@ class App extends Component {
     );
   }
 }
+
+App.propTypes = {
+  page: PropTypes.object.isRequired,
+  header: PropTypes.object.isRequired,
+  footer: PropTypes.object.isRequired,
+  components: PropTypes.object.isRequired,
+  dispatch: PropTypes.func.isRequired,
+  id: PropTypes.number.isRequired,
+};
 
 export default connect(
   state => ({

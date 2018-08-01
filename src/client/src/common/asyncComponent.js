@@ -27,10 +27,10 @@ export default class AsyncComponent extends PureComponent {
       if (!Component) {
         // Dynamically load component
         this.props.moduleProvider().then(
-          (Component) => {
-            window.COMPONENTS[data.component] = Component.default;
+          (component) => {
+            window.COMPONENTS[data.component] = component.default;
             this.setState({
-              Component: Component.default,
+              Component: component.default,
             },
             this.updateComponent);
           },

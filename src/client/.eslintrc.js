@@ -3,7 +3,8 @@ module.exports = {
     "extends": "airbnb",
     "globals": {
         "window": false,
-        "document": false
+        "document": false,
+        "fetch": false,
     },
     "rules": {
         "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx"] }],

@@ -3,7 +3,7 @@ import utils from '../../utils';
 import './ContactMe.css';
 
 // Load global jQuery
-const $ = window.$;
+const { $ } = window;
 
 class ContactMe extends React.Component {
   componentDidMount() {
