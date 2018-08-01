@@ -20,7 +20,7 @@ class ContactMe extends React.Component {
 
     $('#contactForm input,#contactForm textarea').jqBootstrapValidation({
       preventSubmit: true,
-      submitError($form, event, errors) {
+      submitError() {
         // additional error messages or events
       },
       submitSuccess($form, event) {

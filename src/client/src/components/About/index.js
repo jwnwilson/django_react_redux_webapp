@@ -1,9 +1,10 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 import './About.css';
 
 const About = (props) => {
-  const module = props.data.module;
+  const { module } = props.data;
   return (
     <section className="bg-primary text-white mb-0" id="about">
       <div className="container">
@@ -32,6 +33,10 @@ const About = (props) => {
       </div>
     </section>
   );
-}
+};
+
+About.propTypes = {
+  data: PropTypes.object.isRequired,
+};
 
 export default About;
