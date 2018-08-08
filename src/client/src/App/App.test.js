@@ -1,5 +1,5 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
+import { render, unmountComponentAtNode } from 'react-dom';
 import { BrowserRouter as Router } from 'react-router-dom';
 import { Provider } from 'react-redux';
 
@@ -13,7 +13,7 @@ it('renders without crashing', () => {
     modules: [],
   };
   const div = document.createElement('div');
-  ReactDOM.render(
+  render(
     <Provider store={store}>
       <Router>
         <App id={1} page={pageData} />
@@ -21,5 +21,5 @@ it('renders without crashing', () => {
     </Provider>,
     div,
   );
-  ReactDOM.unmountComponentAtNode(div);
+  unmountComponentAtNode(div);
 });
