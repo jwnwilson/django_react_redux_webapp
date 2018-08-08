@@ -110,7 +110,7 @@ App.propTypes = {
   page: PropTypes.object.isRequired,
   header: PropTypes.object.isRequired,
   footer: PropTypes.object.isRequired,
-  components: PropTypes.object.isRequired,
+  components: PropTypes.array.isRequired,
   dispatch: PropTypes.func.isRequired,
   id: PropTypes.number.isRequired,
 };

@@ -38,7 +38,7 @@ class Header extends React.Component {
     // Smooth scrolling using jQuery easing
     const selector = 'a.js-scroll-trigger[href*="#"]:not([href="#"])';
     $(selector).unbind('click');
-    $(selector).click(() => {
+    $(selector).click(function () {   // eslint-disable-line
       if (window.location.pathname.replace(/^\//, '') === this.pathname.replace(/^\//, '') && window.location.hostname === this.hostname) {
         let target = $(this.hash);
         target = target.length ? target : $('[name=' + this.hash.slice(1) + ']');
@@ -98,7 +98,7 @@ class Header extends React.Component {
           className="navbar-nav ml-auto"
           items={selectors}
           currentClassName="active"
-          offset={80}
+          offset={-100}
         >
           {links}
         </Scrollspy>
