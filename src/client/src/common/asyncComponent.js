@@ -1,8 +1,9 @@
 import React, { PureComponent } from 'react';
-import {updateComponent} from './../actions';
-import store from './../store';
+import PropTypes from 'prop-types';
+import { updateComponent } from '../actions';
+import store from '../store';
 
-import './../style/Async.css';
+import './async.css';
 
 window.COMPONENTS = {};
 
@@ -11,14 +12,14 @@ export default class AsyncComponent extends PureComponent {
     super(props);
 
     this.state = {
-      Component: null
+      Component: null,
     };
   }
 
   componentWillMount() {
-    if(!this.state.Component) {
+    if (!this.state.Component) {
       let Component;
-      let data = this.props.data.module;
+      const data = this.props.data.module;
       // Check if the component is already loaded
       if (data && data.component) {
         Component = window.COMPONENTS[data.component];
@@ -26,18 +27,19 @@ export default class AsyncComponent extends PureComponent {
       if (!Component) {
         // Dynamically load component
         this.props.moduleProvider().then(
-          (Component) => {
-            window.COMPONENTS[data.component] = Component.default;
+          (component) => {
+            window.COMPONENTS[data.component] = component.default;
             this.setState({
-              Component: Component.default
+              Component: component.default,
             },
             this.updateComponent);
-          });
-      }
-      else {
+          },
+        );
+      } else {
         this.setState(
           { Component },
-          this.updateComponent);
+          this.updateComponent,
+        );
       }
     }
   }
@@ -51,8 +53,13 @@ export default class AsyncComponent extends PureComponent {
 
     return (
       <div className={!Component ? 'placeholder' : 'fade-in'}>
-        {Component ? <Component data={this.props.data} /> : <section></section>}
+        {Component ? <Component data={this.props.data} /> : <section />}
       </div>
     );
   }
+}
+
+AsyncComponent.propTypes = {
+  data: PropTypes.object.isRequired,
+  moduleProvider: PropTypes.func.isRequired,
 };

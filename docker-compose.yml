@@ -12,20 +12,6 @@ services:
       - .:/app
       - node_modules:/app/src/client/node_modules
 
-  pyenv:
-    build:
-      context: .
-      dockerfile: ./ops/Dockerfile_server
-    user: root
-    env_file:
-      - web.env
-    working_dir: /app/src/server
-    command: pipenv install --dev
-    tty: true
-    volumes:
-      - .:/app
-      - venv:/app/src/server/.venv
-
   server:
     build:
       context: .
@@ -34,13 +20,13 @@ services:
     env_file:
       - web.env
     working_dir: /app/src/server
-    command: ./.venv/bin/python manage.py runserver 0.0.0.0:8000
+    command: python manage.py runserver 0.0.0.0:8000
     tty: true
     ports:
       - 0.0.0.0:8000:8000
     volumes:
-      - .:/app
-      - venv:/app/src/server/.venv
+      - .:/app:cached
+      - site-packages:/usr/local/lib/python3.6/site-packages
       - media:/app/src/server/media
     links:
       - db
@@ -48,7 +34,6 @@ services:
     depends_on:
       - db
       # - cache
-      - pyenv
   
   server-no-db: 
     build:
@@ -58,14 +43,12 @@ services:
     env_file:
       - web.env
     working_dir: /app/src/server
-    command: ./.venv/bin/pytest
+    command: pytest
     tty: true
     volumes:
-      - .:/app
-      - venv:/app/src/server/.venv
+      - .:/app:cached
+      - site-packages:/usr/local/lib/python3.6/site-packages
       - media:/app/src/server/media
-    depends_on:
-      - pyenv
   
   # cache:
   #  image: memcached
@@ -86,6 +69,6 @@ services:
 
 volumes:
   node_modules:
-  venv:
+  site-packages:
   db_data:
   media:

@@ -3,7 +3,7 @@ jobs:
   build-be:
     working_directory: /app
     docker:
-      - image: python
+      - image: python:3.6
     environment:
       PIPENV_VENV_IN_PROJECT: "True"
     steps:
@@ -11,17 +11,17 @@ jobs:
       - run:
           command: 'apt-get update && apt-get install -y libmemcached-dev zlib1g-dev && curl https://bootstrap.pypa.io/get-pip.py | python'
       - restore_cache:
-          key: v1-be-{{ checksum "Pipfile.lock" }}
+          key: v2-be-{{ checksum "Pipfile.lock" }}
           paths:
-            - '/app/src/server/.venv'
+            - '/usr/local/lib/python3.6/site-packages'
       - run:
-          command: 'cd src/server && pip3 install pipenv && pipenv install --dev'
+          command: 'pip3 install pipenv && pipenv install --system --deploy --dev'
       - save_cache:
-          key: v1-be-{{ checksum "Pipfile.lock" }}
+          key: v2-be-{{ checksum "Pipfile.lock" }}
           paths:
-            - /app/src/server/.venv
+            - /usr/local/lib/python3.6/site-packages
       - run:
-          command: 'cd src/server && ./.venv/bin/python manage.py collectstatic --no-input && ./.venv/bin/pytest'
+          command: 'cd src/server && python manage.py collectstatic --no-input && pytest'
   build-fe:
     working_directory: /app
     docker:

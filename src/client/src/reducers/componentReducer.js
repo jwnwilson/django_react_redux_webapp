@@ -1,7 +1,7 @@
 import {
   COMPONENT_NEEDS_UPDATE,
-  COMPONENT_UPDATED
-} from './../actions/actionTypes';
+  COMPONENT_UPDATED,
+} from '../actions/actionTypes';
 
 function componetUpdate(state = false, action) {
   switch (action.type) {
@@ -15,5 +15,5 @@ function componetUpdate(state = false, action) {
 }
 
 export default {
-  componetUpdate
+  componetUpdate,
 };

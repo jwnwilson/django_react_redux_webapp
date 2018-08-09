@@ -1,4 +1,5 @@
 -include .env
+-include web.env
 
 ifndef VERSION
 	# Get the active git branch
@@ -36,13 +37,13 @@ setup:
 	make setup-fe
 
 setup-be:
-	$(COMPOSE) run ${PYENV}
+	$(COMPOSE) run ${SERVER} bash -c "pipenv install --system --deploy --dev"
 
 setup-fe:
 	$(COMPOSE) run ${CLIENT} bash -c "npm install"
 
 setup-local:
-	python3 -m venv ./src/server/.venv
+	pipenv install
 
 run:
 	COMPOSE_HTTP_TIMEOUT=$(COMPOSE_HTTP_TIMEOUT) $(COMPOSE) up

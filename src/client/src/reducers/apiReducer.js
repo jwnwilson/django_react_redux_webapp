@@ -1,4 +1,4 @@
-import {GET_DATA_SUCCESS} from './../actions/actionTypes';
+import { GET_DATA_SUCCESS } from '../actions/actionTypes';
 
 function components(state = [], action) {
   switch (action.type) {
@@ -30,5 +30,5 @@ function footer(state = null, action) {
 export default {
   components,
   header,
-  footer
+  footer,
 };
