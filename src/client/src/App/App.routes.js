@@ -46,6 +46,20 @@ function getRoutes(apiData, pagesData) {
     });
   }
 
+  // Add 404 route redirect
+  let pageNotFound = pagesData.filter(page => page.meta.slug === '404');
+
+  if (pageNotFound.length > 0) {
+    [pageNotFound] = pageNotFound;
+    routes.push(
+      <Route
+        path="*"
+        exact
+        component={() => <App id={pageNotFound.id} page={pageNotFound} />}
+      />,
+    );
+  }
+
   return routes;
 }
 

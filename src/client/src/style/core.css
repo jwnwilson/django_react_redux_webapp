@@ -282,3 +282,7 @@ a:focus, a:hover, a:active {
 .clear-fix {
   clear: both;
 }
+
+.fade-in:nth-of-type(1) { 
+  margin-top: 100px;
+}

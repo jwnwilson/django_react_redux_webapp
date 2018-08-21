@@ -24,12 +24,15 @@ const About = (props) => {
             </p>
           </div>
         </div>
-        <div className="text-center mt-4">
-          <a className="btn btn-xl btn-outline-light" target="_blank" href={module.cv_link}>
-            <i className="fa fa-download mr-2" />
-            CV Link
-          </a>
-        </div>
+        {module.cv_link
+          && (
+          <div className="text-center mt-4">
+            <a className="btn btn-xl btn-outline-light" target="_blank" href={module.cv_link}>
+              <i className="fa fa-download mr-2" />
+              CV Link
+            </a>
+          </div>)
+        }
       </div>
     </section>
   );

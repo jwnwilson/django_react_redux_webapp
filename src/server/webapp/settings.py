@@ -27,6 +27,7 @@ SECRET_KEY = '#o%o#3c6s*wuk50&8a7-(ke+qho%a8!dxfr=-dat!d-u+4a-tu'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.environ.get('DEV') == 'True'
+DEBUG_404 = True
 TESTING = "pytest" in sys.modules
 
 ALLOWED_HOSTS = [
@@ -205,7 +206,6 @@ if not DEBUG and not TESTING:
         # release based on the git info.
         'release': os.environ['SOURCE_VERSION'] if os.environ.get('ON_HEROKU') else raven.fetch_git_sha(PROJECT_DIR)
     }
-
 
 EMAIL_USE_TLS = True
 EMAIL_HOST = 'smtp.gmail.com'
