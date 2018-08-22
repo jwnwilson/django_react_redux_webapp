@@ -27,7 +27,6 @@ SECRET_KEY = '#o%o#3c6s*wuk50&8a7-(ke+qho%a8!dxfr=-dat!d-u+4a-tu'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.environ.get('DEV') == 'True'
-DEBUG = False
 DEBUG_404 = True
 TESTING = "pytest" in sys.modules
 
