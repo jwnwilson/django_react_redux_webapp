@@ -1,4 +1,4 @@
-import { BrowserRouter as Router } from 'react-router-dom';
+import { Switch, BrowserRouter as Router } from 'react-router-dom';
 import React from 'react';
 import { render } from 'react-dom';
 import { Provider } from 'react-redux';
@@ -17,7 +17,9 @@ render(
   <Provider store={store}>
     <Router>
       <div>
-        {routes}
+        <Switch>
+          {routes}
+        </Switch>
       </div>
     </Router>
   </Provider>,

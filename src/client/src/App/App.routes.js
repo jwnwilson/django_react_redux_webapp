@@ -53,8 +53,6 @@ function getRoutes(apiData, pagesData) {
     [pageNotFound] = pageNotFound;
     routes.push(
       <Route
-        path="*"
-        exact
         component={() => <App id={pageNotFound.id} page={pageNotFound} />}
       />,
     );
