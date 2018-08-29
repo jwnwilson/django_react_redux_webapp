@@ -25,7 +25,7 @@ const WrapImage = (props) => {
     return (
       <div className="clear-fix">
         <div key={index} className="pull-left col-12 col-md-5 mb-3">
-          <img className="img-responsive rounded" src={img} alt={module.title} width="100%" />
+          <img className="img-responsive rounded" src={img} alt={module.title} width="100%" style={{ width: '100%' }} />
         </div>
         {additionalParas}
       </div>
@@ -36,7 +36,7 @@ const WrapImage = (props) => {
     <section className="wrap-image bg-primary text-white mb-0 mt-5" id="about">
       <div className="container">
         <div className="pull-left col-12 col-md-5 mb-3">
-          <img className="img-responsive rounded" src={img} alt={module.title} width="100%" />
+          <img className="img-responsive rounded" src={img} alt={module.title} width="100%" style={{ width: '100%' }} />
         </div>
         <div className="pull-left col-12 col-md-7 mt-3">
           <h2>
