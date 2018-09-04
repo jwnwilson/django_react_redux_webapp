@@ -31,6 +31,29 @@ services:
     depends_on:
       - db
       - cache
+  
+  worker:
+    container_name: noelwilson2018-server-prod
+    build:
+      context: .
+      dockerfile: ./ops/Dockerfile_server
+    image: docker.io/jwnwilson/noelwilson2018-server
+    user: root
+    env_file:
+      - web.env
+      - .env
+    working_dir: /app/src/server
+    command: celery worker --app=webapp.celery.app
+    tty: true
+    volumes:
+      - .:/app:cached
+      - site-packages:/usr/local/lib/python3.6/site-packages
+    links:
+      - db
+      - redis
+    depends_on:
+      - db
+      - redis
 
   cache:
    image: memcached
@@ -39,6 +62,11 @@ services:
    entrypoint:
     - memcached
     - -m 64
+  
+  redis:
+    image: redis
+    ports:
+      - 6379:6379
 
   db:
     build:

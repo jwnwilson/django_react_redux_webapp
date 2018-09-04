@@ -22,6 +22,10 @@ boto = "*"
 pytest = "*"
 pytest-django = "*"
 django-webp-converter = "*"
+celery = "*"
+redis = "*"
+bcrypt = "*"
+django-redis = "*"
 
 [dev-packages]
 pytest = "*"

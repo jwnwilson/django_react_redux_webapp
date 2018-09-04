@@ -18,6 +18,7 @@ COMPOSE = docker-compose
 SERVER_NODB = server-no-db
 SERVER = server
 CLIENT = client
+WORKER = worker
 PYENV = pyenv
 DB = db
 DB_SETUP = db-setup
@@ -53,6 +54,9 @@ run-db:
 
 run-be:
 	COMPOSE_HTTP_TIMEOUT=$(COMPOSE_HTTP_TIMEOUT) $(COMPOSE) run --service-ports $(SERVER)
+
+run-worker:
+	$(COMPOSE) run $(WORKER)
 
 run-fe:
 	$(COMPOSE) run --service-ports  $(CLIENT)
