@@ -19,10 +19,11 @@ class RenderTronMiddleware():
         version if available.
         """
         if request.method not in ('GET', 'HEAD'):
-            request._cache_update_cache = False
             return None  # Don't bother checking the cache.
 
         # Check for rendertron request and don't return cache if rendertroning
+        if request.get_host() == 'render-tron.appspot.com':
+            return None
 
         # try and get the cached GET response
         cache_key = self.key_prefix + 'path'
