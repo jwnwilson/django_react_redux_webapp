@@ -15,7 +15,7 @@ jobs:
           paths:
             - '/usr/local/lib/python3.6/site-packages'
       - run:
-          command: 'pip3 install pipenv && pipenv install --system --deploy --dev'
+          command: 'pip3 uninstall pipenv && pip3 install pipenv && pipenv install --system --deploy --dev'
       - save_cache:
           key: v2-be-{{ checksum "Pipfile.lock" }}
           paths:
