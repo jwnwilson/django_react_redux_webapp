@@ -24,15 +24,13 @@ class RenderTronMiddleware(object):
 
         # try and get the cached GET response
         cache_key = self.key_prefix + request.path
-        print('cache_key', cache_key)
         response = self.cache.get(cache_key)
 
         if response is None:
-            print('server')
             response = self.get_response(request)
+            LOG.debug('Serving page from server: %s', str(request.path))
         else:
-            print('cache')
-            LOG.debug('Serving page from middleware cache: %s', str(cache_key))
+            LOG.debug('Serving page from middleware cache, path:%s, key:%s', request.path, str(cache_key))
 
         # hit, return cached response
         return response

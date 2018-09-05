@@ -32,6 +32,8 @@ DEBUG = os.environ.get('DEV') == 'True'
 DEBUG_404 = True
 TESTING = "pytest" in sys.modules
 
+print(DEBUG)
+
 ALLOWED_HOSTS = [
     'localhost',
     '127.0.0.1',
@@ -317,28 +319,17 @@ CACHE_MIDDLEWARE_SECONDS = 60 * 60 * 60
 LOGGING = {
     'version': 1,
     'disable_existing_loggers': False,
-    'formatters': {
-        'verbose': {
-            'format': '%(levelname)s %(asctime)s %(module)s: %(message)s'
-        },
-        'simple': {
-            'format': '%(levelname)s %(message)s'
-        },
-    },
     'handlers': {
-        'console':{
-            'level': 'DEBUG',
+        'console': {
             'class': 'logging.StreamHandler',
-            'formatter': 'verbose'
         },
     },
     'loggers': {
-        'django': {
+        '': {
             'handlers': ['console'],
-            'level': 'DEBUG',
-            'propagate': True,
+            'level': os.getenv('DJANGO_LOG_LEVEL', 'DEBUG'),
         },
-    }
+    },
 }
 
 if DEBUG:
