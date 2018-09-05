@@ -1,3 +1,5 @@
+import logging
+
 from celery import shared_task
 from django.core.cache import cache
 from django.utils.cache import (
@@ -9,7 +11,7 @@ from django.http import HttpResponse
 from django.test.client import RequestFactory
 import requests
 
-from .middleware import RenderTronMiddleware
+LOG = logging.getLogger(__name__)
 
 
 @shared_task
@@ -17,9 +19,15 @@ def render_cache_pages():
     from webapp.cms.models.page import Page
 
     rf = RequestFactory()
+    if hasattr(settings, 'RENDERTRON_PREFIX'):
+        key_prefix = settings.RENDERTRON_PREFIX
+    else:
+        key_prefix = 'rendertron-'
 
     # For each page
     for page in Page.objects.all():
+        print(str(page))
+        LOG.info('Rendering page: %s', str(page))
         # Get page url
         page_url = 'https://noel-wilson.co.uk' + page.url_path
 
@@ -33,7 +41,9 @@ def render_cache_pages():
         )
 
         # Cache response for cache middleware for page
-        cache_key = RenderTronMiddleware().key_prefix + page.url_path
+        cache_key = key_prefix + page.url_path
         cache_timeout = settings.CACHE_MIDDLEWARE_SECONDS
 
         cache.set(cache_key, django_response, cache_timeout)
+        print('cache_key', cache_key)
+        LOG.info('Rendered page: %s', str(page))
