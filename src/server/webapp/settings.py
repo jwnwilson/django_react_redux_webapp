@@ -270,25 +270,30 @@ def get_cache():
                 }
             }
     else:
-        return {
-            # Memecached + docker + Mac OS has terrible performance
-            # 'default': {
-            #     'BACKEND': 'django.core.cache.backends.memcached.MemcachedCache',
-            #     'LOCATION': 'memcached:11211'
-            # }
-            # 'default': {
-            #     'BACKEND': 'django.core.cache.backends.locmem.LocMemCache',
-            #     'LOCATION': 'noelwilson2018'
-            # }
-            "default": {
-                "BACKEND": "django_redis.cache.RedisCache",
-                "LOCATION": REDIS_URL,
-                "OPTIONS": {
-                    "CLIENT_CLASS": "django_redis.client.DefaultClient"
-                },
-                "KEY_PREFIX": "noelwilson2018"
+        if TESTING:
+            return {
+                'default': {
+                    'BACKEND': 'django.core.cache.backends.locmem.LocMemCache',
+                    'LOCATION': 'noelwilson2018'
+                }
             }
-        }
+        else: 
+            return {
+                # Memecached + docker + Mac OS has terrible performance
+                # 'default': {
+                #     'BACKEND': 'django.core.cache.backends.memcached.MemcachedCache',
+                #     'LOCATION': 'memcached:11211'
+                # }
+                "default": {
+                    "BACKEND": "django_redis.cache.RedisCache",
+                    "LOCATION": REDIS_URL,
+                    "OPTIONS": {
+                        "CLIENT_CLASS": "django_redis.client.DefaultClient"
+                    },
+                    "KEY_PREFIX": "noelwilson2018"
+                }
+            }
+
 
 CACHES = get_cache()
 
