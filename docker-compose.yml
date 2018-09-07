@@ -31,10 +31,10 @@ services:
       - media:/app/src/server/media
     links:
       - db
-      # - cache
+      - redis
     depends_on:
       - db
-      # - cache
+      - redis
   
   worker:
     build:

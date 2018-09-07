@@ -26,10 +26,10 @@ def render_cache_pages():
 
     # For each page
     for page in Page.objects.all():
-        print(str(page))
         LOG.info('Rendering page: %s', str(page))
+        page_sub_url = (page.url or page.url_path)
         # Get page url
-        page_url = 'https://noel-wilson.co.uk' + page.url_path
+        page_url = 'https://noel-wilson.co.uk' + page_sub_url
 
         # Send page url to rendertron
         rendertron_url = 'https://render-tron.appspot.com/render/' + page_url
@@ -41,7 +41,7 @@ def render_cache_pages():
         )
 
         # Cache response for cache middleware for page
-        cache_key = key_prefix + page.url_path
+        cache_key = key_prefix + page_sub_url
         cache_timeout = settings.CACHE_MIDDLEWARE_SECONDS
 
         cache.set(cache_key, django_response, cache_timeout)

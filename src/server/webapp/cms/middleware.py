@@ -1,13 +1,18 @@
+import logging
+
+from bs4 import BeautifulSoup as Soup
 from django.conf import settings
 from django.core.cache import cache
 from django.http import HttpResponse
 import requests
-import logging
 
 LOG = logging.getLogger(__name__)
 
 
 class PreRenderMiddleware(object):
+    """
+    Will check cache for prerendered html and replace empty body with html if it exists
+    """
     def __init__(self, get_response):
         self.get_response = get_response
         if hasattr(settings, 'RENDERTRON_PREFIX'):
@@ -26,19 +31,31 @@ class PreRenderMiddleware(object):
 
         # try and get the cached GET response
         cache_key = self.key_prefix + request.path
-        response = self.cache.get(cache_key)
+        rendertron_resp = self.cache.get(cache_key)
 
-        if response is None:
-            response = self.get_response(request)
-            LOG.debug('Serving page from server: %s', str(request.path))
-        else:
-            LOG.debug('Serving page from middleware cache, path:%s, key:%s', request.path, str(cache_key))
+        response = self.get_response(request)
+
+        if rendertron_resp:
+            LOG.debug('Injecting rendertron html into page: %s', str(request.path))
+            # Replace body of response with rendertron body
+            rendertron_soup = Soup(rendertron_resp.content, features='html5lib')
+            rendertron_inner_html = rendertron_soup.find('div', class_='main') or rendertron_soup.body
+             
+            resp_soup = Soup(response.content, features='html5lib')
+            resp_soup_main = resp_soup.find('div', class_='main')
+            resp_soup_main.clear()
+            resp_soup_main.append(rendertron_inner_html.find('div', id='root'))
+            
+            response.content = str(resp_soup)
 
         # hit, return cached response
         return response
 
 
 class SEOMiddleware(object):
+    """
+    Attempt to recognise a search bot and return it a rendered page from rendertron for better SEO crawling
+    """
     def __init__(self, get_response):
         self.get_response = get_response
         self.bots=[
@@ -60,6 +77,7 @@ class SEOMiddleware(object):
             ]
     
     def __call__(self, request):
+        is_crawler = False
         if request.method not in ('GET', 'HEAD'):
             return None  # Don't bother checking the cache.
 
@@ -67,9 +85,9 @@ class SEOMiddleware(object):
 
         for bot in self.bots:
             if bot.lower() in user_agent.lower():
-                request.is_crawler=True
+                is_crawler = True
 
-        if request.is_crawler:
+        if is_crawler:
             LOG.debug('Serving crawler via rendertron: %s', str(request.path))
             rendertron_url = 'https://render-tron.appspot.com/render/' + request.get_full_path()
             requests_response = requests.get(rendertron_url)
