@@ -1,6 +1,5 @@
 import logging
 
-from bs4 import BeautifulSoup as Soup
 from django.conf import settings
 from django.core.cache import cache
 from django.http import HttpResponse
@@ -33,22 +32,16 @@ class PreRenderMiddleware(object):
         cache_key = self.key_prefix + request.path
         rendertron_resp = self.cache.get(cache_key)
 
-        response = self.get_response(request)
-
+        # hit, return cached response
         if rendertron_resp:
             LOG.debug('Injecting rendertron html into page: %s', str(request.path))
-            # Replace body of response with rendertron body
-            rendertron_soup = Soup(rendertron_resp.content, features='html5lib')
-            rendertron_inner_html = rendertron_soup.find('div', class_='main') or rendertron_soup.body
-             
-            resp_soup = Soup(response.content, features='html5lib')
-            resp_soup_main = resp_soup.find('div', class_='main')
-            resp_soup_main.clear()
-            resp_soup_main.append(rendertron_inner_html.find('div', id='root'))
-            
-            response.content = str(resp_soup)
+            response = rendertron_resp
 
-        # hit, return cached response
+            # TODO: Needs to injest api-data and page data from api so we render correct page
+            # even if cache is out of date
+        else:
+            response = self.get_response(request)
+        
         return response
 
 
