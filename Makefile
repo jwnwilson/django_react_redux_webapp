@@ -92,7 +92,7 @@ shell-db:
 	PGPASSWORD=docker psql -h localhost -U docker noelwilson2018
 
 collect-static:
-	$(COMPOSE) run $(SERVER_NODB) bash -c "source ./.venv/bin/activate && rm -rf ./staticfiles/* && python manage.py collectstatic --no-input"
+	$(COMPOSE) run $(SERVER_NODB) bash -c "source ./.venv/bin/activate && rm -rf ./staticfiles/* && python manage.py collectstaticcms --no-input"
 
 clean:
 	find ./src/server -name \*.pyc -delete

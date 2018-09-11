@@ -20,20 +20,15 @@ $  make run
 
 ## To Do
 
-- Setup CI
+- Install django debug toolbar
 - Fix test --nomigrations 
-- Add 400 and 500 pages
 - Setup offline and service worker option
-- Remove jquery replace with modular libraries
-- Improve lighthouse score 
-- Pre-render html option?
 - Add tests for FE and BE
-- Resize images to sensible sizes
 - Add service worker job for API page calls
 - Add pagination
+- Remove jquery replace with modular libraries
 
 - Separate Snippets in CMS by tags
-- Import all initial components dynamically?
 
 ## Kubernetes TO DO
 

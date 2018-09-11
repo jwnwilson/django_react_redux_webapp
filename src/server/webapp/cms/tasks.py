@@ -20,6 +20,8 @@ LOG = logging.getLogger(__name__)
 def render_cache_pages():
     from webapp.cms.models.page import Page
 
+    LOG.info('Starting render cache pages job') 
+
     rf = RequestFactory()
     if hasattr(settings, 'RENDERTRON_PREFIX'):
         key_prefix = settings.RENDERTRON_PREFIX
@@ -57,3 +59,5 @@ def render_cache_pages():
 
         cache.set(cache_key, django_response, cache_timeout)
         LOG.info('Rendered page: %s', str(page))
+    
+    LOG.info('Render cache pages job complete') 

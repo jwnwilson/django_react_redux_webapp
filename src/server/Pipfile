@@ -27,6 +27,7 @@ redis = "*"
 bcrypt = "*"
 django-redis = "*"
 "beautifulsoup4" = "*"
+django-celery-beat = "*"
 
 [dev-packages]
 pytest = "*"

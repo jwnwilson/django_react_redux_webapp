@@ -23,6 +23,9 @@ PROJECT_DIR = os.path.dirname(SRC_DIR)
 WEBPACK_STAT_DIR = os.path.join(SRC_DIR, 'client')
 REDIS_URL = os.environ.get('REDIS_URL', 'redis://redis:6379')
 
+timezone = 'Europe/London'
+
+SECURE_SSL_REDIRECT = True
 
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY', bcrypt.gensalt())
