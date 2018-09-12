@@ -34,7 +34,7 @@ DEBUG = os.environ.get('DEV') == 'True'
 DEBUG_404 = True
 TESTING = "pytest" in sys.modules
 
-if not DEBUG or not TESTING:
+if not DEBUG and not TESTING:
     SECURE_SSL_REDIRECT = True
 
 ALLOWED_HOSTS = [
