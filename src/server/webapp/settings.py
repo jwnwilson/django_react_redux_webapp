@@ -25,8 +25,6 @@ REDIS_URL = os.environ.get('REDIS_URL', 'redis://redis:6379')
 
 timezone = 'Europe/London'
 
-SECURE_SSL_REDIRECT = True
-
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY', bcrypt.gensalt())
 
@@ -35,7 +33,8 @@ DEBUG = os.environ.get('DEV') == 'True'
 DEBUG_404 = True
 TESTING = "pytest" in sys.modules
 
-print(DEBUG)
+if not DEBUG:
+    SECURE_SSL_REDIRECT = True
 
 ALLOWED_HOSTS = [
     'localhost',
