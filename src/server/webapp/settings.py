@@ -72,13 +72,13 @@ INSTALLED_APPS = [
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
-    'whitenoise.runserver_nostatic',
-    'django.contrib.staticfiles',
     'django_celery_beat',
     'polymorphic',
     'webpack_loader',
     'webapp.cms',
     'storages',
+    'whitenoise.runserver_nostatic',
+    'django.contrib.staticfiles',
 ]
 
 MIDDLEWARE = [
