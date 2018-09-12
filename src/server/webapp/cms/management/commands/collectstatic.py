@@ -9,7 +9,6 @@ class Command(collectstatic):
 
     def handle(self, *args, **options):
         super().handle(*args, **options)
-        import pdb;pdb.set_trace()
         # get client / build directory
         file_dir = os.path.dirname(os.path.abspath(__file__))
         build_dir = os.path.join(file_dir, '../../../../../client/build')

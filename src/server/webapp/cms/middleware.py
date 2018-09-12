@@ -76,9 +76,10 @@ class SEOMiddleware(object):
         if request.method in ('GET', 'HEAD'):
             user_agent = request.META.get('HTTP_USER_AGENT', None)
 
-            for bot in self.bots:
-                if bot.lower() in user_agent.lower():
-                    is_crawler = True
+            if user_agent:
+                for bot in self.bots:
+                    if bot.lower() in user_agent.lower():
+                        is_crawler = True
 
         if is_crawler:
             LOG.debug('Serving crawler via rendertron: %s', str(request.path))
