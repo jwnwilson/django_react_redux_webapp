@@ -13,6 +13,7 @@ https://docs.djangoproject.com/en/1.11/ref/settings/
 import os
 import sys
 import bcrypt
+from celery.schedules import crontab
 import raven
 import dj_database_url
 
@@ -23,7 +24,7 @@ PROJECT_DIR = os.path.dirname(SRC_DIR)
 WEBPACK_STAT_DIR = os.path.join(SRC_DIR, 'client')
 REDIS_URL = os.environ.get('REDIS_URL', 'redis://redis:6379')
 
-timezone = 'Europe/London'
+TIMEZONE = 'Europe/London'
 
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY', bcrypt.gensalt())
@@ -73,6 +74,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'whitenoise.runserver_nostatic',
     'django.contrib.staticfiles',
+    'django_celery_beat',
     'polymorphic',
     'webpack_loader',
     'webapp.cms',
@@ -321,6 +323,13 @@ BROKER_URL = REDIS_URL
 CELERY_ACCEPT_CONTENT = ['json']
 CELERY_TASK_SERIALIZER = 'json'
 CELERY_RESULT_SERIALIZER = 'json'
+CELERY_TIMEZONE = TIMEZONE
+CELERY_BEAT_SCHEDULE = {
+    'render-cache': {
+        'task': 'webapp.cms.tasks.render_cache_pages', 
+        'schedule': crontab(hour=2),
+    }          
+}
 
 CACHE_MIDDLEWARE_SECONDS = 60 * 60 * 60
 

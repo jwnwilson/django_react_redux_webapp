@@ -21,19 +21,21 @@ class PreRenderMiddleware(object):
         self.cache = cache
 
     def __call__(self, request):
+        skip = False
         if request.method not in ('GET', 'HEAD'):
-            return None  # Don't bother checking the cache.
+            skip = True  # Don't bother checking the cache.
 
         # Check for rendertron request and don't return cache if rendertroning
         if request.get_host() == 'render-tron.appspot.com':
-            return None
+            skip = True
 
         # try and get the cached GET response
-        cache_key = self.key_prefix + request.path
-        rendertron_resp = self.cache.get(cache_key)
+        if not skip:
+            cache_key = self.key_prefix + request.path
+            rendertron_resp = self.cache.get(cache_key)
 
         # hit, return cached response
-        if rendertron_resp:
+        if not skip and rendertron_resp:
             LOG.debug('Injecting rendertron html into page: %s', str(request.path))
             response = rendertron_resp
 
@@ -71,14 +73,12 @@ class SEOMiddleware(object):
     
     def __call__(self, request):
         is_crawler = False
-        if request.method not in ('GET', 'HEAD'):
-            return None  # Don't bother checking the cache.
+        if request.method in ('GET', 'HEAD'):
+            user_agent = request.META.get('HTTP_USER_AGENT', None)
 
-        user_agent = request.META.get('HTTP_USER_AGENT', None)
-
-        for bot in self.bots:
-            if bot.lower() in user_agent.lower():
-                is_crawler = True
+            for bot in self.bots:
+                if bot.lower() in user_agent.lower():
+                    is_crawler = True
 
         if is_crawler:
             LOG.debug('Serving crawler via rendertron: %s', str(request.path))

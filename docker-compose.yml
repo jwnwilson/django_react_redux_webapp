@@ -45,7 +45,7 @@ services:
       - web.env
       - .env
     working_dir: /app/src/server
-    command: celery worker --app=webapp.celery.app
+    command: celery worker --app=webapp.celery.app --beat --loglevel=info --scheduler django_celery_beat.schedulers:DatabaseScheduler
     tty: true
     volumes:
       - .:/app:cached

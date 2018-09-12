@@ -22,7 +22,7 @@ $  make run
 
 - Update collect static to pull in missing FE static files
 - Test celery on heroku
-- Complete Service worker setup
+- Custom Service worker setup
 - Install django debug toolbar
 - Fix test --nomigrations 
 - Setup offline and service worker option
