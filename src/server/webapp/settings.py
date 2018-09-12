@@ -12,6 +12,8 @@ https://docs.djangoproject.com/en/1.11/ref/settings/
 
 import os
 import sys
+import bcrypt
+from celery.schedules import crontab
 import raven
 import dj_database_url
 
@@ -20,15 +22,20 @@ BASE_DIR = os.path.dirname(APP_DIR)
 SRC_DIR = os.path.dirname(BASE_DIR)
 PROJECT_DIR = os.path.dirname(SRC_DIR)
 WEBPACK_STAT_DIR = os.path.join(SRC_DIR, 'client')
+REDIS_URL = os.environ.get('REDIS_URL', 'redis://redis:6379')
 
+TIMEZONE = 'Europe/London'
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = '#o%o#3c6s*wuk50&8a7-(ke+qho%a8!dxfr=-dat!d-u+4a-tu'
+SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY', bcrypt.gensalt())
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.environ.get('DEV') == 'True'
 DEBUG_404 = True
 TESTING = "pytest" in sys.modules
+
+if not DEBUG and not TESTING:
+    SECURE_SSL_REDIRECT = True
 
 ALLOWED_HOSTS = [
     'localhost',
@@ -36,7 +43,9 @@ ALLOWED_HOSTS = [
     'noelwilson2018.herokuapp.com',
     'noel-wilson-2018.herokuapp.com',
     'www.noel-wilson.co.uk',
-    'www.jwnwilson.com'
+    'www.jwnwilson.com',
+    'noel-wilson.co.uk',
+    'jwnwilson.com',
 ]
 
 
@@ -63,12 +72,13 @@ INSTALLED_APPS = [
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
-    'whitenoise.runserver_nostatic',
-    'django.contrib.staticfiles',
+    'django_celery_beat',
     'polymorphic',
     'webpack_loader',
     'webapp.cms',
     'storages',
+    'whitenoise.runserver_nostatic',
+    'django.contrib.staticfiles',
 ]
 
 MIDDLEWARE = [
@@ -79,9 +89,11 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'webapp.cms.middleware.PreRenderMiddleware',
     'wagtail.core.middleware.SiteMiddleware',
     'wagtail.contrib.redirects.middleware.RedirectMiddleware',
     'whitenoise.middleware.WhiteNoiseMiddleware',
+    'webapp.cms.middleware.SEOMiddleware',
 ]
 
 ROOT_URLCONF = 'webapp.urls'
@@ -207,13 +219,14 @@ if not DEBUG and not TESTING:
         'release': os.environ['SOURCE_VERSION'] if os.environ.get('ON_HEROKU') else raven.fetch_git_sha(PROJECT_DIR)
     }
 
+# Setup throwaway email address to send emails
 EMAIL_USE_TLS = True
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
 EMAIL_HOST_USER = 'jwnwilsonemail@gmail.com'
 EMAIL_HOST_PASSWORD = 'Jwnwilson1'
 
-
+# Setup caching
 def get_cache():
     """
     Heroku specific caching settings
@@ -262,20 +275,34 @@ def get_cache():
                 }
             }
     else:
-        return {
-            # Memecached + docker + Mac OS has terrible performance
-            # 'default': {
-            #     'BACKEND': 'django.core.cache.backends.memcached.MemcachedCache',
-            #     'LOCATION': 'memcached:11211'
-            # }
-            'default': {
-                'BACKEND': 'django.core.cache.backends.locmem.LocMemCache',
-                'LOCATION': 'noelwilson2018'
+        if TESTING:
+            return {
+                'default': {
+                    'BACKEND': 'django.core.cache.backends.locmem.LocMemCache',
+                    'LOCATION': 'noelwilson2018'
+                }
             }
-        }
+        else: 
+            return {
+                # Memecached + docker + Mac OS has terrible performance
+                # 'default': {
+                #     'BACKEND': 'django.core.cache.backends.memcached.MemcachedCache',
+                #     'LOCATION': 'memcached:11211'
+                # }
+                "default": {
+                    "BACKEND": "django_redis.cache.RedisCache",
+                    "LOCATION": REDIS_URL,
+                    "OPTIONS": {
+                        "CLIENT_CLASS": "django_redis.client.DefaultClient"
+                    },
+                    "KEY_PREFIX": "noelwilson2018"
+                }
+            }
+
 
 CACHES = get_cache()
 
+# AWS stuff
 if os.environ.get('ON_HEROKU'):
     DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
     AWS_STORAGE_BUCKET_NAME = 'noel-wilson.co.uk'
@@ -289,3 +316,41 @@ FIXTURE_DIRS = [
 
 if TESTING:
     DEBUG = False
+
+# Celery stuff
+CELERY_BROKER_URL = REDIS_URL
+BROKER_URL = REDIS_URL
+CELERY_ACCEPT_CONTENT = ['json']
+CELERY_TASK_SERIALIZER = 'json'
+CELERY_RESULT_SERIALIZER = 'json'
+CELERY_TIMEZONE = TIMEZONE
+CELERY_BEAT_SCHEDULE = {
+    'render-cache': {
+        'task': 'webapp.cms.tasks.render_cache_pages', 
+        'schedule': crontab(hour=2),
+    }          
+}
+
+CACHE_MIDDLEWARE_SECONDS = 60 * 60 * 60
+
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'handlers': {
+        'console': {
+            'class': 'logging.StreamHandler',
+        },
+    },
+    'loggers': {
+        '': {
+            'handlers': ['console'],
+            'level': os.getenv('DJANGO_LOG_LEVEL', 'DEBUG'),
+        },
+    },
+}
+
+if DEBUG:
+    # make all loggers use the console.
+    for logger in LOGGING['loggers']:
+        LOGGING['loggers'][logger]['handlers'] = ['console']
+

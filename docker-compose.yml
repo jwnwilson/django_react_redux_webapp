@@ -19,6 +19,7 @@ services:
     user: root
     env_file:
       - web.env
+      - .env
     working_dir: /app/src/server
     command: python manage.py runserver 0.0.0.0:8000 
     tty: true
@@ -30,26 +31,34 @@ services:
       - media:/app/src/server/media
     links:
       - db
-      # - cache
+      - redis
     depends_on:
       - db
-      # - cache
+      - redis
   
-  server-no-db: 
+  worker:
     build:
       context: .
       dockerfile: ./ops/Dockerfile_server
     user: root
     env_file:
       - web.env
+      - .env
     working_dir: /app/src/server
-    command: pytest
+    command: celery worker --app=webapp.celery.app --beat --loglevel=info --scheduler django_celery_beat.schedulers:DatabaseScheduler
     tty: true
     volumes:
       - .:/app:cached
       - site-packages:/usr/local/lib/python3.6/site-packages
-      - media:/app/src/server/media
+    links:
+      - db
+      - redis
+    depends_on:
+      - db
+      - redis
   
+  # memcached is not very reliable on OSX
+  #
   # cache:
   #  image: memcached
   #  ports:
@@ -66,6 +75,12 @@ services:
       - 5432:5432
     volumes:
       - db_data:/var/lib/postgresql/data
+
+  redis:
+    image: redis:3.2.8
+    ports:
+      - 6379:6379
+
 
 volumes:
   node_modules:

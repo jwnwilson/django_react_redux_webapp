@@ -15,9 +15,10 @@ help:
 
 SHELL := /bin/bash
 COMPOSE = docker-compose
-SERVER_NODB = server-no-db
+SERVER_NODB = -f docker-dev.yml
 SERVER = server
 CLIENT = client
+WORKER = worker
 PYENV = pyenv
 DB = db
 DB_SETUP = db-setup
@@ -54,6 +55,9 @@ run-db:
 run-be:
 	COMPOSE_HTTP_TIMEOUT=$(COMPOSE_HTTP_TIMEOUT) $(COMPOSE) run --service-ports $(SERVER)
 
+run-worker:
+	$(COMPOSE) run $(WORKER)
+
 run-fe:
 	$(COMPOSE) run --service-ports  $(CLIENT)
 
@@ -66,14 +70,14 @@ dump-data:
 test: test-be test-fe
 
 lint-be:
-	$(COMPOSE) run $(SERVER_NODB) bash -c "source ./.venv/bin/activate && find webapp -iname *.py | xargs pylint"
+	$(COMPOSE) $(SERVER_NODB) run $(SERVER) bash -c "source ./.venv/bin/activate && find webapp -iname *.py | xargs pylint"
 
 test:
 	make test-be
 	make test-fe
 
 test-be:
-	$(COMPOSE) run $(SERVER_NODB) bash -c "source ./.venv/bin/activate && pytest -s"
+	$(COMPOSE) $(SERVER_NODB) run $(SERVER) bash -c "source ./.venv/bin/activate && pytest -s"
 
 test-fe:
 	$(COMPOSE) run $(CLIENT) npm run test
@@ -88,7 +92,7 @@ shell-db:
 	PGPASSWORD=docker psql -h localhost -U docker noelwilson2018
 
 collect-static:
-	$(COMPOSE) run $(SERVER_NODB) bash -c "source ./.venv/bin/activate && rm -rf ./staticfiles/* && python manage.py collectstatic --no-input"
+	$(COMPOSE) $(SERVER_NODB) run $(SERVER) bash -c "source ./.venv/bin/activate && rm -rf ./staticfiles/* && python manage.py collectstatic --no-input"
 
 clean:
 	find ./src/server -name \*.pyc -delete

@@ -11,15 +11,17 @@
     <title>Noel Wilson</title>
     {% block head %}
     {% endblock %}
+    {% render_bundle 'main' 'css' %}
   </head>
 
   <body id="page-top" class="{% block body_class %}{% endblock %}">
     <noscript>
       As a developer I require javascript to be enabled to render the thing on my website :). please enable JavaScript to see this page.
     </noscript>
-    {% block content %}
-    {% endblock %}
-    {% render_bundle 'main' %}
+    <div class="main">
+      {% block content %}
+      {% endblock %}
+    </div>
+    {% render_bundle 'main' 'js'%}
   </body>
-
 </html>
