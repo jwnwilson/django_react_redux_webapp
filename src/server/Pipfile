@@ -28,6 +28,7 @@ bcrypt = "*"
 django-redis = "*"
 "beautifulsoup4" = "*"
 django-celery-beat = "*"
+django-debug-toolbar = "*"
 
 [dev-packages]
 pytest = "*"

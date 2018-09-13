@@ -56,16 +56,6 @@ services:
     depends_on:
       - db
       - redis
-  
-  # memcached is not very reliable on OSX
-  #
-  # cache:
-  #  image: memcached
-  #  ports:
-  #    - "11211:11211"
-  #  entrypoint:
-  #   - memcached
-  #   - -m 64
 
   db:
     build:
