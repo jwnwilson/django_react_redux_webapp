@@ -11,11 +11,15 @@ https://docs.djangoproject.com/en/1.11/ref/settings/
 """
 
 import os
+import logging
 import sys
+
 import bcrypt
 from celery.schedules import crontab
 import raven
 import dj_database_url
+
+LOG = logging.getLogger(__name__)
 
 APP_DIR = os.path.dirname(os.path.abspath(__file__))
 BASE_DIR = os.path.dirname(APP_DIR)
@@ -231,50 +235,7 @@ def get_cache():
     """
     Heroku specific caching settings
     """
-    if os.environ.get('ON_HEROKU'):
-        try:
-            servers = os.environ['MEMCACHIER_SERVERS']
-            username = os.environ['MEMCACHIER_USERNAME']
-            password = os.environ['MEMCACHIER_PASSWORD']
-            return {
-              'default': {
-                'BACKEND': 'django.core.cache.backends.memcached.PyLibMCCache',
-                # TIMEOUT is not the connection timeout! It's the default expiration
-                # timeout that should be applied to keys! Setting it to `None`
-                # disables expiration.
-                'TIMEOUT': None,
-                'LOCATION': servers,
-                'OPTIONS': {
-                  'binary': True,
-                  'username': username,
-                  'password': password,
-                  'behaviors': {
-                    # Enable faster IO
-                    'no_block': True,
-                    'tcp_nodelay': True,
-                    # Keep connection alive
-                    'tcp_keepalive': True,
-                    # Timeout settings
-                    'connect_timeout': 2000,  # ms
-                    'send_timeout': 750 * 1000,  # us
-                    'receive_timeout': 750 * 1000,  # us
-                    '_poll_timeout': 2000,  # ms
-                    # Better failover
-                    'ketama': True,
-                    'remove_failed': 1,
-                    'retry_timeout': 2,
-                    'dead_timeout': 30,
-                  }
-                }
-              }
-            }
-        except:
-            return {
-                'default': {
-                    'BACKEND': 'django.core.cache.backends.locmem.LocMemCache'
-                }
-            }
-    else:
+    try:
         if TESTING:
             return {
                 'default': {
@@ -284,11 +245,6 @@ def get_cache():
             }
         else: 
             return {
-                # Memecached + docker + Mac OS has terrible performance
-                # 'default': {
-                #     'BACKEND': 'django.core.cache.backends.memcached.MemcachedCache',
-                #     'LOCATION': 'memcached:11211'
-                # }
                 "default": {
                     "BACKEND": "django_redis.cache.RedisCache",
                     "LOCATION": REDIS_URL,
@@ -298,7 +254,13 @@ def get_cache():
                     "KEY_PREFIX": "noelwilson2018"
                 }
             }
-
+    except Exception as e:
+        LOG.error('Error loading cache falling back to memory cache: %s', str(e))
+        return {
+            'default': {
+                'BACKEND': 'django.core.cache.backends.locmem.LocMemCache'
+            }
+        }
 
 CACHES = get_cache()
 
