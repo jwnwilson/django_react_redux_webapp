@@ -12,19 +12,34 @@ const root = document.getElementById('root');
 const apiData = JSON.parse(root.getAttribute('data-api') || {});
 const pagesData = JSON.parse(root.getAttribute('data-pages') || []);
 const routes = appRoutes.getRoutes(apiData, pagesData);
-const renderFn = root.hasChildNodes() ? hydrate : render;
 
-renderFn(
-  <Provider store={store}>
-    <Router>
-      <div>
-        <Switch>
-          {routes}
-        </Switch>
-      </div>
-    </Router>
-  </Provider>,
-  root,
-);
+if (root.hasChildNodes()) {
+  hydrate(
+    <Provider store={store}>
+      <Router>
+        <div>
+          <Switch>
+            {routes}
+          </Switch>
+        </div>
+      </Router>
+    </Provider>,
+    root,
+  );
+} else {
+  render(
+    <Provider store={store}>
+      <Router>
+        <div>
+          <Switch>
+            {routes}
+          </Switch>
+        </div>
+      </Router>
+    </Provider>,
+    root,
+  );
+}
+
 
 registerServiceWorker();
