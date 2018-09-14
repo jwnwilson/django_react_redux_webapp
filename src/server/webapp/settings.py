@@ -28,7 +28,7 @@ PROJECT_DIR = os.path.dirname(SRC_DIR)
 WEBPACK_STAT_DIR = os.path.join(SRC_DIR, 'client')
 REDIS_URL = os.environ.get('REDIS_URL', 'redis://redis:6379')
 
-SKIP_PRERENDER = True
+SKIP_PRERENDER = False
 
 TIMEZONE = 'Europe/London'
 INTERNAL_IPS = (
