@@ -28,6 +28,8 @@ PROJECT_DIR = os.path.dirname(SRC_DIR)
 WEBPACK_STAT_DIR = os.path.join(SRC_DIR, 'client')
 REDIS_URL = os.environ.get('REDIS_URL', 'redis://redis:6379')
 
+SKIP_PRERENDER = True
+
 TIMEZONE = 'Europe/London'
 INTERNAL_IPS = (
     '127.0.0.1',
@@ -216,15 +218,17 @@ WAGTAIL_SITE_NAME = 'Noel Wilson'
 if DEBUG:
     WEBPACK_LOADER = {
         'DEFAULT': {
-            'BUNDLE_DIR_NAME': 'bundles/',
+            'BUNDLE_DIR_NAME': 'js/',
             'STATS_FILE': os.path.join(WEBPACK_STAT_DIR, 'webpack-stats.dev.json'),
+            'CACHE': False
         }
     }
 else:
     WEBPACK_LOADER = {
         'DEFAULT': {
-            'BUNDLE_DIR_NAME': 'bundles/',
+            'BUNDLE_DIR_NAME': 'js/',
             'STATS_FILE': os.path.join(WEBPACK_STAT_DIR, 'webpack-stats.prod.json'),
+            'CACHE': True
         }
     }
 

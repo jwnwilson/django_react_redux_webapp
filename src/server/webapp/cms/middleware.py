@@ -21,7 +21,11 @@ class PreRenderMiddleware(object):
         self.cache = cache
 
     def __call__(self, request):
-        skip = False
+        if hasattr(settings, 'SKIP_PRERENDER'):
+            skip = settings.SKIP_PRERENDER
+        else:
+            skip = False
+        
         if request.method not in ('GET', 'HEAD'):
             skip = True  # Don't bother checking the cache.
 
