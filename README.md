@@ -25,6 +25,7 @@ $  make run
 ## To Do
 
 - Move from heroku to GCE for multiple processes on 1 machine
+- Setup modpagespeed nginx settings
 - Fix test --nomigrations 
 - Setup offline and service worker option
 - Add tests for FE and BE
