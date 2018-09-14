@@ -1,0 +1,34 @@
+version: '2'
+services:
+  client:
+    image: node:6.11.2
+    user: root
+    working_dir: /app/src/client
+    command: npm run start
+    tty: true
+    ports:
+      - 0.0.0.0:3000:3000
+    volumes:
+      - .:/app
+      - node_modules:/app/src/client/node_modules
+
+  server: 
+    build:
+      context: .
+      dockerfile: ./ops/Dockerfile_server
+    user: root
+    env_file:
+      - web.env
+      - .env
+    working_dir: /app/src/server
+    command: pytest
+    tty: true
+    volumes:
+      - .:/app:cached
+      - site-packages:/usr/local/lib/python3.6/site-packages
+      - media:/app/src/server/media
+
+volumes:
+  node_modules:
+  site-packages:
+  media:
