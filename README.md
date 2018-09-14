@@ -7,7 +7,7 @@ Noel Wilson
 
 ## Description
 
-My personal website rebuilt using Django 1.11 and react with redux
+My personal website rebuilt using Django 1.11, wagtail and react with redux
 
 
 ## Setup
@@ -20,17 +20,11 @@ $  make run
 
 ## To Do
 
-- Update collect static to pull in missing FE static files
-- Test celery on heroku
-- Custom Service worker setup
-- Install django debug toolbar
+- Move from heroku to GCE for multiple processes on 1 machine
 - Fix test --nomigrations 
 - Setup offline and service worker option
 - Add tests for FE and BE
-- Add service worker job for API page calls
 - Add pagination
-- Remove jquery replace with modular libraries
-
 - Separate Snippets in CMS by tags
 
 ## Kubernetes TO DO
