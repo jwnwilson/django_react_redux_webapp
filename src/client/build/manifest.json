@@ -1,7 +1,7 @@
 {
   "short_name": "Noel Wilson 2018",
-  "name": "Noel Wilson, Software Developer.",
-  "icons": 
+  "name": "Noel Wilson's personal website",
+  "icons": [
     {
       "src": "favicon.ico",
       "sizes": "64x64 32x32 24x24 16x16",

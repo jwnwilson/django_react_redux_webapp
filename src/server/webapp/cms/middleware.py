@@ -30,6 +30,8 @@ class PreRenderMiddleware(object):
             skip = True  # Don't bother checking the cache.
 
         # Check for rendertron request and don't return cache if rendertroning
+        LOG.info('request.get_host(): %s', request.get_host())
+
         if request.get_host() == 'render-tron.appspot.com':
             skip = True
 
