@@ -9,6 +9,10 @@ Noel Wilson
 
 My personal website rebuilt using Django 1.11, wagtail and react with redux
 
+Features:
+- CMS powered API
+- Modular React Front end with code spliting
+- Server side rendering and SEO for react app
 
 ## Setup
 
