@@ -15,7 +15,7 @@ help:
 
 SHELL := /bin/bash
 COMPOSE = docker-compose
-SERVER_NODB = -f docker-dev.yml
+SERVER_NODB = -f test.yml
 SERVER = server
 CLIENT = client
 WORKER = worker

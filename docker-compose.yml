@@ -15,7 +15,7 @@ services:
   server:
     build:
       context: .
-      dockerfile: ./ops/Dockerfile_server
+      dockerfile: ./ops/docker/server.dockerfile
     user: root
     env_file:
       - web.env
@@ -39,7 +39,7 @@ services:
   worker:
     build:
       context: .
-      dockerfile: ./ops/Dockerfile_server
+      dockerfile: ./ops/docker/server.dockerfile
     user: root
     env_file:
       - web.env
@@ -60,7 +60,7 @@ services:
   db:
     build:
       context: .
-      dockerfile: ./ops/Dockerfile_db
+      dockerfile: ./ops/docker/db.dockerfile
     ports:
       - 5432:5432
     volumes:

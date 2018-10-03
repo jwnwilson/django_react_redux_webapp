@@ -4,7 +4,7 @@ services:
     restart: always
     build:
       context: .
-      dockerfile: ./ops/Dockerfile_nginx
+      dockerfile: ./ops/docker/nginx.dockerfile
     image: docker.io/jwnwilson/noelwilson2018-nginx
     ports:
       - 80:80
@@ -17,7 +17,7 @@ services:
     container_name: noelwilson2018-server-prod
     build:
       context: .
-      dockerfile: ./ops/Dockerfile_server
+      dockerfile: ./ops/docker/server.dockerfile
     image: docker.io/jwnwilson/noelwilson2018-server
     user: root
     working_dir: /app/src/server
@@ -36,7 +36,7 @@ services:
     container_name: noelwilson2018-server-prod
     build:
       context: .
-      dockerfile: ./ops/Dockerfile_server
+      dockerfile: ./ops/docker/server.dockerfile
     image: docker.io/jwnwilson/noelwilson2018-server
     user: root
     env_file:
@@ -71,7 +71,7 @@ services:
   db:
     build:
       context: .
-      dockerfile: ./ops/Dockerfile_db
+      dockerfile: ./ops/docker/db.dockerfile
     image: docker.io/jwnwilson/noelwilson2018-db
     ports:
       - 5432:5432
