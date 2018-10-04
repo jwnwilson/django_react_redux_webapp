@@ -13,7 +13,7 @@ const apiData = JSON.parse(root.getAttribute('data-api') || {});
 const pagesData = JSON.parse(root.getAttribute('data-pages') || []);
 const routes = appRoutes.getRoutes(apiData, pagesData);
 
-if (root.hasChildNodes()) {
+if (root.children.length > 0) {
   hydrate(
     <Provider store={store}>
       <Router>

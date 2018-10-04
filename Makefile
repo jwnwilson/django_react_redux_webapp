@@ -30,11 +30,15 @@ build:
 build-prod:
 	$(COMPOSE) -f docker-production.yml build
 
+fixtures:
+	$(COMPOSE) run $(SERVER) bash -c "python manage.py loaddata fixtures/default.json"
+
 build-fe:
 	$(COMPOSE) run $(CLIENT) bash -c "PROD_ENV=1 npm run build"
 
 setup:
 	make setup-be
+	make fixtures
 	make setup-fe
 
 setup-be:
@@ -65,19 +69,19 @@ run-prod:
 	COMPOSE_HTTP_TIMEOUT=$(COMPOSE_HTTP_TIMEOUT) $(COMPOSE) -f docker-production.yml up
 
 dump-data:
-	$(COMPOSE) run $(SERVER) bash -c "source ./.venv/bin/activate && python manage.py dumpdata --natural-foreign --indent=4 -e contenttypes -e auth.Permission -e sessions -e wagtailcore.GroupCollectionPermission > fixtures/default.json"
+	$(COMPOSE) run $(SERVER) bash -c "python manage.py dumpdata --natural-foreign --indent=4 -e contenttypes -e auth.Permission -e sessions -e wagtailcore.GroupCollectionPermission > fixtures/default.json"
 
 test: test-be test-fe
 
 lint-be:
-	$(COMPOSE) $(SERVER_NODB) run $(SERVER) bash -c "source ./.venv/bin/activate && find webapp -iname *.py | xargs pylint"
+	$(COMPOSE) $(SERVER_NODB) run $(SERVER) bash -c "find webapp -iname *.py | xargs pylint"
 
 test:
 	make test-be
 	make test-fe
 
 test-be:
-	$(COMPOSE) $(SERVER_NODB) run $(SERVER) bash -c "source ./.venv/bin/activate && pytest -s"
+	$(COMPOSE) $(SERVER_NODB) run $(SERVER) bash -c "pytest -s"
 
 test-fe:
 	$(COMPOSE) run $(CLIENT) npm run test
@@ -92,7 +96,7 @@ shell-db:
 	PGPASSWORD=docker psql -h localhost -U docker noelwilson2018
 
 collect-static:
-	$(COMPOSE) $(SERVER_NODB) run $(SERVER) bash -c "source ./.venv/bin/activate && rm -rf ./staticfiles/* && python manage.py collectstatic --no-input"
+	$(COMPOSE) $(SERVER_NODB) run $(SERVER) bash -c "rm -rf ./staticfiles/* && python manage.py collectstatic --no-input"
 
 clean:
 	find ./src/server -name \*.pyc -delete

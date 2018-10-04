@@ -9,10 +9,13 @@ class ContactMe extends React.Component {
   componentDidMount() {
     // Floating label headings for the contact form
     $(() => {
+      // eslint-disable-next-line
       $('body').on('input propertychange', '.floating-label-form-group', function (e) {
         $(this).toggleClass('floating-label-form-group-with-value', !!$(e.target).val());
+      // eslint-disable-next-line
       }).on('focus', '.floating-label-form-group', function () {
         $(this).addClass('floating-label-form-group-with-focus');
+      // eslint-disable-next-line
       }).on('blur', '.floating-label-form-group', function () {
         $(this).removeClass('floating-label-form-group-with-focus');
       });
@@ -81,6 +84,7 @@ class ContactMe extends React.Component {
       },
     });
 
+    // eslint-disable-next-line
     $('a[data-toggle="tab"]').click(function (e) {
       e.preventDefault();
       $(this).tab('show');
