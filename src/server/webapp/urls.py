@@ -16,7 +16,8 @@ urlpatterns = [
     url(r'^api/', api_router.urls),
     url(r'^cms/', include('webapp.cms.urls')),
     url(r'^admin/', admin.site.urls),
-    url(r'', include('pwa.urls')),
+    # PWA url
+    url(r'^index.html/$', TemplateView.as_view(template_name='cms/module_page.html') , name='index_html'),
     url(r'', include(wagtail_urls)),
 ]
 

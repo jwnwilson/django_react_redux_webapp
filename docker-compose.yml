@@ -21,7 +21,7 @@ services:
       - web.env
       - .env
     working_dir: /app/src/server
-    command: python manage.py runserver 0.0.0.0:8000 
+    command: gunicorn --worker-class gevent --timeout 30 --log-level DEBUG -w 5 -b 0.0.0.0:8000 webapp.wsgi
     tty: true
     ports:
       - 0.0.0.0:8000:8000

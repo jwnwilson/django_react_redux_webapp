@@ -22,7 +22,7 @@ WORKER = worker
 PYENV = pyenv
 DB = db
 DB_SETUP = db-setup
-COMPOSE_HTTP_TIMEOUT = 2000
+COMPOSE_HTTP_TIMEOUT = 20000
 
 build:
 	$(COMPOSE) build
@@ -57,7 +57,10 @@ run-db:
 	POSTGRES_USER=docker POSTGRES_PASSWORD=docker $(COMPOSE) run --service-ports $(DB)
 
 run-be:
-	COMPOSE_HTTP_TIMEOUT=$(COMPOSE_HTTP_TIMEOUT) $(COMPOSE) run --service-ports $(SERVER)
+	COMPOSE_HTTP_TIMEOUT=$(COMPOSE_HTTP_TIMEOUT) $(COMPOSE) run --service-ports $(SERVER) python manage.py runserver 0.0.0.0:8000
+
+run-be-prod:
+	COMPOSE_HTTP_TIMEOUT=$(COMPOSE_HTTP_TIMEOUT) $(COMPOSE) run --service-ports $(SERVER) 
 
 run-worker:
 	$(COMPOSE) run $(WORKER)
@@ -87,7 +90,7 @@ test-fe:
 	$(COMPOSE) run $(CLIENT) npm run test
 
 shell:
-	$(COMPOSE) run $(SERVER) bash
+	$(COMPOSE) run --service-ports $(SERVER) bash
 
 shell-fe:
 	$(COMPOSE) run $(CLIENT) bash

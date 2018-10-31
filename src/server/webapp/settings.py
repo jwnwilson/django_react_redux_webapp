@@ -45,15 +45,20 @@ DEBUG = os.environ.get('DEV') == 'True'
 DEBUG_404 = True
 TESTING = "pytest" in sys.modules
 
+
 def show_toolbar(request):
     return DEBUG
-    
+
+
 DEBUG_TOOLBAR_CONFIG = {
-    "SHOW_TOOLBAR_CALLBACK" : show_toolbar,
+    "SHOW_TOOLBAR_CALLBACK": show_toolbar,
 }
 
 if not DEBUG and not TESTING:
     SECURE_SSL_REDIRECT = True
+else:
+    SECURE_SSL_REDIRECT = False
+
 
 ALLOWED_HOSTS = [
     'localhost',
@@ -233,21 +238,14 @@ else:
             'CACHE': True
         }
     }
-
-if not DEBUG and not TESTING:
-    RAVEN_CONFIG = {
-        'dsn': 'https://4455bc30a01746f6ad07e8bb17fdcb7e:244d3d07cc2641b09cfede93ef8dad8e@sentry.io/646552',
-        # If you are using git, you can also automatically configure the
-        # release based on the git info.
-        'release': os.environ['SOURCE_VERSION'] if os.environ.get('ON_HEROKU') else raven.fetch_git_sha(PROJECT_DIR)
-    }
-
+    
 # Setup throwaway email address to send emails
 EMAIL_USE_TLS = True
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
 EMAIL_HOST_USER = 'jwnwilsonemail@gmail.com'
 EMAIL_HOST_PASSWORD = 'Jwnwilson1'
+
 
 # Setup caching
 def get_cache():
@@ -281,15 +279,23 @@ def get_cache():
             }
         }
 
+
 CACHES = get_cache()
 
-# AWS stuff
+# AWS stuff and sentry stuff
 if os.environ.get('ON_HEROKU'):
     DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
     AWS_STORAGE_BUCKET_NAME = 'noel-wilson.co.uk'
     AWS_ACCESS_KEY_ID = os.environ.get('ACCESS_KEY')
     AWS_SECRET_ACCESS_KEY = os.environ.get('SECRET')
     AWS_QUERYSTRING_AUTH = False
+
+    RAVEN_CONFIG = {
+        'dsn': 'https://4455bc30a01746f6ad07e8bb17fdcb7e:244d3d07cc2641b09cfede93ef8dad8e@sentry.io/646552',
+        # If you are using git, you can also automatically configure the
+        # release based on the git info.
+        'release': os.environ['SOURCE_VERSION'] if os.environ.get('ON_HEROKU') else raven.fetch_git_sha(PROJECT_DIR)
+    }
 
 FIXTURE_DIRS = [
     os.path.join(BASE_DIR, 'fixtures')
@@ -334,4 +340,3 @@ if DEBUG:
     # make all loggers use the console.
     for logger in LOGGING['loggers']:
         LOGGING['loggers'][logger]['handlers'] = ['console']
-

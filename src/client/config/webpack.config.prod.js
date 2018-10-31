@@ -321,12 +321,13 @@ module.exports = {
       },
       minify: true,
       // For unknown URLs, fallback to the index page
-      navigateFallback: publicUrl + '/',
+      navigateFallback: publicUrl + '/index.html',
       // Ignores URLs starting from /__ (useful for Firebase):
       // https://github.com/facebookincubator/create-react-app/issues/2237#issuecomment-302693219
       navigateFallbackWhitelist: [/^(?!\/__).*/],
       // Don't precache sourcemaps (they're large) and build asset manifest:
       staticFileGlobsIgnorePatterns: [/\.map$/, /asset-manifest\.json$/, /\.html$/],
+      staticFileGlobs: ['**/*.{html,js,css,png,svg,jpg}'],
     }),
     // Moment.js is an extremely popular library that bundles large locale files
     // by default due to how Webpack interprets its code. This is a practical
@@ -335,7 +336,7 @@ module.exports = {
     // You can remove this if you don't use Moment.js:
     new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),
     new BundleTracker({filename: './webpack-stats.prod.json'}),
-    new ExtractTextPlugin('main.css'),
+    new ExtractTextPlugin('static/css/main.css'),
     //new BundleAnalyzerPlugin(),
   ],
   // Some libraries import Node modules but don't use them in the browser.
