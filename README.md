@@ -22,7 +22,6 @@ $  make run
 
 - Rebuild from fixture data / update fixture data
 - Update collect static to pull in missing FE static files
-- Test celery on heroku
 - Custom Service worker setup
 - Install django debug toolbar
 - Fix test --nomigrations 

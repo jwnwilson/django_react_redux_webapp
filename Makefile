@@ -28,7 +28,7 @@ build:
 	$(COMPOSE) build
 
 build-prod:
-	$(COMPOSE) -f docker-production.yml build
+	$(COMPOSE) -f production.yml build
 
 fixtures:
 	$(COMPOSE) run $(SERVER) bash -c "python manage.py loaddata fixtures/default.json"
