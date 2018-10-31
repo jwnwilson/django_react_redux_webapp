@@ -41,5 +41,4 @@ if (root.children.length > 0) {
   );
 }
 
-
 registerServiceWorker();

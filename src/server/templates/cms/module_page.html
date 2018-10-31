@@ -1,5 +1,6 @@
 {% extends "webapp/base.html" %}
 {% load static %}
+{% load pwa %}
 
 {% block head %}
   <link rel="icon" type="image/x-icon" href="{% static "img/favicon.ico" %}">
@@ -25,6 +26,8 @@
 
   <!-- Contact Form JavaScript -->
   <script src="{% static "vendor/jqBootstrapValidation/jqBootstrapValidation.min.js" %}"></script>
+
+  {% progressive_web_app_meta %}
 {% endblock %}
 
 {% block body_class %}bg-secondary{% endblock %}

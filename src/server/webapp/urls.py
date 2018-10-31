@@ -16,7 +16,8 @@ urlpatterns = [
     url(r'^api/', api_router.urls),
     url(r'^cms/', include('webapp.cms.urls')),
     url(r'^admin/', admin.site.urls),
-    url(r'', include(wagtail_urls))
+    url(r'', include('pwa.urls')),
+    url(r'', include(wagtail_urls)),
 ]
 
 if settings.DEBUG or settings.DEBUG_404:

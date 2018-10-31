@@ -27,6 +27,7 @@ SRC_DIR = os.path.dirname(BASE_DIR)
 PROJECT_DIR = os.path.dirname(SRC_DIR)
 WEBPACK_STAT_DIR = os.path.join(SRC_DIR, 'client')
 REDIS_URL = os.environ.get('REDIS_URL', 'redis://redis:6379')
+PWA_SERVICE_WORKER_PATH = os.path.join(APP_DIR, 'static/js', 'serviceworker.js')
 
 SKIP_PRERENDER = False
 
@@ -97,6 +98,7 @@ INSTALLED_APPS = [
     'whitenoise.runserver_nostatic',
     'django.contrib.staticfiles',
     'debug_toolbar',
+    'pwa',
 ]
 
 MIDDLEWARE = [
