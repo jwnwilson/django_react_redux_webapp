@@ -101,7 +101,6 @@ INSTALLED_APPS = [
     'whitenoise.runserver_nostatic',
     'django.contrib.staticfiles',
     'debug_toolbar',
-    'pwa',
 ]
 
 MIDDLEWARE = [
