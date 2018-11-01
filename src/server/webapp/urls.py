@@ -2,9 +2,10 @@ from django.conf import settings
 from django.conf.urls import include, url
 from django.conf.urls.static import static
 from django.contrib import admin
-from django.views.generic import TemplateView
-from django.views.static import serve 
+from django.views.generic import TemplateView, RedirectView
+from django.views.static import serve
 from wagtail.core import urls as wagtail_urls
+
 
 from webapp.cms.api import api_router
 
@@ -16,7 +17,21 @@ urlpatterns = [
     url(r'^api/', api_router.urls),
     url(r'^cms/', include('webapp.cms.urls')),
     url(r'^admin/', admin.site.urls),
-    url(r'', include(wagtail_urls))
+    # PWA url
+    url(
+        r'^index.html/$',
+        RedirectView.as_view(url='/'),
+        name='index_html'),
+    # This needs to be moved to nginx
+    url(
+        r'^service-worker.js$',
+        serve,
+        kwargs={
+            'path': 'service-worker.js',
+            'document_root': settings.STATIC_ROOT
+        }
+    ),
+    url(r'', include(wagtail_urls)),
 ]
 
 if settings.DEBUG or settings.DEBUG_404:

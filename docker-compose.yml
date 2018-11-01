@@ -15,13 +15,13 @@ services:
   server:
     build:
       context: .
-      dockerfile: ./ops/Dockerfile_server
+      dockerfile: ./ops/docker/server.dockerfile
     user: root
     env_file:
       - web.env
       - .env
     working_dir: /app/src/server
-    command: python manage.py runserver 0.0.0.0:8000 
+    command: gunicorn --worker-class gevent --timeout 30 --log-level DEBUG -w 5 -b 0.0.0.0:8000 webapp.wsgi
     tty: true
     ports:
       - 0.0.0.0:8000:8000
@@ -39,7 +39,7 @@ services:
   worker:
     build:
       context: .
-      dockerfile: ./ops/Dockerfile_server
+      dockerfile: ./ops/docker/server.dockerfile
     user: root
     env_file:
       - web.env
@@ -60,7 +60,7 @@ services:
   db:
     build:
       context: .
-      dockerfile: ./ops/Dockerfile_db
+      dockerfile: ./ops/docker/db.dockerfile
     ports:
       - 5432:5432
     volumes:

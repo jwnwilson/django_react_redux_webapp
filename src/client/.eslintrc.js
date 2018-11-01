@@ -16,6 +16,7 @@ module.exports = {
         "react/forbid-prop-types": 0,
         "jsx-a11y/anchor-is-valid": 0,
         "jsx-a11y/label-has-for": 0,
+        "jsx-a11y/label-has-associated-control": 0,
         "no-plusplus": 0,
         "prefer-template": 0,
         "no-underscore-dangle": 0,
