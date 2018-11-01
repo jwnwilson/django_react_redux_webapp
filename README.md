@@ -20,15 +20,13 @@ $  make run
 
 ## To Do
 
-- Rebuild from fixture data / update fixture data
-- Update collect static to pull in missing FE static files
-- Install django debug toolbar
+- Setup on VM / Kubernetes with worker to prerender html
 - Fix test --nomigrations 
 - Add tests for FE and BE
 - Add service worker job for API page calls
 - Add pagination
 - Remove jquery replace with modular libraries
-
+- Investigate integration tests Cyprus
 - Separate Snippets in CMS by tags
 
 ## Kubernetes TO DO
