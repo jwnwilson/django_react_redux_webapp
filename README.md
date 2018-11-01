@@ -39,9 +39,9 @@ $  make run
 
 - Move from heroku to GCE / AWS for multiple processes cheaply
 - Setup worker to prerender html
+- Setup modpagespeed nginx settings
 - Fix test --nomigrations 
 - Add tests for FE and BE
-- Add service worker job for API page calls
 - Add pagination
 - Remove jquery replace with modular libraries
 - Investigate integration tests Cyprus
