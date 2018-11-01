@@ -54,8 +54,8 @@ DEBUG_TOOLBAR_CONFIG = {
     "SHOW_TOOLBAR_CALLBACK": show_toolbar,
 }
 
-# if not DEBUG and not TESTING:
-#     SECURE_SSL_REDIRECT = True
+if not DEBUG and not TESTING:
+    SECURE_SSL_REDIRECT = True
     
 
 ALLOWED_HOSTS = [
