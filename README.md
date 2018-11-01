@@ -7,8 +7,24 @@ Noel Wilson
 
 ## Description
 
-My personal website rebuilt using Django 1.11 and react with redux
+My personal website rebuilt using:
 
+- Django 1.11
+- React 
+- Redux
+- Wagtail CMS
+- Django Restful API
+- Docker
+- CI
+- Kubernetes (ish)
+
+Features:
+- CMS to power Django Restful API
+- API data to power a modular react app
+- Webpack spliting, each reach component is loaded as needed
+- Setup as a PWA with limit offline support
+
+This is my attempt to build a reusable project to build any type of website I need, completely over-engineered for learning and fun but also I can take parts of it away and use in other project. I also wanted to use this project to see how many pieces of tech I could glue together to see how well they worked together, I think the results I got have been better than I expected.
 
 ## Setup
 
@@ -20,7 +36,7 @@ $  make run
 
 ## To Do
 
-- Setup on VM / Kubernetes with worker to prerender html
+- Move server to VM / Kubernetes with worker to prerender html
 - Fix test --nomigrations 
 - Add tests for FE and BE
 - Add service worker job for API page calls
