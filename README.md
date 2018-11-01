@@ -21,8 +21,9 @@ My personal website rebuilt using:
 Features:
 - CMS to power Django Restful API
 - API data to power a modular react app
-- Webpack spliting, each reach component is loaded as needed
+- Modular React Front end with code spliting, each reach component is loaded as needed
 - Setup as a PWA with limit offline support
+- Server side rendering and SEO optimisation for react app
 
 This is my attempt to build a reusable project to build any type of website I need, completely over-engineered for learning and fun but also I can take parts of it away and use in other project. I also wanted to use this project to see how many pieces of tech I could glue together to see how well they worked together, I think the results I got have been better than I expected.
 
@@ -36,7 +37,8 @@ $  make run
 
 ## To Do
 
-- Move server to VM / Kubernetes with worker to prerender html
+- Move from heroku to GCE / AWS for multiple processes cheaply
+- Setup worker to prerender html
 - Fix test --nomigrations 
 - Add tests for FE and BE
 - Add service worker job for API page calls
