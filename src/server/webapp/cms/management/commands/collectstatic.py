@@ -14,6 +14,6 @@ class Command(collectstatic):
         build_dir = os.path.join(file_dir, '../../../../../client/build')
         static_dir = os.path.join(file_dir, '../../../../staticfiles')
 
-        # copy manifest.json, index.html && offline.html
-        for f in ['manifest.json', 'index.html', 'offline.html']:
+        # copy manifest.json, index.html
+        for f in ['manifest.json', 'index.html']:
             shutil.copy(os.path.join(build_dir, f), static_dir)

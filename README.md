@@ -20,12 +20,13 @@ $  make run
 
 ## To Do
 
+- Setup offline and service worker option
+    - Disable react service worker auto gen and try django service worker tool, create custom simple service worker, read webpack-stats if necessary to cache the assets we are using.
 - Rebuild from fixture data / update fixture data
 - Update collect static to pull in missing FE static files
 - Custom Service worker setup
 - Install django debug toolbar
 - Fix test --nomigrations 
-- Setup offline and service worker option
 - Add tests for FE and BE
 - Add service worker job for API page calls
 - Add pagination
