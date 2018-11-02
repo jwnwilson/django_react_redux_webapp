@@ -3,7 +3,7 @@
   "name": "Noel Wilson - Full stack software developer",
   "icons": [
     {
-      "src": "/static/img/favicon.png",
+      "src": "/static/favicon.png",
       "sizes": "192x192",
       "type": "image/png"
     }
