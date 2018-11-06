@@ -43,6 +43,7 @@ SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY', bcrypt.gensalt())
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.environ.get('DEV') == 'True'
 DEBUG_404 = True
+ENV = os.environ.get('ENV')
 TESTING = "pytest" in sys.modules
 
 
@@ -54,9 +55,6 @@ DEBUG_TOOLBAR_CONFIG = {
     "SHOW_TOOLBAR_CALLBACK": show_toolbar,
 }
 
-if not DEBUG and not TESTING:
-    SECURE_SSL_REDIRECT = True
-    
 
 ALLOWED_HOSTS = [
     'localhost',
@@ -143,7 +141,8 @@ WSGI_APPLICATION = 'webapp.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/1.11/ref/settings/#databases
 
-if os.environ.get('ON_HEROKU'):
+if ENV == 'prod':
+    SECURE_SSL_REDIRECT = True
     DATABASES = {
         'default': dj_database_url.config(conn_max_age=600, ssl_require=True)
     }
