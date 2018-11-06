@@ -15,7 +15,7 @@ My personal website rebuilt using:
 - Wagtail CMS
 - Django Restful API
 - Docker
-- CI
+- circleCI
 - Kubernetes (ish)
 
 Features:
