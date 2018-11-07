@@ -1,12 +1,6 @@
 apiVersion: extensions/v1beta1
 kind: Deployment
 metadata:
-  annotations:
-    kompose.cmd: kompose convert -f docker-production.yml -o ops/kubernetes/
-    kompose.version: 1.5.0 ()
-  creationTimestamp: null
-  labels:
-    io.kompose.service: server
   name: server
 spec:
   replicas: 1
@@ -14,36 +8,33 @@ spec:
     type: Recreate
   template:
     metadata:
-      creationTimestamp: null
+      name: server
       labels:
-        io.kompose.service: server
+        name: api
     spec:
       containers:
-      - args:
-        - pipenv
-        - run
-        - gunicorn
-        - webapp.wsgi:application
-        - -w
-        - "3"
-        - -b
-        - :8000
-        image: docker.io/jwnwilson/noelwilson2018-server
-        name: noelwilson2018-server-prod
-        ports:
-        - containerPort: 8000
-        imagePullPolicy: Always
-        resources: {}
-        tty: true
-        volumeMounts:
-        - mountPath: /app/src/server/media
-          name: media
-        workingDir: /app/src/server
+        - name: server
+          image: docker.io/jwnwilson/jwnwilson_server
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 8000
+          resources:
+            requests:
+              memory: "64Mi"
+              cpu: "0.12"
+            limits:
+              memory: "250Mi"
+              cpu: "0.3"
+          tty: true
+          volumeMounts:
+            - mountPath: /app/src/server/media
+              name: media
+          workingDir: /app/src/server
       restartPolicy: Always
       volumes:
-      - name: media
-        persistentVolumeClaim:
-          claimName: media
+        - name: media
+          persistentVolumeClaim:
+            claimName: media
 status: {}
 
 ---
@@ -51,19 +42,15 @@ status: {}
 apiVersion: v1
 kind: Service
 metadata:
-  annotations:
-    kompose.cmd: kompose convert -f docker-production.yml -o ops/kubernetes/
-    kompose.version: 1.5.0 ()
-  creationTimestamp: null
-  labels:
-    io.kompose.service: server
   name: server
+  labels:
+    name: api
 spec:
   ports:
-  - name: "8000"
-    port: 8000
-    targetPort: 8000
+    - name: "8000"
+      port: 8000
+      targetPort: 8000
   selector:
-    io.kompose.service: server
+    name: server
 status:
   loadBalancer: {}

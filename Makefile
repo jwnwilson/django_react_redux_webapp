@@ -103,3 +103,10 @@ clean:
 deploy:
 	make build-fe
 	make collect-static
+
+dashboard-secret:
+	kubectl -n kube-system describe secrets `kubectl -n kube-system get secrets | awk '/clusterrole-aggregation-controller/ {print $1}'` | awk '/token:/ {print $2}'
+
+dashboard:
+	kubectl proxy &
+	open http://localhost:8001/ui

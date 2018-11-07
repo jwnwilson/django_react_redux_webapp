@@ -1,53 +1,30 @@
-apiVersion: extensions/v1beta1
-kind: Deployment
-metadata:
-  annotations:
-    kompose.cmd: kompose convert -f docker-production.yml -o ops/kubernetes/
-    kompose.version: 1.5.0 ()
-  creationTimestamp: null
-  labels:
-    io.kompose.service: cache
-  name: cache
-spec:
-  replicas: 1
-  strategy: {}
-  template:
-    metadata:
-      creationTimestamp: null
-      labels:
-        io.kompose.service: cache
-    spec:
-      containers:
-      - command:
-        - memcached
-        - -m 64
-        image: memcached
-        name: cache
-        ports:
-        - containerPort: 11211
-        resources: {}
-      restartPolicy: Always
-status: {}
-
----
-
 apiVersion: v1
-kind: Service
+kind: Pod
 metadata:
-  annotations:
-    kompose.cmd: kompose convert -f docker-production.yml -o ops/kubernetes/
-    kompose.version: 1.5.0 ()
-  creationTimestamp: null
   labels:
-    io.kompose.service: cache
-  name: cache
+    name: redis
+    redis-sentinel: "true"
+    role: master
+  name: redis-master
 spec:
-  ports:
-  - name: "11211"
-    port: 11211
-    targetPort: 11211
-  selector:
-    io.kompose.service: cache
-status:
-  loadBalancer: {}
-
+  containers:
+    - name: master
+      image: k8s.gcr.io/redis:v1
+      env:
+        - name: MASTER
+          value: "true"
+      ports:
+        - containerPort: 6379
+      resources:
+        requests:
+          memory: "64Mi"
+          cpu: "0.05"
+        limits:
+          memory: "128Mi"
+          cpu: "0.1"
+      volumeMounts:
+        - mountPath: /redis-master-data
+          name: data
+  volumes:
+    - name: data
+      emptyDir: {}
