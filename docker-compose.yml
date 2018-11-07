@@ -4,6 +4,7 @@ services:
     image: node:6.11.2
     user: root
     working_dir: /app/src/client
+    container_name: noelwilson2018-client
     command: npm run start
     tty: true
     ports:
@@ -16,6 +17,7 @@ services:
     build:
       context: .
       dockerfile: ./ops/docker/server.dockerfile
+    container_name: noelwilson2018-server
     user: root
     env_file:
       - web.env
