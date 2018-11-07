@@ -52,12 +52,22 @@ jobs:
       PIPENV_VENV_IN_PROJECT: "True"
     steps:
       - checkout
+      - run:
+        name: Install Docker Compose
+        command: |
+          curl -L https://github.com/docker/compose/releases/download/1.19.0/docker-compose-`uname -s`-`uname -m` > ~/docker-compose
+          chmod +x ~/docker-compose
+          sudo mv ~/docker-compose /usr/local/bin/docker-compose
+      - restore_cache:
+          key: v2-be-{{ checksum "Pipfile.lock" }}
+          paths:
+            - '/usr/local/lib/python3.6/site-packages'
       - restore_cache:
           key: v2-fe-static-{{ .BuildNum }}
           paths:
             - /app/src/client/build
       - run:
-          command: 'cd src/server && python manage.py collectstatic --no-input && cd ../../ && docker-compose build server'
+          command: 'cd src/server && python manage.py collectstatic --no-input && cd ../.. && docker-compose build server'
 workflows:
   version: 2
   build:
