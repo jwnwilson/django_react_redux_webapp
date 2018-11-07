@@ -21,7 +21,7 @@ jobs:
           paths:
             - /usr/local/lib/python3.6/site-packages
       - run:
-          command: 'cd src/server && pytest'
+          command: 'cd src/server && python manage.py collectstatic --no-input && pytest'
   build-fe:
     working_directory: /app
     docker:
