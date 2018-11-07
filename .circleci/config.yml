@@ -57,7 +57,7 @@ jobs:
           paths:
             - /app/src/client/build
       - run:
-        command: 'make collect-static && docker-compose build server'
+          command: 'make collect-static && docker-compose build server'
 workflows:
   version: 2
   build:
