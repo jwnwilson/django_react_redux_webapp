@@ -15,7 +15,6 @@ help:
 
 SHELL := /bin/bash
 COMPOSE = docker-compose
-SERVER_NODB = -f test.yml
 SERVER = server
 CLIENT = client
 WORKER = worker
@@ -26,9 +25,6 @@ COMPOSE_HTTP_TIMEOUT = 20000
 
 build:
 	$(COMPOSE) build
-
-build-prod:
-	$(COMPOSE) -f production.yml build
 
 fixtures:
 	$(COMPOSE) run $(SERVER) bash -c "python manage.py loaddata fixtures/default.json"
@@ -77,14 +73,14 @@ dump-data:
 test: test-be test-fe
 
 lint-be:
-	$(COMPOSE) $(SERVER_NODB) run $(SERVER) bash -c "find webapp -iname *.py | xargs pylint"
+	$(COMPOSE) $(SERVER) run $(SERVER) bash -c "find webapp -iname *.py | xargs pylint"
 
 test:
 	make test-be
 	make test-fe
 
 test-be:
-	$(COMPOSE) $(SERVER_NODB) run $(SERVER) bash -c "pytest -s"
+	$(COMPOSE) $(SERVER) run $(SERVER) bash -c "pytest -s"
 
 test-fe:
 	$(COMPOSE) run $(CLIENT) npm run test
@@ -99,7 +95,7 @@ shell-db:
 	PGPASSWORD=docker psql -h localhost -U docker noelwilson2018
 
 collect-static:
-	$(COMPOSE) $(SERVER_NODB) run $(SERVER) bash -c "rm -rf ./staticfiles/* && python manage.py collectstatic --no-input"
+	$(COMPOSE) $(SERVER) run $(SERVER) bash -c "rm -rf ./staticfiles/* && python manage.py collectstatic --no-input"
 
 clean:
 	find ./src/server -name \*.pyc -delete
@@ -107,6 +103,3 @@ clean:
 deploy:
 	make build-fe
 	make collect-static
-	git add src/client/build/
-	git commit -am "Updating FE for deployment"
-	git push heroku master
