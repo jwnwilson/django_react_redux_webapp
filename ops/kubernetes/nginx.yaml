@@ -21,7 +21,13 @@ spec:
         - containerPort: 80
         - containerPort: 443
         imagePullPolicy: Always
-        resources: {}
+        resources:
+          requests:
+            memory: "64Mi"
+            cpu: "0.05"
+          limits:
+            memory: "128Mi"
+            cpu: "0.1"
       restartPolicy: Always
 status: {}
 
