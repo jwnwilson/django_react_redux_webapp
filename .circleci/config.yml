@@ -21,7 +21,7 @@ jobs:
           paths:
             - /usr/local/lib/python3.6/site-packages
       - run:
-          command: 'cd src/server && python manage.py collectstatic --no-input && pytest'
+          command: 'cd src/server && pytest'
   build-fe:
     working_directory: /app
     docker:
@@ -39,9 +39,9 @@ jobs:
           paths:
             - /app/src/client/node_modules
       - save_cache:
-        key: v2-fe-static-{{ .BuildNum }}
-        paths:
-          - /app/src/client/build
+          key: v2-fe-static-{{ .BuildNum }}
+          paths:
+            - /app/src/client/build
       - run:
           command: 'cd src/client && npm run test'
   deploy:
@@ -64,11 +64,11 @@ workflows:
     jobs:
       - build-fe
       - build-be
-      # - deploy:
-      #     requires:
-      #       - build-fe
-      #       - build-be
-      #     filters:
-      #       branches:
-      #         only:
-      #           - master
+      - deploy:
+          requires:
+            - build-fe
+            - build-be
+          filters:
+            branches:
+              only:
+                - master
