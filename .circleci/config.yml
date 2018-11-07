@@ -67,7 +67,7 @@ jobs:
           paths:
             - /app/src/client/build
       - run:
-          command: 'cd src/server && python manage.py collectstatic --no-input && cd ../.. && docker-compose build server'
+          command: 'cd src/server && python manage.py collectstatic --no-input && cd ../.. && touch .env && docker-compose build server'
 workflows:
   version: 2
   build:
