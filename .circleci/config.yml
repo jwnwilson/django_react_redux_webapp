@@ -88,7 +88,7 @@ jobs:
           docker push jwnwilson/jwnwilson_nginx
           docker tag jwnwilson/jwnwilson_server:latest jwnwilson/jwnwilson_server:$TAG
           docker tag jwnwilson/jwnwilson_worker:latest jwnwilson/jwnwilson_worker:$TAG
-          docker tag jwnwilson/jwnwilson_worker:latest jwnwilson/jwnwilson_nginx:$TAG
+          docker tag jwnwilson/jwnwilson_nginx:latest jwnwilson/jwnwilson_nginx:$TAG
           docker push jwnwilson/jwnwilson_server:$TAG
           docker push jwnwilson/jwnwilson_worker:$TAG
           docker push jwnwilson/jwnwilson_nginx:$TAG
