@@ -81,6 +81,8 @@ jobs:
           docker login -u $DOCKER_USER -p $DOCKER_PASS
           cd src/server && python manage.py collectstatic --no-input
           cd ../.. && touch .env && docker-compose build server
+          docker push jwnwilson_server
+          docker tag jwnwilson_server:latest jwnwilson_server:$TAG
           docker push jwnwilson_server:$TAG
 workflows:
   version: 2
