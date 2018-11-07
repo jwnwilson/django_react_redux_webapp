@@ -1,0 +1,74 @@
+version: 2
+jobs:
+  build-be:
+    working_directory: /app
+    docker:
+      - image: python:3.6
+    environment:
+      PIPENV_VENV_IN_PROJECT: "True"
+    steps:
+      - checkout
+      - run:
+          command: 'apt-get update && apt-get install -y libmemcached-dev zlib1g-dev && curl https://bootstrap.pypa.io/get-pip.py | python'
+      - restore_cache:
+          key: v2-be-{{ checksum "Pipfile.lock" }}
+          paths:
+            - '/usr/local/lib/python3.6/site-packages'
+      - run:
+          command: 'pip3 uninstall -y pytest pipenv && pip3 install pipenv && pipenv install --system --deploy --dev'
+      - save_cache:
+          key: v2-be-{{ checksum "Pipfile.lock" }}
+          paths:
+            - /usr/local/lib/python3.6/site-packages
+      - run:
+          command: 'cd src/server && python manage.py collectstatic --no-input && pytest'
+  build-fe:
+    working_directory: /app
+    docker:
+      - image: node:6.11.2
+    steps:
+      - checkout
+      - restore_cache:
+          key: v2-fe-{{ checksum "src/client/package.json" }}
+          paths:
+            - /app/src/client/node_modules
+      - run:
+          command: 'cd src/client && npm install && PROD_ENV=1 npm run build'
+      - save_cache:
+          key: v2-fe-{{ checksum "src/client/package.json" }}
+          paths:
+            - /app/src/client/node_modules
+      - save_cache:
+        key: v2-fe-static-{{ .BuildNum }}
+        paths:
+          - /app/src/client/build
+      - run:
+          command: 'cd src/client && npm run test'
+  deploy:
+    working_directory: /app
+    docker:
+      - image: python:3.6
+    environment:
+      PIPENV_VENV_IN_PROJECT: "True"
+    steps:
+      - checkout
+      - restore_cache:
+          key: v2-fe-static-{{ .BuildNum }}
+          paths:
+            - /app/src/client/build
+      - run:
+        command: 'make collect-static && docker-compose build server'
+workflows:
+  version: 2
+  build:
+    jobs:
+      - build-fe
+      - build-be
+      # - deploy:
+      #     requires:
+      #       - build-fe
+      #       - build-be
+      #     filters:
+      #       branches:
+      #         only:
+      #           - master
