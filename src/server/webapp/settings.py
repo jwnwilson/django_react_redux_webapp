@@ -69,6 +69,7 @@ ALLOWED_HOSTS = [
     'www.jwnwilson.com',
     'noel-wilson.co.uk',
     'jwnwilson.com',
+    os.environ.get('LOAD_BALANCER_IP', '*'),
 ]
 
 
