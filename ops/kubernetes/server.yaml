@@ -35,7 +35,7 @@ spec:
               value: develop
             - name: DJANGO_SECRET_KEY
               value: REPLACE_ME
-            - name: REDISHOST
+            - name: REDIS_HOST
               value: 'redis.default.svc.cluster.local'
             - name: POSTGRES_HOST
               value: POSTGRES_HOST

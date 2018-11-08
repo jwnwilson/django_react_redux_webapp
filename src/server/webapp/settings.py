@@ -28,8 +28,8 @@ PROJECT_DIR = os.path.dirname(SRC_DIR)
 WEBPACK_STAT_DIR = os.path.join(SRC_DIR, 'client')
 POSTGRES_HOST = os.environ.get('POSTGRES_HOST', 'db')
 PWA_SERVICE_WORKER_PATH = os.path.join(APP_DIR, 'static/js', 'serviceworker.js')
-REDIS_HOST = os.environ.get('REDISHOST', 'redis://redis')
-REDIS_PORT = int(os.environ.get('REDISPORT', 6379))
+REDIS_HOST = os.environ.get('REDIS_HOST', 'redis://redis')
+REDIS_PORT = int(os.environ.get('REDIS_PORT', 6379))
 REDIS_URL = os.environ.get('REDIS_URL', '{}:{}'.format(REDIS_HOST, REDIS_PORT))
 
 
