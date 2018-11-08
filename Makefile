@@ -107,3 +107,6 @@ deploy:
 dashboard:
 	kubectl proxy &
 	open http://localhost:8001/ui
+
+kube-logs:
+	kubectl logs -f ${POD}
