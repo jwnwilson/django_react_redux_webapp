@@ -26,8 +26,12 @@ BASE_DIR = os.path.dirname(APP_DIR)
 SRC_DIR = os.path.dirname(BASE_DIR)
 PROJECT_DIR = os.path.dirname(SRC_DIR)
 WEBPACK_STAT_DIR = os.path.join(SRC_DIR, 'client')
-REDIS_URL = os.environ.get('REDIS_URL', 'redis://redis:6379')
+POSTGRES_HOST = os.environ.get('POSTGRES_HOST', 'db')
 PWA_SERVICE_WORKER_PATH = os.path.join(APP_DIR, 'static/js', 'serviceworker.js')
+REDIS_HOST = os.environ.get('REDISHOST', 'redis://redis')
+REDIS_PORT = int(os.environ.get('REDISPORT', 6379))
+REDIS_URL = os.environ.get('REDIS_URL', '{}:{}'.format(REDIS_HOST, REDIS_PORT))
+
 
 SKIP_PRERENDER = False
 
@@ -41,9 +45,9 @@ INTERNAL_IPS = (
 SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY', bcrypt.gensalt())
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = os.environ.get('DEV') == 'True'
-DEBUG_404 = True
 ENV = os.environ.get('ENV')
+DEBUG = ENV == 'develop'
+DEBUG_404 = DEBUG
 TESTING = "pytest" in sys.modules
 
 
@@ -158,9 +162,9 @@ else:
         'default': {
             'ENGINE': 'django.db.backends.postgresql',
             'NAME': 'noelwilson2018',
-            'USER': 'docker',
-            'PASSWORD': 'docker',
-            'HOST': 'db',  # set in docker-compose.yml
+            'USER': os.environ.get('POSTGRES_USER', 'docker'),
+            'PASSWORD': os.environ.get('POSTGRES_PASS', 'docker'),
+            'HOST': POSTGRES_HOST,  # set in docker-compose.yml
             'PORT': 5432  # default postgres port
         }
     }
@@ -279,7 +283,7 @@ def get_cache():
 CACHES = get_cache()
 
 # AWS stuff and sentry stuff
-if os.environ.get('ON_HEROKU'):
+if ENV == 'prod':
     DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
     AWS_STORAGE_BUCKET_NAME = 'noel-wilson.co.uk'
     AWS_ACCESS_KEY_ID = os.environ.get('ACCESS_KEY')

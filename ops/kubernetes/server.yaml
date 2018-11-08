@@ -10,7 +10,7 @@ spec:
     metadata:
       name: server
       labels:
-        name: api
+        name: django
     spec:
       containers:
         - name: server
@@ -20,16 +20,33 @@ spec:
             - containerPort: 8000
           resources:
             requests:
-              memory: "64Mi"
-              cpu: "0.05"
+              memory: "500Mi"
+              cpu: "0.1"
             limits:
-              memory: "250Mi"
+              memory: "1000Mi"
               cpu: "0.3"
           tty: true
           volumeMounts:
             - mountPath: /app/src/server/media
               name: media
           workingDir: /app/src/server
+          env:
+            - name: ENV
+              value: develop
+            - name: DJANGO_SECRET_KEY
+              value: REPLACE_ME
+            - name: REDISHOST
+              value: 'redis.default.svc.cluster.local'
+            - name: POSTGRES_HOST
+              value: POSTGRES_HOST
+            - name: POSTGRES_USER
+              value: 'docker'
+            - name: POSTGRES_PASS
+              value: 'docker'
+            - name: ACCESS_KEY
+              value: REPLACE_ME
+            - name: SECRET
+              value: REPLACE_ME
       restartPolicy: Always
       volumes:
         - name: media
@@ -44,13 +61,14 @@ kind: Service
 metadata:
   name: server
   labels:
-    name: api
+    name: django
 spec:
   ports:
     - name: "8000"
       port: 8000
       targetPort: 8000
   selector:
-    name: server
+    name: django
+  type: NodePort
 status:
   loadBalancer: {}
