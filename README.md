@@ -52,3 +52,14 @@ $  make run
 - Master server instance connected to media volume as write for cms
 - Slave servers instances connected to media volume as read only for website
 - Connect nginx to media volume as read only
+
+
+## Kubernetes setup notes:
+
+### Postgres pain points
+
+- Needed to add proxy container to server containers to connect to RDS
+- Add postgres instance
+- Add user to postgres instance
+- User shell on container to connect to postgres
+- Grant permissions to new user on postgres
