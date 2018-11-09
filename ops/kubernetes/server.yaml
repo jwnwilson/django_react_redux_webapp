@@ -55,7 +55,7 @@ spec:
           workingDir: /app/src/server
           env:
             - name: ENV
-              value: develop
+              value: prod
             - name: DJANGO_SECRET_KEY
               value: REPLACE_ME
             - name: POSTGRES_HOST

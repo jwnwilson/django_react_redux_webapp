@@ -146,7 +146,7 @@ WSGI_APPLICATION = 'webapp.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/1.11/ref/settings/#databases
 
-if ENV == 'prod':
+if os.environ.get('ON_HEROKU'):
     SECURE_SSL_REDIRECT = True
     DATABASES = {
         'default': dj_database_url.config(conn_max_age=600, ssl_require=True)
