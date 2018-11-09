@@ -110,3 +110,6 @@ dashboard:
 
 kube-logs:
 	kubectl logs -f ${POD}
+
+kube-shell:
+	kubectl exec -it ${POD} -c server -- /bin/bash

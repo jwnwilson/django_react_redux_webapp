@@ -13,8 +13,31 @@ spec:
         name: django
     spec:
       containers:
+        - name: cloudsql-proxy
+          image: gcr.io/cloudsql-docker/gce-proxy:1.11
+          command: [
+            "/cloud_sql_proxy",
+            "-instances=noelwilson-2018:europe-west1:noel-wilson=tcp:5432",
+            "-credential_file=/secrets/cloudsql/noelwilson-2018-service-account.json"
+          ]
+          # [START cloudsql_security_context]
+          securityContext:
+            runAsUser: 2  # non-root user
+            allowPrivilegeEscalation: false
+          # [END cloudsql_security_context]
+          volumeMounts:
+            - name: cloudsql-instance-credentials
+              mountPath: /secrets/cloudsql
+              readOnly: true
+          resources:
+            requests:
+              memory: "100Mi"
+              cpu: "0.05"
+            limits:
+              memory: "100Mi"
+              cpu: "0.05"
         - name: server
-          image: docker.io/jwnwilson/jwnwilson_server:0.1.260
+          image: docker.io/jwnwilson/jwnwilson_server:0.1.266
           imagePullPolicy: Always
           ports:
             - containerPort: 8000
@@ -35,14 +58,18 @@ spec:
               value: develop
             - name: DJANGO_SECRET_KEY
               value: REPLACE_ME
-            - name: REDIS_HOST
-              value: 'redis.default.svc.cluster.local'
             - name: POSTGRES_HOST
-              value: POSTGRES_HOST
+              value: 127.0.0.1
             - name: POSTGRES_USER
-              value: 'docker'
+              valueFrom:
+                secretKeyRef:
+                  name: db-secret
+                  key: username
             - name: POSTGRES_PASS
-              value: 'docker'
+              valueFrom:
+                secretKeyRef:
+                  name: db-secret
+                  key: password
             - name: ACCESS_KEY
               value: REPLACE_ME
             - name: SECRET
@@ -52,6 +79,9 @@ spec:
         - name: media
           persistentVolumeClaim:
             claimName: media
+        - name: cloudsql-instance-credentials
+          secret:
+            secretName: cloudsql-instance-credentials
 status: {}
 
 ---
