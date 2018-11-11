@@ -37,17 +37,17 @@ spec:
               memory: "100Mi"
               cpu: "0.05"
         - name: server
-          image: docker.io/jwnwilson/jwnwilson_server:0.1.266
+          image: docker.io/jwnwilson/jwnwilson_server:0.1.272
           imagePullPolicy: Always
           ports:
             - containerPort: 8000
           resources:
             requests:
-              memory: "300Mi"
+              memory: "500Mi"
               cpu: "0.1"
             limits:
-              memory: "500Mi"
-              cpu: "0.3"
+              memory: "1Gi"
+              cpu: "0.5"
           tty: true
           volumeMounts:
             - mountPath: /app/src/server/media
@@ -71,9 +71,15 @@ spec:
                   name: db-secret
                   key: password
             - name: ACCESS_KEY
-              value: REPLACE_ME
+              valueFrom:
+                secretKeyRef:
+                  name: db-secret
+                  key: s3_access_key
             - name: SECRET
-              value: REPLACE_ME
+              valueFrom:
+                secretKeyRef:
+                  name: db-secret
+                  key: s3_secret
       restartPolicy: Always
       volumes:
         - name: media

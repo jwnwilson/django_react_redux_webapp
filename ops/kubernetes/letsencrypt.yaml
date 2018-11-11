@@ -2,7 +2,7 @@
 apiVersion: certmanager.k8s.io/v1alpha1
 kind: ClusterIssuer
 metadata:
-  name: letsencrypt-staging
+  name: letsencrypt-prod
 spec:
   acme:
     # The ACME server URL
@@ -11,6 +11,6 @@ spec:
     email: <jwnwilson@hotmail.co.uk>
     # Name of a secret used to store the ACME account private key
     privateKeySecretRef:
-      name: letsencrypt-sec-staging
+      name: letsencrypt-sec-prod
     # Enable HTTP01 validations
     http01: {}
