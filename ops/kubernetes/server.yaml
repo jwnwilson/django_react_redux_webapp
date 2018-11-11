@@ -18,7 +18,7 @@ spec:
           command: [
             "/cloud_sql_proxy",
             "-instances=noelwilson-2018:europe-west1:noel-wilson=tcp:5432",
-            "-credential_file=/secrets/cloudsql/noelwilson-2018-service-account.json"
+            "-credential_file=/secrets/cloudsql/credentials.json"
           ]
           # [START cloudsql_security_context]
           securityContext:
@@ -44,10 +44,10 @@ spec:
           resources:
             requests:
               memory: "500Mi"
-              cpu: "0.1"
+              cpu: "0.05"
             limits:
               memory: "1Gi"
-              cpu: "0.5"
+              cpu: "0.25"
           tty: true
           volumeMounts:
             - mountPath: /app/src/server/media

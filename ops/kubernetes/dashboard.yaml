@@ -116,6 +116,13 @@ spec:
             port: 9090
           initialDelaySeconds: 30
           timeoutSeconds: 30
+        resources:
+          requests:
+            memory: "100Mi"
+            cpu: "0.02"
+          limits:
+            memory: "100Mi"
+            cpu: "0.02"
       volumes:
       - name: tmp-volume
         emptyDir: {}
@@ -155,6 +162,6 @@ roleRef:
   kind: ClusterRole
   name: cluster-admin
 subjects:
-- kind: ServiceAccount
-  name: kubernetes-dashboard
-  namespace: kube-system
+  - kind: ServiceAccount
+    name: kubernetes-dashboard
+    namespace: kube-system

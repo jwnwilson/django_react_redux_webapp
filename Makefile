@@ -113,3 +113,10 @@ kube-logs:
 
 kube-shell:
 	kubectl exec -it ${POD} -c server -- /bin/bash
+
+kube-node:
+	kubectl describe node
+
+kube-admin-bind:
+	kubectl create clusterrolebinding cluster-admin-binding \
+		--clusterrole cluster-admin --user $(gcloud config get-value account)
