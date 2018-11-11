@@ -15,7 +15,7 @@ spec:
         name: nginx
     spec:
       containers:
-      - image: docker.io/jwnwilson/jwnwilson_nginx:0.1.278
+      - image: docker.io/jwnwilson/jwnwilson_nginx:0.1.281
         name: nginx
         ports:
         - containerPort: 80
@@ -52,5 +52,6 @@ spec:
     targetPort: 80
   selector:
     io.kompose.service: nginx
+  type: NodePort
 status:
   loadBalancer: {}
