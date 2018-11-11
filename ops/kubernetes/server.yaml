@@ -47,7 +47,7 @@ spec:
               cpu: "0.05"
             limits:
               memory: "1Gi"
-              cpu: "0.25"
+              cpu: "0.35"
           tty: true
           volumeMounts:
             - mountPath: /app/src/server/media
@@ -100,7 +100,7 @@ metadata:
     name: django
 spec:
   ports:
-    - name: "8000"
+    - name: "server"
       port: 8000
       targetPort: 8000
   selector:

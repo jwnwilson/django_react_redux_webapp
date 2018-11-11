@@ -8,6 +8,7 @@
 
 3. Assign cluster role binding to noel-wilson:
 
+    (Copy paste command doesn't work from make command)
     $ make kube-admin-bind
 
 4. Install dashboard:

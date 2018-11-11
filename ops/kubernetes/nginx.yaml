@@ -15,7 +15,7 @@ spec:
         name: nginx
     spec:
       containers:
-      - image: docker.io/jwnwilson/jwnwilson_nginx:0.1.290
+      - image: docker.io/jwnwilson/jwnwilson_nginx:0.1.314
         name: nginx
         ports:
         - containerPort: 80
@@ -47,7 +47,7 @@ metadata:
   name: nginx
 spec:
   ports:
-  - name: "80"
+  - name: "nginx"
     port: 80
     targetPort: 80
   selector:
