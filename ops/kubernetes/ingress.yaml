@@ -8,9 +8,21 @@ metadata:
     kubernetes.io/tls-acme: “true”
     kubernetes.io/ingress.global-static-ip-name: noel-wilson-ip
 spec:
-  backend:
-    serviceName: nginx
-    servicePort: 80
+  rules:
+  - http:
+      paths:
+      - path: /static
+        backend:
+          serviceName: nginx
+          servicePort: 80
+      - path: /media
+        backend:
+          serviceName: nginx
+          servicePort: 80
+      - path: /
+        backend:
+          serviceName: server
+          servicePort: 8000
   tls:
   - secretName: tls-prod-cert
     hosts:
