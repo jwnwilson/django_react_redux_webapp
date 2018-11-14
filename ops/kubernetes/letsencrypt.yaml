@@ -11,6 +11,6 @@ spec:
     email: <jwnwilson@hotmail.co.uk>
     # Name of a secret used to store the ACME account private key
     privateKeySecretRef:
-      name: letsencrypt-sec-prod
+      name: letsencrypt-prod
     # Enable HTTP01 validations
     http01: {}
