@@ -1,5 +1,20 @@
 # Kubernetes GKE instructions
 
+## Kubernetes TO DO
+
+- Automate entire setup
+
+### Postgres setup notes
+
+- Needed to add proxy container to server containers to connect to RDS (container added in server.yaml)
+- Add postgres instance
+- Create database
+- Add current user to postgres instance with postgres user
+- Grant permissions to new user to access database
+- Run migration on DB from server container
+
+## Kubernetes setup notes:
+
 1. Create cluster (I did it manually)
 2. Connect clsuter to kubectl:
 
@@ -16,11 +31,18 @@
     $ kubectl apply -f ops/kubernetes/dashboard.yaml
     $ make dashboard
 
-5. Create / Install secrets / service account (Not stored here in private google drive)
+5. Create service account
 
     $ kubectl create secret generic cloudsql-instance-credentials \
         --from-file=credentials.json=/credentials.json
-    $ kubectl apply -f ops/kubernetes/secrets.yaml
+    or 
+
+    $ make kube-db-credentials
+
+6. Copy secrets.yaml (Not stored here in private google drive)
+
+    https://drive.google.com/drive/folders/1qhal6R_rWe4HYJHEdnRJjZ1Zw8ovEDbU
 
 6. Install remaining kubernetes .yaml files
 
+    $ kube-apply-all
