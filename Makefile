@@ -103,5 +103,7 @@ clean:
 deploy:
 	make build-fe
 	make collect-static
+	git commit --allow-empty -m "Deploying to heroku"
+	git push origin heroku
 
 
