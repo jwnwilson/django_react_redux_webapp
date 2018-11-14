@@ -95,7 +95,7 @@ shell-db:
 	PGPASSWORD=docker psql -h localhost -U docker noelwilson2018
 
 collect-static:
-	$(COMPOSE) $(SERVER) run $(SERVER) bash -c "rm -rf ./staticfiles/* && python manage.py collectstatic --no-input"
+	$(COMPOSE) run $(SERVER) bash -c "rm -rf ./staticfiles/* && python manage.py collectstatic --no-input"
 
 clean:
 	find ./src/server -name \*.pyc -delete
@@ -104,19 +104,4 @@ deploy:
 	make build-fe
 	make collect-static
 
-dashboard:
-	kubectl proxy &
-	open http://localhost:8001/ui
 
-kube-logs:
-	kubectl logs -f ${POD}
-
-kube-shell:
-	kubectl exec -it ${POD} -c server -- /bin/bash
-
-kube-node:
-	kubectl describe node
-
-kube-admin-bind:
-	kubectl create clusterrolebinding cluster-admin-binding \
-		--clusterrole cluster-admin --user $(gcloud config get-value account)
