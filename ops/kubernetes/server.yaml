@@ -37,7 +37,7 @@ spec:
               memory: "100Mi"
               cpu: "0.05"
         - name: server
-          image: docker.io/jwnwilson/jwnwilson_server:0.1.281
+          image: docker.io/jwnwilson/jwnwilson_server:0.1.350
           imagePullPolicy: Always
           ports:
             - containerPort: 8000
