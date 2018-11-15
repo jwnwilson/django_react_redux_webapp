@@ -1,3 +1,7 @@
+CLUSTER_NAME=noel-wilson-cluster
+ZONE=europe-west1-b
+PROJECT=noelwilson-2018
+
 dashboard:
 	kubectl proxy &
 	open http://localhost:8001/ui
@@ -12,7 +16,7 @@ kube-node:
 	kubectl describe node
 
 # Connect to cluster
-setup-gke-cluster:
+connect:
 	gcloud container clusters get-credentials ${CLUSTER_NAME} --zone ${ZONE} --project ${PROJECT}
 
 # Bind current user to cluster admin role
