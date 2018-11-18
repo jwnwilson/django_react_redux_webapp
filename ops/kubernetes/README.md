@@ -16,7 +16,7 @@
 ## Kubernetes setup notes:
 
 1. Create cluster (I did it manually)
-2. Connect clsuter to kubectl:
+2. Connect cluster to kubectl:
 
     $ gcloud container clusters get-credentials $CLUSTER_NAME --zone $ZONE --project $PRO
     JECT
@@ -43,6 +43,12 @@
 
     https://drive.google.com/drive/folders/1qhal6R_rWe4HYJHEdnRJjZ1Zw8ovEDbU
 
-6. Install remaining kubernetes .yaml files
+7. Install ssl cert generator / manager
 
+    (Copy paste doesn't work from make command)
+    $ make install_cert
+
+8. Setup DB instance (Did this manually, get connection string), replace psql connection string in server.yaml
+
+9. Install remaining kubernetes .yaml files
     $ kube-apply-all

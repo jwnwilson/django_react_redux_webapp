@@ -15,6 +15,7 @@ spec:
       containers:
         - name: cloudsql-proxy
           image: gcr.io/cloudsql-docker/gce-proxy:1.11
+          # Using google SQL connection string
           command: [
             "/cloud_sql_proxy",
             "-instances=noelwilson-2018:europe-west1:noel-wilson=tcp:5432",
