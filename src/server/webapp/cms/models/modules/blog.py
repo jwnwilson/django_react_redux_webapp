@@ -40,7 +40,7 @@ class Blog(ClusterableModel, BaseModule):
     ]
 
     def __str__(self):
-        return self.text
+        return self.title
 
 
 @register_snippet
