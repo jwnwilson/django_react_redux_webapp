@@ -38,7 +38,7 @@ setup:
 	make setup-fe
 
 setup-be:
-	$(COMPOSE) run ${SERVER} bash -c "pipenv install --system --deploy --dev"
+	$(COMPOSE) run ${SERVER} bash -c "pipenv install --system --dev"
 
 setup-fe:
 	$(COMPOSE) run ${CLIENT} bash -c "npm install"
@@ -105,5 +105,8 @@ deploy:
 	make collect-static
 	git commit --allow-empty -m "Deploying to heroku"
 	git push origin heroku
+
+stop_all:
+	docker kill $(docker ps -q)
 
 
