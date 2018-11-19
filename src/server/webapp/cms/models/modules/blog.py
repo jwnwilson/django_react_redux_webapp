@@ -10,7 +10,7 @@ from wagtail.admin.edit_handlers import StreamFieldPanel
 from wagtail.core import blocks
 from wagtail.core.fields import StreamField
 from wagtail.core.models import Orderable
-from wagtail.embeds.blocks.EmbedBlock
+from wagtail.embeds.blocks import EmbedBlock
 from wagtail.images.edit_handlers import ImageChooserPanel
 from wagtail.images.blocks import ImageChooserBlock
 from taggit.models import TaggedItemBase, Tag as TaggitTag
