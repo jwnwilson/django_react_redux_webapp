@@ -37,10 +37,12 @@ $  make run
 
 ## To Do
 
-- Move from heroku to GCE / AWS for multiple processes cheaply
+- Move from heroku to GCE / AWS / Digital ocean for multiple processes cheaply
 - Setup worker to prerender html
 - Setup modpagespeed nginx settings
-- Fix test --nomigrations 
+- Fix test --nomigrations
+- Setup Redux Saga on front end
+- Investigate javascript Flow
 - Add tests for FE and BE
 - Add pagination
 - Remove jquery replace with modular libraries

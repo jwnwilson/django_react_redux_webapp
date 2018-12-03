@@ -107,6 +107,6 @@ deploy:
 	git push origin heroku
 
 stop_all:
-	docker kill $(docker ps -q)
+	 docker ps -q | docker kill
 
 
