@@ -28,6 +28,13 @@ const Blog = (props) => {
           </React.Fragment>
         );
         break;
+      case 'image':
+        blogElement = (
+          <React.Fragment key={index}>
+            <img src="{block.value.large.src}" alt="{block.value.large.alt}" />
+          </React.Fragment>
+        );
+        break;
       default:
     }
     return blogElement;

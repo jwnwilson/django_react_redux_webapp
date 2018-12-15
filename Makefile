@@ -109,4 +109,7 @@ deploy:
 stop_all:
 	 docker ps -q | docker kill
 
+docker_stop:
+	-docker stop $(shell docker ps -q)
+
 
