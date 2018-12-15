@@ -11,6 +11,7 @@ from wagtail.embeds.blocks import EmbedBlock
 from wagtail.images.blocks import ImageChooserBlock
 from taggit.models import TaggedItemBase, Tag as TaggitTag
 from wagtail.snippets.models import register_snippet
+from wagtail.core.templatetags import wagtailcore_tags
 
 from .base import BaseModule, BaseSerializer
 from webapp.cms.models.modules.base import register_serializer
@@ -30,13 +31,21 @@ class BlogImage(ImageChooserBlock):
             }
 
 
+class BlogRichTextBlock(blocks.RichTextBlock):
+    def get_prep_value(self, value):
+        """Override RichTextBlock to render embedded images with
+        source image url
+        """
+        return wagtailcore_tags.richtext(value.source)
+
+
 @register_snippet
 class Blog(ClusterableModel, BaseModule):
     component = "Blog"
     tags = ClusterTaggableManager(through='cms.BlogTag', blank=True)
     body = StreamField([
         ('heading', blocks.CharBlock(classname="full title")),
-        ('paragraph', blocks.RichTextBlock()),
+        ('paragraph', BlogRichTextBlock(features=['thumbnail'])),
         ('image', BlogImage()),
         ('video', EmbedBlock()),
     ])
