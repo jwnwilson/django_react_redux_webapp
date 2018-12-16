@@ -35,6 +35,13 @@ const Blog = (props) => {
           </React.Fragment>
         );
         break;
+      case 'video':
+        blogElement = (
+          <React.Fragment key={index}>
+            <iframe title="Video" src={block.value} width="420" height="315" />
+          </React.Fragment>
+        );
+        break;
       default:
     }
     return blogElement;

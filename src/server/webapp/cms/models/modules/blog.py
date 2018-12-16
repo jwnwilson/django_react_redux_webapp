@@ -1,4 +1,7 @@
+import json
+
 from django.db import models
+from django.contrib import admin
 from modelcluster.models import ClusterableModel
 from modelcluster.fields import ParentalKey
 from modelcluster.tags import ClusterTaggableManager
@@ -12,31 +15,13 @@ from wagtail.images.blocks import ImageChooserBlock
 from taggit.models import TaggedItemBase, Tag as TaggitTag
 from wagtail.snippets.models import register_snippet
 from wagtail.core.templatetags import wagtailcore_tags
+from wagtail.images.templatetags import wagtailimages_tags
+from wagtail.api import APIField
+from wagtail.api.v2.serializers import StreamField as APIStreamField
+from django.contrib import admin
 
 from .base import BaseModule, BaseSerializer
 from webapp.cms.models.modules.base import register_serializer
-
-
-class BlogImage(ImageChooserBlock):
-    def get_prep_value(self, value):
-        """Override default Image chooser block logic to return
-        actual image data over just a primary key
-        """
-        if value:
-            return {
-                'id': value.id,
-                'title': value.title,
-                'large': value.get_rendition('width-1000').attrs_dict,
-                'thumbnail': value.get_rendition('fill-120x120').attrs_dict,
-            }
-
-
-class BlogRichTextBlock(blocks.RichTextBlock):
-    def get_prep_value(self, value):
-        """Override RichTextBlock to render embedded images with
-        source image url
-        """
-        return wagtailcore_tags.richtext(value.source)
 
 
 @register_snippet
@@ -45,8 +30,8 @@ class Blog(ClusterableModel, BaseModule):
     tags = ClusterTaggableManager(through='cms.BlogTag', blank=True)
     body = StreamField([
         ('heading', blocks.CharBlock(classname="full title")),
-        ('paragraph', BlogRichTextBlock(features=['thumbnail'])),
-        ('image', BlogImage()),
+        ('paragraph', blocks.RichTextBlock()),
+        ('image', ImageChooserBlock()),
         ('video', EmbedBlock()),
     ])
 
@@ -81,3 +66,21 @@ class BlogSerializer(serializers.ModelSerializer):
         model = Blog
         fields = '__all__'
         depth = 2
+
+    def to_representation(self, instance):
+        blog_data = super().to_representation(instance)
+        body_data = json.loads(blog_data['body'])
+        for i, block in enumerate(body_data):
+            if block['type'] == 'paragraph':
+                block['value'] = wagtailcore_tags.richtext(block['value'])
+            if block['type'] == 'image':
+                value = instance.body[i].value
+                block['value'] = {
+                    'id': value.id,
+                    'title': value.title,
+                    'large': value.get_rendition('width-1000').attrs_dict,
+                    'thumbnail': value.get_rendition('fill-120x120').attrs_dict,
+                }
+        blog_data['body'] = json.dumps(body_data)
+
+        return blog_data
