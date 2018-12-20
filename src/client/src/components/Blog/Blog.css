@@ -1,0 +1,14 @@
+.richtext-image.left {
+    float: left;
+    margin-right: 1em;
+}
+
+.richtext-image.right{
+    float: right;
+    margin-left: 1em;
+}
+
+.richtext-image.full-width {
+    width: 100%;
+    margin-bottom: 1em;
+}

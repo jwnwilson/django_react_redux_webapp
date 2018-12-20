@@ -31,14 +31,18 @@ const Blog = (props) => {
       case 'image':
         blogElement = (
           <React.Fragment key={index}>
-            <img src={block.value.large.src} alt={block.value.large.alt} />
+            <img
+              className="col-12"
+              src={block.value.large.src}
+              alt={block.value.large.alt}
+            />
           </React.Fragment>
         );
         break;
       case 'video':
         blogElement = (
           <React.Fragment key={index}>
-            <iframe title="Video" src={block.value} width="420" height="315" />
+            <iframe className="col-12 mt-1 mb-1" style={{ border: 'none' }} title="Video" src={block.value} width="100%" />
           </React.Fragment>
         );
         break;
