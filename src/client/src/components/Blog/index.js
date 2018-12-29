@@ -1,6 +1,7 @@
 import React from 'react';
 import renderHTML from 'react-render-html';
 import PropTypes from 'prop-types';
+import List from './list';
 
 import '../../style/core.css';
 import './Blog.css';
@@ -8,7 +9,7 @@ import './Blog.css';
 const Blog = (props) => {
   const { module } = props.data;
 
-  // Build blog post
+  // Build blog posta
   const blogData = JSON.parse(module.body);
   const blogPost = blogData.map((block, index) => {
     let blogElement = null;
@@ -53,6 +54,7 @@ const Blog = (props) => {
 
   return (
     <section className="wrap-image bg-primary text-white mb-0 mt-5" id="about">
+      <List data={{}} />
       <div className="container">
         {blogPost}
         <div className="clear-fix col-xs-12">

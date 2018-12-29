@@ -9,21 +9,17 @@ from modelcluster.fields import ParentalKey
 from rest_framework import serializers
 from wagtail.admin.edit_handlers import FieldPanel, InlinePanel
 from wagtail.api import APIField
-from wagtail.api.v2.serializers import ChildRelationField, RelatedField
 from wagtail.core.models import Page, Orderable
-from wagtail.core.fields import RichTextField
 from wagtail.snippets.edit_handlers import SnippetChooserPanel
-from wagtail.snippets.models import register_snippet
 
 from .modules.base import ModuleSerializer
-from ..logic.api import getApiData
 
 
 def json_serial(obj):
     """JSON serializer for objects not serializable by default json code"""
     if isinstance(obj, (datetime, date)):
         return obj.isoformat()
-    raise TypeError ("Type %s not serializable" % type(obj))
+    raise TypeError("Type %s not serializable" % type(obj))
 
 
 class ModulePage(Page):
@@ -56,6 +52,8 @@ class ModulePage(Page):
     ]
 
     def get_context(self, request):
+        from webapp.cms.api.logic import getApiData
+
         context = super().get_context(request)
 
         # Get list of pages to build routes cache it might need to move to a task

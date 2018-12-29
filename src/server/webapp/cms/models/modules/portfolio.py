@@ -3,7 +3,6 @@ from rest_framework import serializers
 from modelcluster.fields import ParentalKey
 from modelcluster.models import ClusterableModel
 from wagtail.api import APIField
-from wagtail.api.v2.serializers import PageSerializer
 from wagtail.admin.edit_handlers import FieldPanel
 from wagtail.admin.edit_handlers import InlinePanel
 from wagtail.admin.edit_handlers import PageChooserPanel
