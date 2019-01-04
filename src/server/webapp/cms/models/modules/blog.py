@@ -1,7 +1,6 @@
 import json
 
 from django.db import models
-from django.contrib import admin
 from modelcluster.models import ClusterableModel
 from modelcluster.fields import ParentalKey
 from modelcluster.tags import ClusterTaggableManager
@@ -15,12 +14,8 @@ from wagtail.images.blocks import ImageChooserBlock
 from taggit.models import TaggedItemBase, Tag as TaggitTag
 from wagtail.snippets.models import register_snippet
 from wagtail.core.templatetags import wagtailcore_tags
-from wagtail.images.templatetags import wagtailimages_tags
-from wagtail.api import APIField
-from wagtail.api.v2.serializers import StreamField as APIStreamField
-from django.contrib import admin
 
-from .base import BaseModule, BaseSerializer
+from .base import BaseModule
 from webapp.cms.models.modules.base import register_serializer
 
 
@@ -82,5 +77,6 @@ class BlogSerializer(serializers.ModelSerializer):
                     'thumbnail': value.get_rendition('fill-120x120').attrs_dict,
                 }
         blog_data['body'] = json.dumps(body_data)
+        blog_data['tags'] = instance.tags.slugs()
 
         return blog_data

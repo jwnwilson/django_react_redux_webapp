@@ -1,5 +1,3 @@
-import json
-
 from django.core.mail import EmailMessage
 from django.http import (
     HttpResponse,

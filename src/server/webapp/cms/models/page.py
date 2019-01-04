@@ -79,7 +79,7 @@ class ModulePage(Page):
         # Attempt to dynamically import post logic
         try:
             view_module = import_module(
-                'webapp.cms.view_logic.{}'.format(self.slug))
+                'webapp.cms.views.{}'.format(self.slug))
         except ModuleNotFoundError:
             view_module = None
 

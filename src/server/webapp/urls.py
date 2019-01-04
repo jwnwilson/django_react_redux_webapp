@@ -2,19 +2,20 @@ from django.conf import settings
 from django.conf.urls import include, url
 from django.conf.urls.static import static
 from django.contrib import admin
-from django.views.generic import TemplateView, RedirectView
+from django.views.generic import RedirectView
 from django.views.static import serve
 from wagtail.core import urls as wagtail_urls
 
-
-from webapp.cms.api import api_router
+from webapp.cms.api.router import api_router
+from webapp.cms.api.router import api_urls
 
 
 handler404 = 'webapp.views.handler404'
 handler500 = 'webapp.views.handler500'
 
+
 urlpatterns = [
-    url(r'^api/', api_router.urls),
+    url(r'^api/', (api_router.urls[0] + api_urls, 'wagtailapi', 'wagtailapi')),
     url(r'^cms/', include('webapp.cms.urls')),
     url(r'^admin/', admin.site.urls),
     # PWA url
