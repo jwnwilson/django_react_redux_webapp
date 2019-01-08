@@ -1,6 +1,7 @@
 import {
   GET_DATA_SUCCESS,
   GET_DATA_FAILURE,
+  GET_BLOG_DATA,
   COMPONENT_UPDATED,
   COMPONENT_NEEDS_UPDATE,
 } from './actionTypes';
@@ -20,4 +21,8 @@ export function updateComponent() {
 
 export function componentUpdated() {
   return { type: COMPONENT_UPDATED };
+}
+
+export function getApiBlogData() {
+  return { type: GET_BLOG_DATA };
 }

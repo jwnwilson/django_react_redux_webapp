@@ -1,4 +1,5 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import renderHTML from 'react-render-html';
 import PropTypes from 'prop-types';
 import List from './list';
@@ -65,8 +66,13 @@ const Blog = (props) => {
   );
 };
 
+const mapDispatchToProps = {
+  getBlogs: getBlogs,
+};
+
 Blog.propTypes = {
   data: PropTypes.object.isRequired,
 };
 
-export default Blog;
+
+export default connect(null, mapDispatchToProps)(Blog);;
