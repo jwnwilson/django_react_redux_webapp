@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import renderHTML from 'react-render-html';
 import PropTypes from 'prop-types';
 import List from './list';
+import getBlogs from '../../actions';
 
 import '../../style/core.css';
 import './Blog.css';
@@ -67,12 +68,11 @@ const Blog = (props) => {
 };
 
 const mapDispatchToProps = {
-  getBlogs: getBlogs,
+  getBlogs,
 };
 
 Blog.propTypes = {
   data: PropTypes.object.isRequired,
 };
 
-
-export default connect(null, mapDispatchToProps)(Blog);;
+export default connect(null, mapDispatchToProps)(Blog);
