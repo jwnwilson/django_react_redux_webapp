@@ -8,11 +8,13 @@ import rootSaga from '../sagas';
 
 export default function configureStore() {
   const sagaMiddleware = createSagaMiddleware();
-  sagaMiddleware.run(rootSaga);
-
-  return createStore(
+  const store = createStore(
     rootReducer,
     window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__(),
     applyMiddleware(sagaMiddleware, logger),
   );
+
+  sagaMiddleware.run(rootSaga);
+
+  return store;
 }

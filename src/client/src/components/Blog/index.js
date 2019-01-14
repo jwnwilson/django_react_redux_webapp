@@ -3,13 +3,15 @@ import { connect } from 'react-redux';
 import renderHTML from 'react-render-html';
 import PropTypes from 'prop-types';
 import List from './list';
-import getBlogs from '../../actions';
+import { getApiBlogData } from '../../actions';
 
 import '../../style/core.css';
 import './Blog.css';
 
 const Blog = (props) => {
   const { module } = props.data;
+
+  props.getApiBlogData();
 
   // Build blog posta
   const blogData = JSON.parse(module.body);
@@ -68,11 +70,15 @@ const Blog = (props) => {
 };
 
 const mapDispatchToProps = {
-  getBlogs,
+  getApiBlogData,
 };
 
 Blog.propTypes = {
   data: PropTypes.object.isRequired,
+  getApiBlogData: PropTypes.func.isRequired,
 };
 
-export default connect(null, mapDispatchToProps)(Blog);
+export default connect(
+  null,
+  mapDispatchToProps,
+)(Blog);

@@ -1,19 +1,25 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 
 import '../../style/core.css';
 import './Blog.css';
 
 const List = (props) => {
-  const { module } = props.data; // eslint-disable-line no-unused-vars
-
+  const blogElements = props.blogs.map(blog => <h1>{blog.title}</h1>);
   return (
-    <section className="wrap-image bg-primary text-white mb-0 mt-5" />
+    <React.Fragment>
+      {blogElements}
+    </React.Fragment>
   );
 };
 
 List.propTypes = {
-  data: PropTypes.object.isRequired,
+  blogs: PropTypes.array.isRequired,
 };
 
-export default List;
+export default connect(
+  state => ({
+    blogs: state.blogs,
+  }),
+)(List);
