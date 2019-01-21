@@ -54,7 +54,7 @@ class ModulePage(Page):
     def cache_all_pages(self):
         from webapp.cms.api.logic import getApiData
 
-        pages = Page.objects.filter(live=True)
+        pages = Page.objects.live()
         page_data = []
         # Add url value from page property
         for page in pages:
@@ -70,12 +70,9 @@ class ModulePage(Page):
 
         # Get list of pages to build routes cache it might need to move to a task
         # Move to cache get only current page data and cache it
-        import pdb;pdb.set_trace()
         context['pages'] = cache.get('pages_data')
         if not context['pages']:
-            pages = (
-                [request.site.root_page] +
-                list(request.site.root_page.get_children().live()))
+            pages = Page.objects.in_site(request.site).live()
             page_data = []
             # Add url value from page property
             for page in pages:
