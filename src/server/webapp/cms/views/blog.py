@@ -9,7 +9,7 @@ from webapp.cms.models import BlogSerializer
 
 class BlogList(APIView):
     """
-    List all snippets, or create a new snippet.
+    Handle Blog API endpoint logic
     """
     def get(self, request, format=None):
         blogs = Blog.objects.all()

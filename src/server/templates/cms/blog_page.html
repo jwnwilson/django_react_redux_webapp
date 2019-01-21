@@ -1,0 +1,36 @@
+{% extends "webapp/base.html" %}
+{% load static %}
+
+{% block head %}
+  <link rel="icon" type="image/png" href="/static/favicon.png">
+  <link rel="manifest" href="/static/manifest.json">
+
+  <!-- Bootstrap core CSS -->
+  <link href="{% static "vendor/bootstrap/css/bootstrap.min.css" %}" rel="stylesheet">
+
+  <!-- Custom fonts for this template -->
+  <link href="{% static "vendor/font-awesome/css/font-awesome.min.css" %}" rel="stylesheet" type="text/css">
+  <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css">
+  <link href="https://fonts.googleapis.com/css?family=Lato:400,700,400italic,700italic" rel="stylesheet" type="text/css">
+
+  <!-- Plugin CSS -->
+  <link href="{% static "vendor/magnific-popup/magnific-popup.css" %}" rel="stylesheet" type="text/css">
+
+  <!-- Bootstrap core JavaScript -->
+  <script src="{% static "vendor/jquery/jquery.min.js" %}"></script>
+  <script src="{% static "vendor/bootstrap/js/bootstrap.bundle.min.js" %}"></script>
+
+  <!-- Plugin JavaScript -->
+  <script src="{% static "vendor/jquery-easing/jquery.easing.min.js" %}"></script>
+  <script src="{% static "vendor/magnific-popup/jquery.magnific-popup.min.js" %}"></script>
+
+  <!-- Contact Form JavaScript -->
+  <script src="{% static "vendor/jqBootstrapValidation/jqBootstrapValidation.min.js" %}"></script>
+{% endblock %}
+
+{% block body_class %}bg-secondary{% endblock %}
+
+{% block content %}
+  <div id="root" data-api="{{api_data}}" data-pages="{{pages}}" data-status="{{status}}">
+  </div>
+{% endblock %}

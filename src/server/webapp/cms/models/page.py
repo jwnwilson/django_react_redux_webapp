@@ -51,12 +51,26 @@ class ModulePage(Page):
         APIField('url'),
     ]
 
+    def cache_all_pages(self):
+        from webapp.cms.api.logic import getApiData
+
+        pages = Page.objects.filter(live=True)
+        page_data = []
+        # Add url value from page property
+        for page in pages:
+            page_data.append(getApiData(page.site, page))
+
+        page_data = json.dumps(page_data)
+        cache.set('pages_data', page_data)
+
     def get_context(self, request):
         from webapp.cms.api.logic import getApiData
 
         context = super().get_context(request)
 
         # Get list of pages to build routes cache it might need to move to a task
+        # Move to cache get only current page data and cache it
+        import pdb;pdb.set_trace()
         context['pages'] = cache.get('pages_data')
         if not context['pages']:
             pages = (
@@ -76,7 +90,7 @@ class ModulePage(Page):
         return context
 
     def serve(self, request):
-        # Attempt to dynamically import post logic
+        # Attempt to dynamically import get / post logic
         try:
             view_module = import_module(
                 'webapp.cms.views.{}'.format(self.slug))
@@ -134,4 +148,9 @@ def clear_cache(sender, instance, created, **kwargs):
     cache.delete('pages_data')
 
 
+class BlogPage(ModulePage):
+    pass
+
+
 signals.post_save.connect(receiver=clear_cache, sender=ModulePage)
+signals.post_save.connect(receiver=clear_cache, sender=BlogPage)
