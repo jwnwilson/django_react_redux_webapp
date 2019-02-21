@@ -30,7 +30,7 @@ function footer(state = null, action) {
 function blogs(state = [], action) {
   switch (action.type) {
     case BLOG_RECEIVED:
-      return action.json.items || [];
+      return action.data.items || [];
     default:
       return state;
   }

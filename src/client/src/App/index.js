@@ -111,7 +111,6 @@ App.defaultProps = {
   footer: {},
 };
 
-
 App.propTypes = {
   page: PropTypes.object.isRequired,
   header: PropTypes.object,

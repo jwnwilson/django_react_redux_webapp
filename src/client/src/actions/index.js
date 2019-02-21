@@ -1,18 +1,12 @@
 import {
-  GET_DATA_SUCCESS,
-  GET_DATA_FAILURE,
+  GET_API_DATA,
   GET_BLOG_DATA,
   COMPONENT_UPDATED,
   COMPONENT_NEEDS_UPDATE,
 } from './actionTypes';
 
 export function getApiData(id) {
-  return dispatch => fetch('//' + window.location.host + `/api/pages/${id}/?format=json`)
-    .then(res => res.json())
-    .then(
-      data => dispatch({ type: GET_DATA_SUCCESS, data }),
-      err => dispatch({ type: GET_DATA_FAILURE, err }),
-    );
+  return { type: GET_API_DATA, id };
 }
 
 export function updateComponent() {
