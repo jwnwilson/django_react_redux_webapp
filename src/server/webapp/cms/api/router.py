@@ -19,6 +19,6 @@ api_router.register_endpoint('images', ImagesAPIEndpoint)
 api_router.register_endpoint('documents', DocumentsAPIEndpoint)
 
 api_urls = [
-    url(r'^blog/$', blog.BlogList.as_view()),
-    url(r'^blog/<int:pk>/$', blog.BlogList.as_view()),
+    url(r'^blog/$', blog.BlogList.as_view(), name="blogs"),
+    url(r'^blog/(?P<pk>\d+)/$', blog.BlogDetail.as_view(), name="blog"),
 ]

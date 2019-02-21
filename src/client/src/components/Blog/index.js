@@ -13,7 +13,7 @@ const Blog = (props) => {
 
   props.getApiBlogData();
 
-  // Build blog posta
+  // Build blog posts
   const blogData = JSON.parse(module.body);
   const blogPost = blogData.map((block, index) => {
     let blogElement = null;
