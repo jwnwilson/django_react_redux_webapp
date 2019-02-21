@@ -3,7 +3,7 @@ import { put, takeLatest, all } from 'redux-saga/effects';
 import { GET_BLOG_DATA, BLOG_RECEIVED } from '../actions/actionTypes';
 
 function* fetchBlogData() {
-  const json = yield fetch('/api/blog/?format=json')
+  const json = yield fetch('/api/pages/?type=cms.BlogPage&format=json')
     .then(response => response.json());
   yield put({ type: BLOG_RECEIVED, json });
 }

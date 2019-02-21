@@ -6,16 +6,21 @@ import '../../style/core.css';
 import './Blog.css';
 
 const List = (props) => {
-  const blogElements = props.blogs.map(blog => <h1>{blog.title}</h1>);
+  const blogElements = props.blogs.map(blog => (
+    <div>
+      <a className="text-white" href={blog.meta.html_url}>{blog.title}</a>
+    </div>
+  ));
   return (
-    <React.Fragment>
+    <div className="container">
+      <h2>Other Posts</h2>
       {blogElements}
-    </React.Fragment>
+    </div>
   );
 };
 
 List.propTypes = {
-  blogs: PropTypes.array.isRequired,
+  blogs: PropTypes.object.isRequired,
 };
 
 export default connect(
