@@ -10,6 +10,7 @@ from rest_framework import serializers
 from wagtail.admin.edit_handlers import FieldPanel, InlinePanel
 from wagtail.api import APIField
 from wagtail.core.models import Page, Orderable
+from wagtail.images.edit_handlers import ImageChooserPanel
 from wagtail.snippets.edit_handlers import SnippetChooserPanel
 
 from .modules.base import ModuleSerializer
@@ -146,7 +147,24 @@ def clear_cache(sender, instance, created, **kwargs):
 
 
 class BlogPage(ModulePage):
-    pass
+    description = models.TextField()
+    listing_image = models.ForeignKey(
+        'wagtailimages.Image',
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        related_name='+'
+    )
+
+    api_fields = ModulePage.api_fields + [
+        APIField('description'),
+        APIField('listing_image'),
+    ]
+
+    content_panels = ModulePage.content_panels + [
+        FieldPanel('description'),
+        ImageChooserPanel('listing_image'),
+    ]
 
 
 signals.post_save.connect(receiver=clear_cache, sender=ModulePage)

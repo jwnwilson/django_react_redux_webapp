@@ -7,13 +7,13 @@ import './Blog.css';
 
 const List = (props) => {
   const blogElements = props.blogs.map(blog => (
-    <div>
+    <div className="row">
       <a className="text-white" href={blog.meta.html_url}>{blog.title}</a>
     </div>
   ));
   return (
     <div className="container">
-      <h2>Other Posts</h2>
+      <h2>Blog Posts</h2>
       {blogElements}
     </div>
   );
