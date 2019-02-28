@@ -7,11 +7,19 @@ import './Blog.css';
 
 const List = (props) => {
   const blogElements = props.blogs.map(blog => (
-    <div className="row">
-      <a className="text-white" href={blog.meta.html_url}>
-        <img src={blog.listing_image_url.url} alt="" />
-        {blog.title}
-      </a>
+    <div className="row mb-5 mt-5">
+      <div className="col-sm-12 col-md-6">
+        <a href={blog.meta.html_url}>
+          <img className="col-12" src={blog.listing_image_url.url} alt="" />
+        </a>
+      </div>
+      <div className="col-sm-12 col-md-6">
+        <a href={blog.meta.html_url}>
+          <h2 className="text-white">{blog.title}</h2>
+        </a>
+        <hr />
+        <p>{blog.description}</p>
+      </div>
     </div>
   ));
   return (

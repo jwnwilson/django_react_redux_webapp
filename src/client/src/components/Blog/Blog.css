@@ -16,3 +16,9 @@
     width: 100%;
     margin-bottom: 1em;
 }
+
+@media (max-width: 767px) {
+    .col-sm-12.col-md-6 {
+        margin-top:20px;
+    }
+}
