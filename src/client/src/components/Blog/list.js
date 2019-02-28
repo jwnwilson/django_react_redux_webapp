@@ -8,7 +8,10 @@ import './Blog.css';
 const List = (props) => {
   const blogElements = props.blogs.map(blog => (
     <div className="row">
-      <a className="text-white" href={blog.meta.html_url}>{blog.title}</a>
+      <a className="text-white" href={blog.meta.html_url}>
+        <img src={blog.listing_image_url.url} alt="" />
+        {blog.title}
+      </a>
     </div>
   ));
   return (

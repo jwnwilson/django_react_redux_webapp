@@ -12,6 +12,7 @@ from wagtail.api import APIField
 from wagtail.core.models import Page, Orderable
 from wagtail.images.edit_handlers import ImageChooserPanel
 from wagtail.snippets.edit_handlers import SnippetChooserPanel
+from wagtail.images.api.fields import ImageRenditionField
 
 from .modules.base import ModuleSerializer
 
@@ -159,6 +160,13 @@ class BlogPage(ModulePage):
     api_fields = ModulePage.api_fields + [
         APIField('description'),
         APIField('listing_image'),
+        # Adds a URL to a rendered thumbnail of the image to the API
+        APIField(
+            'listing_image_url',
+            serializer=ImageRenditionField(
+                'fill-400x400', source='listing_image'
+            )
+        )
     ]
 
     content_panels = ModulePage.content_panels + [

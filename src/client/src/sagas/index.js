@@ -8,7 +8,7 @@ import {
 } from '../actions/actionTypes';
 
 function* fetchBlogData() {
-  const data = yield fetch('/api/pages/?type=cms.BlogPage&format=json')
+  const data = yield fetch('/api/pages/?type=cms.BlogPage&format=json&fields=description,listing_image_url')
     .then(response => response.json());
   yield put({ type: BLOG_RECEIVED, data });
 }
