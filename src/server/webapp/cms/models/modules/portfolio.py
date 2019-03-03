@@ -11,7 +11,7 @@ from wagtail.images.edit_handlers import ImageChooserPanel
 from wagtail.snippets.models import register_snippet
 
 from .base import BaseModule, register_serializer
-from webapp.cms.models.page import LinkSerializer
+from webapp.cms.models.pages.module_page import LinkSerializer
 
 
 @register_snippet

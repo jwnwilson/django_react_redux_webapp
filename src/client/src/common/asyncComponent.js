@@ -53,13 +53,14 @@ export default class AsyncComponent extends PureComponent {
 
     return (
       <div className={!Component ? 'placeholder' : 'fade-in'}>
-        {Component ? <Component data={this.props.data} /> : <section />}
+        {Component ? <Component data={this.props.data} page={this.props.page} /> : <section />}
       </div>
     );
   }
 }
 
 AsyncComponent.propTypes = {
+  page: PropTypes.object.isRequired,
   data: PropTypes.object.isRequired,
   moduleProvider: PropTypes.func.isRequired,
 };

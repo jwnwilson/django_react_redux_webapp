@@ -2,16 +2,12 @@ import React from 'react';
 import { connect } from 'react-redux';
 import renderHTML from 'react-render-html';
 import PropTypes from 'prop-types';
-import List from './list';
-import { getApiBlogData } from '../../actions';
 
 import '../../style/core.css';
 import './Blog.css';
 
 const Blog = (props) => {
   const { module } = props.data;
-
-  props.getApiBlogData();
 
   // Build blog posts
   const blogData = JSON.parse(module.body);
@@ -58,7 +54,14 @@ const Blog = (props) => {
 
   return (
     <section className="wrap-image bg-primary text-white mb-0 mt-5" id="about">
-      <List data={{}} />
+      <div className="container">
+        <a href={props.page.meta.parent.meta.html_url}>
+          <div className="row">
+            <i className="fa fa-fw fa-arrow-left text-white vcenter" />
+            <h3 className="text-white">Blog List</h3>
+          </div>
+        </a>
+      </div>
       <div className="container">
         {blogPost}
         <div className="clear-fix col-xs-12">
@@ -69,16 +72,12 @@ const Blog = (props) => {
   );
 };
 
-const mapDispatchToProps = {
-  getApiBlogData,
-};
-
 Blog.propTypes = {
+  page: PropTypes.object.isRequired,
   data: PropTypes.object.isRequired,
-  getApiBlogData: PropTypes.func.isRequired,
 };
 
 export default connect(
   null,
-  mapDispatchToProps,
+  null,
 )(Blog);

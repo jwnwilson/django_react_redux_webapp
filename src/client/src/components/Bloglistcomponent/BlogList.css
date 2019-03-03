@@ -22,9 +22,3 @@
         margin-top:20px;
     }
 }
-
-.vcenter {
-    display: flex;
-    align-items: center;
-    margin-bottom: 0.5 rem;
-}

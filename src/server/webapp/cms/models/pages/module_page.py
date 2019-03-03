@@ -10,11 +10,9 @@ from rest_framework import serializers
 from wagtail.admin.edit_handlers import FieldPanel, InlinePanel
 from wagtail.api import APIField
 from wagtail.core.models import Page, Orderable
-from wagtail.images.edit_handlers import ImageChooserPanel
 from wagtail.snippets.edit_handlers import SnippetChooserPanel
-from wagtail.images.api.fields import ImageRenditionField
 
-from .modules.base import ModuleSerializer
+from ..modules.base import ModuleSerializer
 
 
 def json_serial(obj):
@@ -75,14 +73,15 @@ class ModulePage(Page):
         context['pages'] = cache.get('pages_data')
         if not context['pages']:
             pages = Page.objects.in_site(request.site).live()
-            page_data = []
+            pages_data = []
             # Add url value from page property
             for page in pages:
-                page_data.append(getApiData(request, page))
+                page_data = getApiData(request, page)
+                pages_data.append(page_data)
 
-            page_data = json.dumps(page_data)
-            cache.set('pages_data', page_data)
-            context['pages'] = page_data
+            pages_data = json.dumps(pages_data)
+            cache.set('pages_data', pages_data)
+            context['pages'] = pages_data
 
         # Add extra variables and return the updated context
         context['api_data'] = json.dumps(getApiData(request, context['page']))
@@ -147,33 +146,4 @@ def clear_cache(sender, instance, created, **kwargs):
     cache.delete('pages_data')
 
 
-class BlogPage(ModulePage):
-    description = models.TextField()
-    listing_image = models.ForeignKey(
-        'wagtailimages.Image',
-        null=True,
-        blank=True,
-        on_delete=models.SET_NULL,
-        related_name='+'
-    )
-
-    api_fields = ModulePage.api_fields + [
-        APIField('description'),
-        APIField('listing_image'),
-        # Adds a URL to a rendered thumbnail of the image to the API
-        APIField(
-            'listing_image_url',
-            serializer=ImageRenditionField(
-                'fill-400x400', source='listing_image'
-            )
-        )
-    ]
-
-    content_panels = ModulePage.content_panels + [
-        FieldPanel('description'),
-        ImageChooserPanel('listing_image'),
-    ]
-
-
 signals.post_save.connect(receiver=clear_cache, sender=ModulePage)
-signals.post_save.connect(receiver=clear_cache, sender=BlogPage)

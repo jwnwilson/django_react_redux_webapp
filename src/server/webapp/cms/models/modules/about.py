@@ -1,8 +1,5 @@
 from django.db import models
-from rest_framework import serializers
-from wagtail.api import APIField
 from wagtail.admin.edit_handlers import FieldPanel
-from wagtail.images.edit_handlers import ImageChooserPanel
 from wagtail.snippets.models import register_snippet
 
 from .base import BaseModule, BaseSerializer
@@ -25,7 +22,6 @@ class About(BaseModule):
 
     def __str__(self):
         return self.title
-
 
 
 @register_serializer
