@@ -8,8 +8,8 @@ import '../../style/core.css';
 import './BlogList.css';
 
 function BlogListItems(props) => {
-  return props.blogs.map(blog => (
-    <div className="row mb-5 mt-5">
+  return props.blogs.map((blog, index) => (
+    <div key={index} className="row mb-5 mt-5">
       <div className="col-sm-12 col-md-6">
         <a href={blog.meta.html_url}>
           <img className="col-12" src={blog.listing_image_url.url} alt="" />
@@ -42,7 +42,8 @@ class BlogList extends React.Component {
         <div className="container">
           <h2>Blog Posts</h2>
           <PageList>
-            <BlogListItems 
+            <BlogListItems
+              updateList={{this.loadBlogData}}
               blogs={{this.props.blogs}}/>
           </PageList>
         </div>
