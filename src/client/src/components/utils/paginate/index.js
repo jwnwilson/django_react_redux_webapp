@@ -2,14 +2,10 @@ import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import PropTypes from 'prop-types';
 import ReactPaginate from 'react-paginate';
-import $ from 'jquery';
 
 window.React = React;
 
 export class CommentList extends Component {
-  static propTypes = {
-    data: PropTypes.array.isRequired,
-  };
 
   render() {
     let commentNodes = this.props.data.map(function(comment, index) {
@@ -24,7 +20,7 @@ export class CommentList extends Component {
   }
 }
 
-export class App extends Component {
+class PageList extends Component {
   static propTypes = {
     url: PropTypes.string.isRequired,
     author: PropTypes.string.isRequired,
@@ -41,23 +37,23 @@ export class App extends Component {
   }
 
   loadCommentsFromServer() {
-    $.ajax({
-      url: this.props.url,
-      data: { limit: this.props.perPage, offset: this.state.offset },
-      dataType: 'json',
-      type: 'GET',
+    // $.ajax({
+    //   url: this.props.url,
+    //   data: { limit: this.props.perPage, offset: this.state.offset },
+    //   dataType: 'json',
+    //   type: 'GET',
 
-      success: data => {
-        this.setState({
-          data: data.comments,
-          pageCount: Math.ceil(data.meta.total_count / data.meta.limit),
-        });
-      },
+    //   success: data => {
+    //     this.setState({
+    //       data: data.comments,
+    //       pageCount: Math.ceil(data.meta.total_count / data.meta.limit),
+    //     });
+    //   },
 
-      error: (xhr, status, err) => {
-        console.error(this.props.url, status, err.toString()); // eslint-disable-line
-      },
-    });
+    //   error: (xhr, status, err) => {
+    //     console.error(this.props.url, status, err.toString()); // eslint-disable-line
+    //   },
+    // });
   }
 
   componentDidMount() {
@@ -94,3 +90,9 @@ export class App extends Component {
     );
   }
 }
+
+PageList.propTypes = {
+  data: PropTypes.array.isRequired,
+};
+
+export default PageList;

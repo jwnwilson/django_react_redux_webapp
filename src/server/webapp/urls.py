@@ -6,6 +6,7 @@ from django.views.generic import RedirectView
 from django.views.static import serve
 from wagtail.core import urls as wagtail_urls
 
+from webapp.cms.views import cache
 from webapp.cms.api.router import api_router
 from webapp.cms.api.router import api_urls
 
@@ -32,7 +33,6 @@ urlpatterns = [
             'document_root': settings.STATIC_ROOT
         }
     ),
-    url(r'', include(wagtail_urls)),
 ]
 
 if settings.DEBUG or settings.DEBUG_404:
@@ -47,3 +47,12 @@ if settings.DEBUG or settings.DEBUG_404:
     urlpatterns = [
         url(r'^__debug__/', include(debug_toolbar.urls)),
     ] + urlpatterns
+
+    # Add cache clear endpoint
+    urlpatterns += [
+        url(r'^clear-cache/', cache.get, name='clear-cache')
+    ]
+
+urlpatterns += [
+    url(r'', include(wagtail_urls)),
+]
