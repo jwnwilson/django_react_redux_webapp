@@ -7,8 +7,9 @@ import {
   GET_API_DATA,
 } from '../actions/actionTypes';
 
-function* fetchBlogData() {
-  const data = yield fetch('/api/pages/?type=cms.BlogPage&format=json&fields=description,listing_image_url')
+function* fetchBlogData(action) {
+  const offset = action.offset || 0;
+  const data = yield fetch(`/api/pages/?type=cms.BlogPage&format=json&fields=description,listing_image_url&offset=${offset}`)
     .then(response => response.json());
   yield put({ type: BLOG_RECEIVED, data });
 }

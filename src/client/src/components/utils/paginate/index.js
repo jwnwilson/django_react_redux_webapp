@@ -28,7 +28,7 @@ class PageList extends Component {
         <div id="blog" className="blog-list">
           <ul>{this.props.children}</ul>
         </div>
-        <hr></hr>
+        <hr />
         <ReactPaginate
           previousLabel={'previous'}
           nextLabel={'next'}
