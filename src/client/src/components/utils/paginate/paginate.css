@@ -1,0 +1,12 @@
+.pagination {
+    justify-content: space-evenly;
+    display: flex;
+}
+
+.pagination a{
+    color: white;
+}
+
+.disabled {
+    display: none;
+}

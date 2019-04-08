@@ -20,7 +20,8 @@ module.exports = {
         "no-plusplus": 0,
         "prefer-template": 0,
         "no-underscore-dangle": 0,
-        "class-methods-use-this": 0
+        "class-methods-use-this": 0,
+        "react/jsx-curly-brace-presence": 0
     },
     "plugins": [
         "react",

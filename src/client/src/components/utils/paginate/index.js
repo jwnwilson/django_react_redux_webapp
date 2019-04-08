@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import ReactPaginate from 'react-paginate';
 
+import './paginate.css';
+
 class PageList extends Component {
   constructor(props) {
     super(props);
@@ -11,21 +13,22 @@ class PageList extends Component {
     };
   }
 
-  handlePageClick = data => {
-    let selected = data.selected;
-    let offset = Math.ceil(selected * this.props.perPage);
+  handlePageClick(data) {
+    const { selected } = data;
+    const offset = Math.ceil(selected * this.props.perPage);
 
-    this.setState({ offset: offset }, () => {
-      this.props.updateList(offset);
+    this.setState({ offset }, () => {
+      this.props.updateList(this.state.offset);
     });
-  };
+  }
 
   render() {
     return (
-      <div className="commentBox">
-        <div id="project-comments" className="commentList">
-          <ul>{..this.props.children}</ul>
+      <div className="blog-posts">
+        <div id="blog" className="blog-list">
+          <ul>{this.props.children}</ul>
         </div>
+        <hr></hr>
         <ReactPaginate
           previousLabel={'previous'}
           nextLabel={'next'}
@@ -47,7 +50,8 @@ class PageList extends Component {
 PageList.propTypes = {
   updateList: PropTypes.func.isRequired,
   perPage: PropTypes.number.isRequired,
-  pageCount: PropTypes.number.isRequired
+  pageCount: PropTypes.number.isRequired,
+  children: PropTypes.node.isRequired,
 };
 
 export default PageList;
