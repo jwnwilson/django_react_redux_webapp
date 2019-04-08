@@ -1,37 +1,24 @@
 import React, { Component } from 'react';
-import ReactDOM from 'react-dom';
 import PropTypes from 'prop-types';
 import ReactPaginate from 'react-paginate';
 
-window.React = React;
-
-export class CommentList extends Component {
-
+class CommentList extends Component {
   render() {
     let commentNodes = this.props.data.map(function(comment, index) {
       return <div key={index}>{comment.comment}</div>;
     });
 
     return (
-      <div id="project-comments" className="commentList">
-        <ul>{commentNodes}</ul>
-      </div>
+      
     );
   }
 }
 
 class PageList extends Component {
-  static propTypes = {
-    url: PropTypes.string.isRequired,
-    author: PropTypes.string.isRequired,
-    perPage: PropTypes.number.isRequired,
-  };
-
   constructor(props) {
     super(props);
 
     this.state = {
-      data: [],
       offset: 0,
     };
   }
@@ -57,7 +44,7 @@ class PageList extends Component {
   }
 
   componentDidMount() {
-    this.loadCommentsFromServer();
+    this.updateList();
   }
 
   handlePageClick = data => {
@@ -65,14 +52,16 @@ class PageList extends Component {
     let offset = Math.ceil(selected * this.props.perPage);
 
     this.setState({ offset: offset }, () => {
-      this.loadCommentsFromServer();
+      this.updateList(offset);
     });
   };
 
   render() {
     return (
       <div className="commentBox">
-        <CommentList data={this.state.data} />
+        <div id="project-comments" className="commentList">
+          <ul>{..this.props.children}</ul>
+        </div>
         <ReactPaginate
           previousLabel={'previous'}
           nextLabel={'next'}
@@ -92,7 +81,8 @@ class PageList extends Component {
 }
 
 PageList.propTypes = {
-  data: PropTypes.array.isRequired,
+  updateList: PropTypes.func.isRequired,
+  perPage: PropTypes.number.isRequired,
 };
 
 export default PageList;
