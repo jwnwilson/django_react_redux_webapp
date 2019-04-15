@@ -17,6 +17,6 @@ export function componentUpdated() {
   return { type: COMPONENT_UPDATED };
 }
 
-export function getApiBlogData(offset) {
-  return { type: GET_BLOG_DATA, offset };
+export function getApiBlogData(offset, limit) {
+  return { type: GET_BLOG_DATA, offset, limit };
 }

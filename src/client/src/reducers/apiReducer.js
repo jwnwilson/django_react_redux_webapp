@@ -27,10 +27,10 @@ function footer(state = null, action) {
   }
 }
 
-function blogs(state = [], action) {
+function blogs(state = {}, action) {
   switch (action.type) {
     case BLOG_RECEIVED:
-      return action.data.items || [];
+      return action.data || {};
     default:
       return state;
   }

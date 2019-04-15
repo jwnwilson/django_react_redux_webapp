@@ -11,6 +11,7 @@ class PageList extends Component {
     this.state = {
       offset: 0,
     };
+    this.handlePageClick = this.handlePageClick.bind(this);
   }
 
   handlePageClick(data) {

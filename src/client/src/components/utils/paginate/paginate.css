@@ -5,6 +5,7 @@
 
 .pagination a{
     color: white;
+    cursor: pointer;
 }
 
 .disabled {

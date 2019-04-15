@@ -9,7 +9,8 @@ import {
 
 function* fetchBlogData(action) {
   const offset = action.offset || 0;
-  const data = yield fetch(`/api/pages/?type=cms.BlogPage&format=json&fields=description,listing_image_url&offset=${offset}`)
+  const limit = action.limit || 1;
+  const data = yield fetch(`/api/pages/?type=cms.BlogPage&format=json&fields=description,listing_image_url&offset=${offset}&limit=${limit}`)
     .then(response => response.json());
   yield put({ type: BLOG_RECEIVED, data });
 }

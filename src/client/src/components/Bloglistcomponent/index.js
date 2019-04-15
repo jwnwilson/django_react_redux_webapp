@@ -25,26 +25,37 @@ const BlogListItems = props => props.blogs.map((blog, index) => (
 ));
 
 class BlogList extends React.Component {
+  constructor(props) {
+    super(props);
+
+    this.perPage = 1;
+    this.loadBlogData = this.loadBlogData.bind(this);
+  }
+
   componentDidMount() {
     this.loadBlogData();
   }
 
   loadBlogData(offset) {
-    this.props.getApiBlogData(offset);
+    this.props.getApiBlogData(offset, this.perPage);
   }
 
   render() {
+    const noData = JSON.stringify(this.props.blogs) === '{}';
+    const pageCount = noData ? 1 : this.props.blogs.meta.total_count;
+    const blogs = noData ? [] : this.props.blogs.items;
+
     return (
       <section className="wrap-image bg-primary text-white mb-0 mt-5" id="blog-list">
         <div className="container">
           <h2>Blog Posts</h2>
           <PageList
-            pageCount={this.props.blogs.length}
-            perPage={5}
+            pageCount={pageCount}
+            perPage={this.perPage}
             updateList={this.loadBlogData}
           >
             <BlogListItems
-              blogs={this.props.blogs}
+              blogs={blogs}
             />
           </PageList>
         </div>
@@ -58,7 +69,7 @@ const mapDispatchToProps = {
 };
 
 BlogList.propTypes = {
-  blogs: PropTypes.array.isRequired,
+  blogs: PropTypes.object.isRequired,
   getApiBlogData: PropTypes.func.isRequired,
 };
 
