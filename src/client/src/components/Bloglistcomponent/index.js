@@ -28,7 +28,7 @@ class BlogList extends React.Component {
   constructor(props) {
     super(props);
 
-    this.perPage = 1;
+    this.perPage = 5;
     this.loadBlogData = this.loadBlogData.bind(this);
   }
 
@@ -42,7 +42,7 @@ class BlogList extends React.Component {
 
   render() {
     const noData = JSON.stringify(this.props.blogs) === '{}';
-    const pageCount = noData ? 1 : this.props.blogs.meta.total_count;
+    const pageCount = noData ? 1 : this.props.blogs.meta.total_count / this.perPage;
     const blogs = noData ? [] : this.props.blogs.items;
 
     return (
