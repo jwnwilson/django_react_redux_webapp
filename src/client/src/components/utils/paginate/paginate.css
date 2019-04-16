@@ -7,6 +7,10 @@
     color: white;
 }
 
+.disabled a:hover{
+    text-decoration: none;
+}
+
 li.active {
     cursor: default !important;
     text-decoration: underline;
@@ -17,6 +21,17 @@ li.active {
 }
 
 
-.disabled {
-    display: none;
+li.disabled {
+    cursor: default !important;
+    color: grey;
+}
+
+.pagination ul {
+    display: inline-block;
+    padding-left: 15px;
+    padding-right: 15px;
+}
+
+.pagination li {
+    display: inline-block;
 }
