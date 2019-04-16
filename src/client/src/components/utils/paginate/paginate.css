@@ -3,10 +3,19 @@
     display: flex;
 }
 
-.pagination a{
+.pagination a {
     color: white;
+}
+
+li.active {
+    cursor: default !important;
+    text-decoration: underline;
+}
+
+.pagination li {
     cursor: pointer;
 }
+
 
 .disabled {
     display: none;
