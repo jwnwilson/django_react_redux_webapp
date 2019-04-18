@@ -2,12 +2,19 @@ import React from 'react';
 import { connect } from 'react-redux';
 import renderHTML from 'react-render-html';
 import PropTypes from 'prop-types';
+import Disqus from 'disqus-react';
 
 import '../../style/core.css';
 import './Blog.css';
 
 const Blog = (props) => {
   const { module } = props.data;
+  const disqusShortname = 'noel-wilson';
+  const disqusConfig = {
+    url: props.page.meta.html_url,
+    identifier: props.page.id,
+    title: props.page.title,
+  };
 
   // Build blog posts
   const blogData = JSON.parse(module.body);
@@ -67,6 +74,10 @@ const Blog = (props) => {
         <div className="clear-fix col-xs-12">
           <hr />
         </div>
+        <Disqus.CommentCount shortname={disqusShortname} config={disqusConfig}>
+            Comments
+        </Disqus.CommentCount>
+        <Disqus.DiscussionEmbed shortname={disqusShortname} config={disqusConfig} />
       </div>
     </section>
   );
