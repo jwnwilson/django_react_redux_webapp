@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "fc6d175bbea0d6e439894c8aeaf97cc522a975d8b794d0de150ac7a32bcddd06"
+            "sha256": "a1eeb1d91b29ce634ac6ddc98f607b0bd980f8e24757e6d7c4a3c79b9fcdd5a9"
         },
         "pipfile-spec": 6,
         "requires": {
@@ -396,7 +396,7 @@
                 "sha256:c0a5785b1109a6bd7fac76d6837fd1feca158e54e521ccd2ae8bfe393cc9d4fc",
                 "sha256:fe7a7cae1ccb57d33952113ff4fa1bc5f879963600ed74918f1236e212ee50b9"
             ],
-            "markers": "python_version <= '2.7'",
+            "index": "pypi",
             "version": "==5.0.0"
         },
         "pathlib2": {
@@ -404,7 +404,7 @@
                 "sha256:25199318e8cc3c25dcb45cbe084cc061051336d5a9ea2a12448d3d8cb748f742",
                 "sha256:5887121d7f7df3603bca2f710e7219f3eca0eb69e0b7cc6e0a022e155ac931a7"
             ],
-            "markers": "python_version < '3.4'",
+            "markers": "python_version < '3.6'",
             "version": "==2.3.3"
         },
         "pillow": {
@@ -693,7 +693,7 @@
                 "sha256:9d98697f088eb1b0fa451391f91afb5e3ebde16bbdb272819fd091151fda4f1a",
                 "sha256:f0b0e4eba956de51238e17573b7087e852dfe9854afd2e9c873f73fc0ca0a6dd"
             ],
-            "markers": "python_version == '2.7'",
+            "markers": "python_version < '3.2'",
             "version": "==1.5"
         },
         "configparser": {
@@ -784,7 +784,7 @@
                 "sha256:c0a5785b1109a6bd7fac76d6837fd1feca158e54e521ccd2ae8bfe393cc9d4fc",
                 "sha256:fe7a7cae1ccb57d33952113ff4fa1bc5f879963600ed74918f1236e212ee50b9"
             ],
-            "markers": "python_version <= '2.7'",
+            "index": "pypi",
             "version": "==5.0.0"
         },
         "pathlib2": {
@@ -792,7 +792,7 @@
                 "sha256:25199318e8cc3c25dcb45cbe084cc061051336d5a9ea2a12448d3d8cb748f742",
                 "sha256:5887121d7f7df3603bca2f710e7219f3eca0eb69e0b7cc6e0a022e155ac931a7"
             ],
-            "markers": "python_version < '3.4'",
+            "markers": "python_version < '3.6'",
             "version": "==2.3.3"
         },
         "pluggy": {
