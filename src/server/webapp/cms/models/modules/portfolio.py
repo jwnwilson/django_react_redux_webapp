@@ -3,14 +3,15 @@ from rest_framework import serializers
 from modelcluster.fields import ParentalKey
 from modelcluster.models import ClusterableModel
 from wagtail.api import APIField
-from wagtail.api.v2.serializers import PageSerializer
-from wagtail.admin.edit_handlers import FieldPanel, InlinePanel, PageChooserPanel
+from wagtail.admin.edit_handlers import FieldPanel
+from wagtail.admin.edit_handlers import InlinePanel
+from wagtail.admin.edit_handlers import PageChooserPanel
 from wagtail.core.models import Orderable
 from wagtail.images.edit_handlers import ImageChooserPanel
 from wagtail.snippets.models import register_snippet
 
 from .base import BaseModule, register_serializer
-from webapp.cms.models.page import LinkSerializer
+from webapp.cms.models.pages.module_page import LinkSerializer
 
 
 @register_snippet

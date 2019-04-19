@@ -1,4 +1,4 @@
 #! /bin/bash
 SHELL=/bin/bash
-DEV=True
+DEV=False
 PIPENV_VENV_IN_PROJECT=True

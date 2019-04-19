@@ -1,12 +1,6 @@
 apiVersion: extensions/v1beta1
 kind: Deployment
 metadata:
-  annotations:
-    kompose.cmd: kompose convert -f docker-production.yml -o ops/kubernetes/
-    kompose.version: 1.5.0 ()
-  creationTimestamp: null
-  labels:
-    io.kompose.service: server
   name: server
 spec:
   replicas: 1
@@ -14,36 +8,87 @@ spec:
     type: Recreate
   template:
     metadata:
-      creationTimestamp: null
+      name: server
       labels:
-        io.kompose.service: server
+        name: django
     spec:
       containers:
-      - args:
-        - pipenv
-        - run
-        - gunicorn
-        - webapp.wsgi:application
-        - -w
-        - "3"
-        - -b
-        - :8000
-        image: docker.io/jwnwilson/noelwilson2018-server
-        name: noelwilson2018-server-prod
-        ports:
-        - containerPort: 8000
-        imagePullPolicy: Always
-        resources: {}
-        tty: true
-        volumeMounts:
-        - mountPath: /app/src/server/media
-          name: media
-        workingDir: /app/src/server
+        - name: cloudsql-proxy
+          image: gcr.io/cloudsql-docker/gce-proxy:1.11
+          # Using google SQL connection string
+          command: [
+            "/cloud_sql_proxy",
+            "-instances=noelwilson-2018:europe-west1:noel-wilson=tcp:5432",
+            "-credential_file=/secrets/cloudsql/credentials.json"
+          ]
+          # [START cloudsql_security_context]
+          securityContext:
+            runAsUser: 2  # non-root user
+            allowPrivilegeEscalation: false
+          # [END cloudsql_security_context]
+          volumeMounts:
+            - name: cloudsql-instance-credentials
+              mountPath: /secrets/cloudsql
+              readOnly: true
+          resources:
+            requests:
+              memory: "100Mi"
+              cpu: "0.05"
+            limits:
+              memory: "100Mi"
+              cpu: "0.05"
+        - name: server
+          image: docker.io/jwnwilson/jwnwilson_server:0.1.350
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 8000
+          resources:
+            requests:
+              memory: "500Mi"
+              cpu: "0.05"
+            limits:
+              memory: "1Gi"
+              cpu: "0.35"
+          tty: true
+          volumeMounts:
+            - mountPath: /app/src/server/media
+              name: media
+          workingDir: /app/src/server
+          env:
+            - name: ENV
+              value: prod
+            - name: DJANGO_SECRET_KEY
+              value: REPLACE_ME
+            - name: POSTGRES_HOST
+              value: 127.0.0.1
+            - name: POSTGRES_USER
+              valueFrom:
+                secretKeyRef:
+                  name: db-secret
+                  key: username
+            - name: POSTGRES_PASS
+              valueFrom:
+                secretKeyRef:
+                  name: db-secret
+                  key: password
+            - name: ACCESS_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: db-secret
+                  key: s3_access_key
+            - name: SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: db-secret
+                  key: s3_secret
       restartPolicy: Always
       volumes:
-      - name: media
-        persistentVolumeClaim:
-          claimName: media
+        - name: media
+          persistentVolumeClaim:
+            claimName: media
+        - name: cloudsql-instance-credentials
+          secret:
+            secretName: cloudsql-instance-credentials
 status: {}
 
 ---
@@ -51,19 +96,16 @@ status: {}
 apiVersion: v1
 kind: Service
 metadata:
-  annotations:
-    kompose.cmd: kompose convert -f docker-production.yml -o ops/kubernetes/
-    kompose.version: 1.5.0 ()
-  creationTimestamp: null
-  labels:
-    io.kompose.service: server
   name: server
+  labels:
+    name: django
 spec:
   ports:
-  - name: "8000"
-    port: 8000
-    targetPort: 8000
+    - name: "server"
+      port: 8000
+      targetPort: 8000
   selector:
-    io.kompose.service: server
+    name: django
+  type: NodePort
 status:
   loadBalancer: {}

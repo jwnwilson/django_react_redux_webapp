@@ -2,19 +2,21 @@ from django.conf import settings
 from django.conf.urls import include, url
 from django.conf.urls.static import static
 from django.contrib import admin
-from django.views.generic import TemplateView, RedirectView
+from django.views.generic import RedirectView
 from django.views.static import serve
 from wagtail.core import urls as wagtail_urls
 
-
-from webapp.cms.api import api_router
+from webapp.cms.views import cache
+from webapp.cms.api.router import api_router
+from webapp.cms.api.router import api_urls
 
 
 handler404 = 'webapp.views.handler404'
 handler500 = 'webapp.views.handler500'
 
+
 urlpatterns = [
-    url(r'^api/', api_router.urls),
+    url(r'^api/', (api_router.urls[0] + api_urls, 'wagtailapi', 'wagtailapi')),
     url(r'^cms/', include('webapp.cms.urls')),
     url(r'^admin/', admin.site.urls),
     # PWA url
@@ -31,7 +33,6 @@ urlpatterns = [
             'document_root': settings.STATIC_ROOT
         }
     ),
-    url(r'', include(wagtail_urls)),
 ]
 
 if settings.DEBUG or settings.DEBUG_404:
@@ -46,3 +47,12 @@ if settings.DEBUG or settings.DEBUG_404:
     urlpatterns = [
         url(r'^__debug__/', include(debug_toolbar.urls)),
     ] + urlpatterns
+
+    # Add cache clear endpoint
+    urlpatterns += [
+        url(r'^clear-cache/', cache.get, name='clear-cache')
+    ]
+
+urlpatterns += [
+    url(r'', include(wagtail_urls)),
+]

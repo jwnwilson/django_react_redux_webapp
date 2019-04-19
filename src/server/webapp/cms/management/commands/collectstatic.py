@@ -1,7 +1,6 @@
 import os
 import shutil
 
-from django.core.management.base import BaseCommand, CommandError
 from django.contrib.staticfiles.management.commands.collectstatic import Command as collectstatic
 
 
@@ -15,5 +14,5 @@ class Command(collectstatic):
         static_dir = os.path.join(file_dir, '../../../../staticfiles')
 
         # copy manifest.json, index.html
-        for f in ['manifest.json', 'index.html']:
+        for f in ['manifest.json', 'index.html', 'static/favicon.png']:
             shutil.copy(os.path.join(build_dir, f), static_dir)

@@ -1,10 +1,9 @@
-import json
-
 from django.core.mail import EmailMessage
 from django.http import (
     HttpResponse,
     JsonResponse
 )
+
 
 def post(request):
     if request.is_ajax():

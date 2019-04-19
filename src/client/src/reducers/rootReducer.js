@@ -7,6 +7,7 @@ const rootReducer = combineReducers({
   header: apiReducer.header,
   footer: apiReducer.footer,
   updateComponents: componentReducer.componetUpdate,
+  blogs: apiReducer.blogs,
 });
 
 export default rootReducer;

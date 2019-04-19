@@ -31,7 +31,8 @@ const About = (props) => {
               <i className="fa fa-download mr-2" />
               CV Link
             </a>
-          </div>)
+          </div>
+          )
         }
       </div>
     </section>

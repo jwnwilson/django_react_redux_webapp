@@ -1,4 +1,4 @@
-import { GET_DATA_SUCCESS } from '../actions/actionTypes';
+import { GET_DATA_SUCCESS, BLOG_RECEIVED } from '../actions/actionTypes';
 
 function components(state = [], action) {
   switch (action.type) {
@@ -27,8 +27,18 @@ function footer(state = null, action) {
   }
 }
 
+function blogs(state = {}, action) {
+  switch (action.type) {
+    case BLOG_RECEIVED:
+      return action.data || {};
+    default:
+      return state;
+  }
+}
+
 export default {
   components,
   header,
   footer,
+  blogs,
 };

@@ -77,13 +77,19 @@ class App extends Component {
     const components = [];
     for (let i = 0; i < this.state.componentsData.length; i++) {
       const componentData = this.state.componentsData[i];
+      const pageData = this.props.page;
       const componentType = utils.capitalize(
         componentData.module.polymorphic_ctype.model,
       );
       // Use webpack dynamic import to get the module
       const componentImport = () => import(`../components/${componentType}/index`);
       components.push((
-        <AsyncComponent moduleProvider={componentImport} data={componentData} key={i} />));
+        <AsyncComponent
+          moduleProvider={componentImport}
+          data={componentData}
+          page={pageData}
+          key={i}
+        />));
     }
     return components;
   }
@@ -110,7 +116,6 @@ App.defaultProps = {
   header: {},
   footer: {},
 };
-
 
 App.propTypes = {
   page: PropTypes.object.isRequired,

@@ -9,7 +9,7 @@ from wagtail.core.models import Orderable
 from wagtail.snippets.models import register_snippet
 
 from webapp.cms.models.modules.base import register_serializer
-from webapp.cms.models.page import LinkSerializer
+from webapp.cms.models.pages.module_page import LinkSerializer
 
 
 @register_snippet

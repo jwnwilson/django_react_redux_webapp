@@ -1,4 +1,4 @@
 {
-    "python.pythonPath": "/usr/local/bin/python",
+    "python.pythonPath": "/Users/noelwilson/.virtualenvs/django_react_redux_webapp-mnydDpnD/bin/python",
     "javascript.validate.enable": false,
 }

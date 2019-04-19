@@ -9,21 +9,17 @@ from modelcluster.fields import ParentalKey
 from rest_framework import serializers
 from wagtail.admin.edit_handlers import FieldPanel, InlinePanel
 from wagtail.api import APIField
-from wagtail.api.v2.serializers import ChildRelationField, RelatedField
 from wagtail.core.models import Page, Orderable
-from wagtail.core.fields import RichTextField
 from wagtail.snippets.edit_handlers import SnippetChooserPanel
-from wagtail.snippets.models import register_snippet
 
-from .modules.base import ModuleSerializer
-from ..logic.api import getApiData
+from ..modules.base import ModuleSerializer
 
 
 def json_serial(obj):
     """JSON serializer for objects not serializable by default json code"""
     if isinstance(obj, (datetime, date)):
         return obj.isoformat()
-    raise TypeError ("Type %s not serializable" % type(obj))
+    raise TypeError("Type %s not serializable" % type(obj))
 
 
 class ModulePage(Page):
@@ -55,33 +51,47 @@ class ModulePage(Page):
         APIField('url'),
     ]
 
+    def cache_all_pages(self):
+        from webapp.cms.api.logic import getApiData
+
+        pages = Page.objects.live()
+        page_data = []
+        # Add url value from page property
+        for page in pages:
+            page_data.append(getApiData(page.site, page))
+
+        page_data = json.dumps(page_data)
+        cache.set('pages_data', page_data)
+
     def get_context(self, request):
+        from webapp.cms.api.logic import getApiData
+
         context = super().get_context(request)
 
         # Get list of pages to build routes cache it might need to move to a task
+        # Move to cache get only current page data and cache it
         context['pages'] = cache.get('pages_data')
         if not context['pages']:
-            pages = (
-                [request.site.root_page] +
-                list(request.site.root_page.get_children().live()))
-            page_data = []
+            pages = Page.objects.in_site(request.site).live()
+            pages_data = []
             # Add url value from page property
             for page in pages:
-                page_data.append(getApiData(request, page))
+                page_data = getApiData(request, page)
+                pages_data.append(page_data)
 
-            page_data = json.dumps(page_data)
-            cache.set('pages_data', page_data)
-            context['pages'] = page_data
+            pages_data = json.dumps(pages_data)
+            cache.set('pages_data', pages_data)
+            context['pages'] = pages_data
 
         # Add extra variables and return the updated context
         context['api_data'] = json.dumps(getApiData(request, context['page']))
         return context
 
     def serve(self, request):
-        # Attempt to dynamically import post logic
+        # Attempt to dynamically import get / post logic
         try:
             view_module = import_module(
-                'webapp.cms.view_logic.{}'.format(self.slug))
+                'webapp.cms.views.{}'.format(self.slug))
         except ModuleNotFoundError:
             view_module = None
 

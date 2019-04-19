@@ -1,11 +1,11 @@
 {
   "short_name": "Noel Wilson 2018",
-  "name": "Noel Wilson's personal website",
+  "name": "Noel Wilson - Full stack software developer",
   "icons": [
     {
-      "src": "favicon.ico",
-      "sizes": "64x64 32x32 24x24 16x16",
-      "type": "image/x-icon"
+      "src": "/static/favicon.png",
+      "sizes": "192x192",
+      "type": "image/png"
     }
   ],
   "start_url": "/",

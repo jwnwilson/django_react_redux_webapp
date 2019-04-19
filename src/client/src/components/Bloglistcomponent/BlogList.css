@@ -1,0 +1,24 @@
+.richtext-image {
+    max-width: 100%;
+}
+
+.richtext-image.left {
+    float: left;
+    margin-right: 1em;
+}
+
+.richtext-image.right{
+    float: right;
+    margin-left: 1em;
+}
+
+.richtext-image.full-width {
+    width: 100%;
+    margin-bottom: 1em;
+}
+
+@media (max-width: 767px) {
+    .col-sm-12.col-md-6 {
+        margin-top:20px;
+    }
+}

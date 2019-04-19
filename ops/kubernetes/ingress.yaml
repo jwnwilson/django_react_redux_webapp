@@ -1,0 +1,22 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: ingress
+  annotations:
+    kubernetes.io/tls-acme: "true"
+    ingress.kubernetes.io/ssl-redirect: "True"
+    kubernetes.io/ingress.allow-http: "false"
+    certmanager.k8s.io/cluster-issuer: letsencrypt-prod
+    certmanager.k8s.io/acme-http01-edit-in-place: "true"
+spec:
+  tls:
+  - hosts:
+    - test.noel-wilson.co.uk
+    secretName: letsencrypt-prod 
+  rules:
+  - host: test.noel-wilson.co.uk
+    http:
+      paths:
+      - backend:
+          serviceName: nginx
+          servicePort: 80

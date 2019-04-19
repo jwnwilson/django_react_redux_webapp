@@ -3,6 +3,10 @@ from wagtail.api.v2.router import WagtailAPIRouter
 from wagtail.images.api.v2.endpoints import ImagesAPIEndpoint
 from wagtail.documents.api.v2.endpoints import DocumentsAPIEndpoint
 
+from django.conf.urls import url
+from webapp.cms.views import blog
+
+
 # Create the router. "wagtailapi" is the URL namespace
 api_router = WagtailAPIRouter('wagtailapi')
 
@@ -13,3 +17,8 @@ api_router = WagtailAPIRouter('wagtailapi')
 api_router.register_endpoint('pages', PagesAPIEndpoint)
 api_router.register_endpoint('images', ImagesAPIEndpoint)
 api_router.register_endpoint('documents', DocumentsAPIEndpoint)
+
+api_urls = [
+    url(r'^blog/$', blog.BlogList.as_view(), name="blogs"),
+    url(r'^blog/(?P<pk>\d+)/$', blog.BlogDetail.as_view(), name="blog"),
+]

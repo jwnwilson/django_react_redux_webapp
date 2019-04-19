@@ -1,0 +1,108 @@
+version: 2
+jobs:
+  build-be:
+    working_directory: /app
+    docker:
+      - image: python:3.6
+    environment:
+      PIPENV_VENV_IN_PROJECT: "True"
+    steps:
+      - checkout
+      - run:
+          command: 'apt-get update && apt-get install -y libmemcached-dev zlib1g-dev && curl https://bootstrap.pypa.io/get-pip.py | python'
+      - restore_cache:
+          key: v2-be-{{ checksum "Pipfile.lock" }}
+          paths:
+            - '/usr/local/lib/python3.6/site-packages'
+      - run:
+          command: 'pip3 uninstall -y pytest pipenv && pip3 install pipenv && pipenv install --system --deploy --dev'
+      - save_cache:
+          key: v2-be-{{ checksum "Pipfile.lock" }}
+          paths:
+            - /usr/local/lib/python3.6/site-packages
+      - run:
+          command: 'cd src/server && python manage.py collectstatic --no-input && pytest'
+  build-fe:
+    working_directory: /app
+    docker:
+      - image: node:6.11.2
+    steps:
+      - checkout
+      - restore_cache:
+          key: v2-fe-{{ checksum "src/client/package.json" }}
+          paths:
+            - /app/src/client/node_modules
+      - run:
+          command: 'cd src/client && npm install && PROD_ENV=1 npm run build'
+      - save_cache:
+          key: v2-fe-{{ checksum "src/client/package.json" }}
+          paths:
+            - /app/src/client/node_modules
+      - save_cache:
+          key: v2-fe-static-{{ .BuildNum }}
+          paths:
+            - /app/src/client/build
+      - run:
+          command: 'cd src/client && npm run test'
+  deploy:
+    working_directory: /app
+    docker:
+      - image: python:3.6
+    environment:
+      PIPENV_VENV_IN_PROJECT: "True"
+    steps:
+      - checkout
+      - setup_remote_docker:
+          docker_layer_caching: true
+      - run:
+          name: Install Docker client
+          command: |
+            set -x
+            VER="17.03.0-ce"
+            curl -L -o /tmp/docker-$VER.tgz https://download.docker.com/linux/static/stable/x86_64/docker-$VER.tgz
+            tar -xz -C /tmp -f /tmp/docker-$VER.tgz
+            mv /tmp/docker/* /usr/bin
+      - run:
+          name: Install Docker Compose
+          command: |
+            curl -L https://github.com/docker/compose/releases/download/1.19.0/docker-compose-`uname -s`-`uname -m` > ~/docker-compose
+            chmod +x ~/docker-compose
+            mv ~/docker-compose /usr/local/bin/docker-compose
+      - restore_cache:
+          key: v2-be-{{ checksum "Pipfile.lock" }}
+          paths:
+            - '/usr/local/lib/python3.6/site-packages'
+      - restore_cache:
+          key: v2-fe-static-{{ .BuildNum }}
+          paths:
+            - /app/src/client/build
+      - run: |
+          TAG=0.1.$CIRCLE_BUILD_NUM
+          docker login -u $DOCKER_USER -p $DOCKER_PASS
+          cd src/server && python manage.py collectstatic --no-input
+          cd ../.. && touch .env
+          docker-compose build server && docker-compose build worker
+          docker build -f ./ops/docker/nginx.dockerfile -t jwnwilson/jwnwilson_nginx .
+          docker push jwnwilson/jwnwilson_server
+          docker push jwnwilson/jwnwilson_worker
+          docker push jwnwilson/jwnwilson_nginx
+          docker tag jwnwilson/jwnwilson_server:latest jwnwilson/jwnwilson_server:$TAG
+          docker tag jwnwilson/jwnwilson_worker:latest jwnwilson/jwnwilson_worker:$TAG
+          docker tag jwnwilson/jwnwilson_nginx:latest jwnwilson/jwnwilson_nginx:$TAG
+          docker push jwnwilson/jwnwilson_server:$TAG
+          docker push jwnwilson/jwnwilson_worker:$TAG
+          docker push jwnwilson/jwnwilson_nginx:$TAG
+workflows:
+  version: 2
+  build:
+    jobs:
+      - build-fe
+      - build-be
+      - deploy:
+          requires:
+            - build-fe
+            - build-be
+          filters:
+            branches:
+              only:
+                - master
