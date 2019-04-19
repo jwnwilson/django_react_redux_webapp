@@ -73,14 +73,10 @@ dump-data:
 test: test-be test-fe
 
 lint-be:
-	$(COMPOSE) $(SERVER) run $(SERVER) bash -c "find webapp -iname *.py | xargs pylint"
-
-test:
-	make test-be
-	make test-fe
+	$(COMPOSE) run $(SERVER) bash -c "find webapp -iname *.py | xargs pylint"
 
 test-be:
-	$(COMPOSE) $(SERVER) run $(SERVER) bash -c "pytest -s"
+	$(COMPOSE) run $(SERVER) bash -c "pytest -s"
 
 test-fe:
 	$(COMPOSE) run $(CLIENT) npm run test
