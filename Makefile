@@ -99,8 +99,11 @@ clean:
 deploy:
 	make build-fe
 	make collect-static
-	git commit --allow-empty -m "Deploying to heroku"
-	git push origin heroku
+	git commit --allow-empty -am "Deploying to heroku"
+	git push heroku HEAD:master
+
+prod-shell:
+	heroku run bash
 
 stop_all:
 	 docker ps -q | docker kill
