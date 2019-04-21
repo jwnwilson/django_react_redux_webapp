@@ -3,7 +3,7 @@ import json
 from django.shortcuts import render_to_response
 from django.template import RequestContext
 
-from webapp.cms.models.page import ModulePage
+from webapp.cms.models.pages import ModulePage
 
 
 def handler404(request):

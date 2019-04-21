@@ -99,6 +99,7 @@ clean:
 deploy:
 	make build-fe
 	make collect-static
+	git add src/client/build/
 	git commit --allow-empty -am "Deploying to heroku"
 	git push heroku HEAD:master
 
