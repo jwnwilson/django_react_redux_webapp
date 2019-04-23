@@ -33,6 +33,8 @@ urlpatterns = [
             'document_root': settings.STATIC_ROOT
         }
     ),
+    # Add cache clear endpoint
+    url(r'^clear-cache/', cache.get, name='clear-cache'),
 ]
 
 if settings.DEBUG or settings.DEBUG_404:
@@ -48,10 +50,6 @@ if settings.DEBUG or settings.DEBUG_404:
         url(r'^__debug__/', include(debug_toolbar.urls)),
     ] + urlpatterns
 
-    # Add cache clear endpoint
-    urlpatterns += [
-        url(r'^clear-cache/', cache.get, name='clear-cache')
-    ]
 
 urlpatterns += [
     url(r'', include(wagtail_urls)),
