@@ -7,22 +7,30 @@ import PageList from '../utils/paginate';
 import '../../style/core.css';
 import './BlogList.css';
 
-const BlogListItems = props => props.blogs.map((blog, index) => (
-  <div key={index} className="row mb-5 mt-5">
-    <div className="col-sm-12 col-md-6">
-      <a href={blog.meta.html_url}>
-        <img className="col-12" src={blog.listing_image_url.url} alt="" />
-      </a>
+const BlogListItems = (props) => {
+  const blogs = props.blogs.map((blog, index) => (
+    <div key={index} className="row mb-5 mt-5">
+      <div className="col-sm-12 col-md-6">
+        <a href={blog.meta.html_url}>
+          <img className="col-12" src={blog.listing_image_url.url} alt="" />
+        </a>
+      </div>
+      <div className="col-sm-12 col-md-6">
+        <a href={blog.meta.html_url}>
+          <h2 className="text-white">{blog.title}</h2>
+        </a>
+        <hr />
+        <p>{blog.description}</p>
+      </div>
     </div>
-    <div className="col-sm-12 col-md-6">
-      <a href={blog.meta.html_url}>
-        <h2 className="text-white">{blog.title}</h2>
-      </a>
-      <hr />
-      <p>{blog.description}</p>
+  ));
+
+  return (
+    <div>
+      {blogs}
     </div>
-  </div>
-));
+  );
+};
 
 class BlogList extends React.Component {
   constructor(props) {
@@ -71,6 +79,10 @@ const mapDispatchToProps = {
 BlogList.propTypes = {
   blogs: PropTypes.object.isRequired,
   getApiBlogData: PropTypes.func.isRequired,
+};
+
+BlogListItems.propTypes = {
+  blogs: PropTypes.array.isRequired,
 };
 
 export default connect(
