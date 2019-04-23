@@ -42,7 +42,7 @@ class BlogList extends React.Component {
 
   render() {
     const noData = JSON.stringify(this.props.blogs) === '{}';
-    const pageCount = noData ? 1 : this.props.blogs.meta.total_count / this.perPage;
+    const pageCount = noData ? 1 : Math.ceil(this.props.blogs.meta.total_count / this.perPage);
     const blogs = noData ? [] : this.props.blogs.items;
 
     return (
