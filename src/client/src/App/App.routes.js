@@ -33,7 +33,7 @@ function getRoutes(apiData, pagesData) {
           header: apiData.header,
           footer: apiData.footer,
           modules: [],
-          meta: apiData.meta,
+          meta: pageData.meta,
         };
       }
       return (

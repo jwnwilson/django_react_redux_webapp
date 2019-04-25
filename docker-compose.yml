@@ -27,7 +27,7 @@ services:
     ports:
       - 0.0.0.0:8000:8000
     volumes:
-      - .:/app:cached
+      - .:/app
       - site-packages:/usr/local/lib/python3.6/site-packages
       - media:/app/src/server/media
     links:
