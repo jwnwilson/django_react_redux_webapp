@@ -335,7 +335,9 @@ module.exports = {
         '../server/webapp/static': 'static'
 
       },
-      mergeStaticsConfig: true
+      cacheId: 'noel-wilson-service-worker-cache-' + new Date().getTime(),
+      mergeStaticsConfig: true,
+      importScripts: paths.sWPrecacheImportScript ? [paths.sWPrecacheImportScript] : undefined,
     }),
     // Moment.js is an extremely popular library that bundles large locale files
     // by default due to how Webpack interprets its code. This is a practical

@@ -38,6 +38,10 @@ function getServedPath(appPackageJson) {
   return ensureSlash(servedUrl, true);
 }
 
+const sWPrecacheImportScript = fs.existsSync(resolveApp('public/static/js/service-worker-import.js'))
+  ? 'static/js/service-worker-import.js'
+  : undefined;
+
 // config after eject: we're in ./config/
 module.exports = {
   dotenv: resolveApp('.env'),
@@ -52,5 +56,6 @@ module.exports = {
   appNodeModules: resolveApp('node_modules'),
   publicUrl: getPublicUrl(resolveApp('package.json')),
   servedPath: getServedPath(resolveApp('package.json')),
-  statsRoot: resolveApp('../')
+  statsRoot: resolveApp('../'),
+  sWPrecacheImportScript: sWPrecacheImportScript,
 };
