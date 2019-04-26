@@ -323,7 +323,7 @@ module.exports = {
       // For unknown URLs, fallback to the index page
       navigateFallback: publicUrl + '/index.html',
       // Ignores URLs starting with /cms and /admin:
-      navigateFallbackWhitelist: [/^(?!.*(\/cms|\/admin|\/api|\/clear-cache)).*/],
+      navigateFallbackWhitelist: [/^(?!.*(\/cms|\/admin|\/clear-cache)).*/],
       // Don't precache sourcemaps (they're large) and build asset manifest:
       staticFileGlobsIgnorePatterns: [/\.map$/, /asset-manifest\.json$/, /\.html$/],
       staticFileGlobs: [
