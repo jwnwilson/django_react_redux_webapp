@@ -62,12 +62,14 @@ const Blog = (props) => {
   return (
     <section className="wrap-image bg-primary text-white mb-0 mt-5" id="about">
       <div className="container">
-        <a href={props.page.meta.parent.meta.html_url}>
-          <div className="row">
-            <i className="fa fa-fw fa-arrow-left text-white vcenter" />
-            <h3 className="text-white">Blog List</h3>
+        <div className="row">
+          <div className="col">
+            <a href={props.page.meta.parent.meta.html_url}>
+              <i className="fa fa-fw fa-arrow-left text-white left mt-1 mr-1" />
+              <h3 className="text-white">Blog List</h3>
+            </a>
           </div>
-        </a>
+        </div>
       </div>
       <div className="container">
         {blogPost}

@@ -57,6 +57,7 @@ class BlogList extends React.Component {
       <section className="wrap-image bg-primary text-white mb-0 mt-5" id="blog-list">
         <div className="container">
           <h2>Blog Posts</h2>
+          <hr />
           <PageList
             pageCount={pageCount}
             perPage={this.perPage}
