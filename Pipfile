@@ -1,1 +1,44 @@
-./src/server/Pipfile
+[[source]]
+url = "https://pypi.python.org/simple"
+verify_ssl = true
+name = "pypi"
+
+[packages]
+django = "==1.11.21"
+django-webpack-loader = "==0.6.0"
+django-celery-beat = "*"
+django-debug-toolbar = "*"
+django-webp-converter = "*"
+djangorestframework = "==3.8.2"
+django-polymorphic = "==2.0.2"
+django-redis = "*"
+django-storages = "*"
+wagtail = "==2.3"
+raven = "==6.8.0"
+"psycopg2-binary" = "==2.7.4"
+gunicorn = "==19.8.1"
+python-memcached = "*"
+dj-database-url = "*"
+whitenoise = "==3.3.1"
+pylibmc = "*"
+boto = "*"
+"boto3" = "*"
+pytest = "*"
+pytest-django = "*"
+celery = "*"
+redis = "*"
+bcrypt = "*"
+"beautifulsoup4" = "*"
+gevent = "==1.3.7"
+requests = ">=2.20.0"
+django-taggit = "*"
+"urllib3" = "*"
+more-itertools = "*"
+
+[dev-packages]
+pytest = "*"
+pylint = "*"
+pytest-django = "*"
+
+[requires]
+python_version = "3.6"
