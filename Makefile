@@ -115,4 +115,8 @@ stop_all:
 docker_stop:
 	docker stop $(shell docker ps -q)
 
+prerender:
+	# Run make run before this
+	$(COMPOSE) exec $(SERVER) bash -c "python manage.py prerender"
+
 
