@@ -32,7 +32,6 @@ REDIS_HOST = os.environ.get('REDIS_HOST', 'redis://redis')
 REDIS_PORT = int(os.environ.get('REDIS_PORT', 6379))
 REDIS_URL = os.environ.get('REDIS_URL', '{}:{}'.format(REDIS_HOST, REDIS_PORT))
 
-
 SKIP_PRERENDER = False
 
 TIMEZONE = 'Europe/London'

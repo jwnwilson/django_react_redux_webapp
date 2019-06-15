@@ -1,7 +1,7 @@
-version: '2'
+version: '3'
 services:
   client:
-    image: node:6.11.2
+    image: node:10.11.0
     user: root
     working_dir: /app/src/client
     command: npm run start
@@ -11,6 +11,20 @@ services:
     volumes:
       - .:/app
       - node_modules:/app/src/client/node_modules
+  
+  ssr:
+    image: buildkite/puppeteer
+    user: root
+    working_dir: /app/src/ssr
+    command: npm run start
+    tty: true
+    ports:
+      - 0.0.0.0:5000:5000
+    volumes:
+      - .:/app
+      - ssr_node_modules:/app/src/ssr/node_modules
+    links:
+      - server
 
   server:
     build:
@@ -24,6 +38,8 @@ services:
     working_dir: /app/src/server
     command: gunicorn --worker-class gevent --timeout 30 --log-level DEBUG -w 5 -b 0.0.0.0:8000 webapp.wsgi
     tty: true
+    expose:
+      - "8000"
     ports:
       - 0.0.0.0:8000:8000
     volumes:
@@ -55,6 +71,7 @@ services:
     links:
       - db
       - redis
+      - ssr
     depends_on:
       - db
       - redis
@@ -75,6 +92,7 @@ services:
 
 volumes:
   node_modules:
+  ssr_node_modules:
   site-packages:
   db_data:
   media:

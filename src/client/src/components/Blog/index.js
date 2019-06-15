@@ -24,7 +24,9 @@ const Blog = (props) => {
       case 'heading':
         blogElement = (
           <React.Fragment key={index}>
-            <h1>{block.value}</h1>
+            <h1>
+              {block.value}
+            </h1>
             <hr />
           </React.Fragment>
         );

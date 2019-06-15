@@ -16,10 +16,14 @@ const BlogListItems = props => props.blogs.map((blog, index) => (
     </div>
     <div className="col-sm-12 col-md-6">
       <a href={blog.meta.html_url}>
-        <h2 className="text-white">{blog.title}</h2>
+        <h2 className="text-white">
+          {blog.title
+        }</h2>
       </a>
       <hr />
-      <p>{blog.description}</p>
+      <p>
+        {blog.description}
+      </p>
     </div>
   </div>
 ));

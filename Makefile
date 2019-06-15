@@ -18,6 +18,8 @@ COMPOSE = docker-compose
 SERVER = server
 CLIENT = client
 WORKER = worker
+CACHE = redis
+SSR = ssr
 PYENV = pyenv
 DB = db
 DB_SETUP = db-setup
@@ -32,10 +34,8 @@ fixtures:
 build-fe:
 	$(COMPOSE) run $(CLIENT) bash -c "PROD_ENV=1 npm run build"
 
-setup:
-	make setup-be
-	make fixtures
-	make setup-fe
+setup: setup-be setup-fe setup-ssr fixtures collect-static
+	echo "Setup complete"
 
 setup-be:
 	$(COMPOSE) run ${SERVER} bash -c "pipenv install --system --dev"
@@ -43,8 +43,14 @@ setup-be:
 setup-fe:
 	$(COMPOSE) run ${CLIENT} bash -c "npm install"
 
+setup-ssr:
+	$(COMPOSE) run ${SSR} bash -c "npm install"
+
 setup-local:
 	pipenv install
+
+daemons:
+	$(COMPOSE) up -d --no-deps $(WORKER) $(DB) $(CACHE)
 
 run:
 	COMPOSE_HTTP_TIMEOUT=$(COMPOSE_HTTP_TIMEOUT) $(COMPOSE) up
@@ -52,11 +58,14 @@ run:
 run-db:
 	POSTGRES_USER=docker POSTGRES_PASSWORD=docker $(COMPOSE) run --service-ports $(DB)
 
-run-be:
+run-be: daemons
 	COMPOSE_HTTP_TIMEOUT=$(COMPOSE_HTTP_TIMEOUT) $(COMPOSE) run --service-ports $(SERVER) python manage.py runserver 0.0.0.0:8000
 
 run-be-prod:
-	COMPOSE_HTTP_TIMEOUT=$(COMPOSE_HTTP_TIMEOUT) $(COMPOSE) run --service-ports $(SERVER) 
+	COMPOSE_HTTP_TIMEOUT=$(COMPOSE_HTTP_TIMEOUT) $(COMPOSE) run --service-ports $(SERVER)
+
+run-ssr:
+	POSTGRES_USER=docker POSTGRES_PASSWORD=docker $(COMPOSE) run  --no-deps --service-ports $(SSR)
 
 run-worker:
 	$(COMPOSE) run $(WORKER)
@@ -82,7 +91,7 @@ test-fe:
 	$(COMPOSE) run $(CLIENT) npm run test
 
 shell:
-	$(COMPOSE) run --service-ports $(SERVER) bash
+	$(COMPOSE) run $(SERVER) bash
 
 shell-fe:
 	$(COMPOSE) run $(CLIENT) bash
@@ -96,16 +105,14 @@ collect-static:
 clean:
 	find ./src/server -name \*.pyc -delete
 
-deploy:
-	make build-fe
-	make collect-static
+deploy: build-fe collect-static
 	git commit --allow-empty -m "Deploying to heroku"
 	git push origin heroku
 
 stop_all:
-	 docker ps -q | docker kill
+	docker ps -q | docker kill
 
 docker_stop:
-	-docker stop $(shell docker ps -q)
+	docker stop $(shell docker ps -q)
 
 

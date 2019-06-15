@@ -21,7 +21,9 @@ module.exports = {
         "prefer-template": 0,
         "no-underscore-dangle": 0,
         "class-methods-use-this": 0,
-        "react/jsx-curly-brace-presence": 0
+        "react/jsx-curly-brace-presence": 0,
+        "react/jsx-one-expression-per-line": 0,
+        "react/jsx-closing-tag-location": 0,
     },
     "plugins": [
         "react",

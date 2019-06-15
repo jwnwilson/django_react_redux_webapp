@@ -1,6 +1,7 @@
 import { Switch, BrowserRouter as Router } from 'react-router-dom';
+// import { renderaRoutes } from 'react-router-config';
 import React from 'react';
-import { render, hydrate } from 'react-dom';
+import { render } from 'react-dom';
 import { Provider } from 'react-redux';
 
 import store from './store';
@@ -12,6 +13,11 @@ const root = document.getElementById('root');
 const apiData = JSON.parse(root.getAttribute('data-api') || {});
 const pagesData = JSON.parse(root.getAttribute('data-pages') || []);
 const routes = appRoutes.getRoutes(apiData, pagesData);
+
+// Preact standin for hydrate
+function hydrate(vnode, parent) {
+  return render(vnode, parent, parent.firstElementChild);
+}
 
 if (root.children.length > 0) {
   hydrate(
