@@ -1,4 +1,7 @@
 {
     "python.pythonPath": "/Users/noelwilson/.virtualenvs/django_react_redux_webapp-mnydDpnD/bin/python",
     "javascript.validate.enable": false,
+    "python.linting.flake8Enabled": false,
+    "python.linting.pylintEnabled": true,
+    "python.linting.enabled": true,
 }

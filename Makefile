@@ -27,7 +27,7 @@ build:
 	$(COMPOSE) build
 
 fixtures:
-	$(COMPOSE) run $(SERVER) bash -c "python manage.py loaddata fixtures/default.json"
+	$(COMPOSE) run $(SERVER) bash -c "python manage.py migrate && python manage.py loaddata fixtures/default.json"
 
 build-fe:
 	$(COMPOSE) run $(CLIENT) bash -c "PROD_ENV=1 npm run build"
