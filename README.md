@@ -35,6 +35,10 @@ $  make build
 
 $  make run
 
+## SSR
+
+To setup SSR change "ENV=production" in web.env, start the services with "make run" then run the prerender command "make prerender"
+
 ## To Do
 
 - Move from heroku to GCE / AWS / Digital ocean for multiple processes cheaply

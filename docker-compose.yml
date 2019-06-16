@@ -25,6 +25,9 @@ services:
       - ssr_node_modules:/app/src/ssr/node_modules
     links:
       - server
+    networks:
+      - backend
+      - ssr
 
   server:
     build:
@@ -52,6 +55,9 @@ services:
     depends_on:
       - db
       - redis
+    networks:
+      - backend
+      - ssr
   
   worker:
     build:
@@ -75,6 +81,8 @@ services:
     depends_on:
       - db
       - redis
+    networks:
+      - backend
 
   db:
     build:
@@ -84,11 +92,15 @@ services:
       - 5432:5432
     volumes:
       - db_data:/var/lib/postgresql/data
+    networks:
+      - backend
 
   redis:
     image: redis:3.2.8
     ports:
       - 6379:6379
+    networks:
+      - backend
 
 volumes:
   node_modules:
@@ -96,3 +108,8 @@ volumes:
   site-packages:
   db_data:
   media:
+
+networks:
+  backend:
+  ssr:
+    external: true

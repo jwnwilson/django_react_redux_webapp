@@ -36,7 +36,11 @@ def render_cache_pages():
         full_url = page.get_site().root_url + page_sub_url
 
         # Send page url to rendertron
-        rendertron_url = 'http://ssr:5000/?url=http://server:8000' + page_sub_url
+        if settings.DEBUG: 
+            rendertron_url = 'http://192.168.0.1:5000/?url=http://192.168.0.1:8000' + page_sub_url
+        else:
+            rendertron_url = 'http://ssr:5000/?url=http://server:8000' + page_sub_url
+        
         requests_response = requests.get(rendertron_url)
         django_response = render_to_response('cms/module_page.html')
 

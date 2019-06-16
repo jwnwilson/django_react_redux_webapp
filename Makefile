@@ -34,8 +34,11 @@ fixtures:
 build-fe:
 	$(COMPOSE) run $(CLIENT) bash -c "PROD_ENV=1 npm run build"
 
-setup: setup-be setup-fe setup-ssr fixtures collect-static
+setup: setup-network setup-be setup-fe setup-ssr fixtures collect-static
 	echo "Setup complete"
+
+setup-network:
+	docker network create -d bridge --subnet 192.168.0.0/24 --gateway 192.168.0.1 ssr
 
 setup-be:
 	$(COMPOSE) run ${SERVER} bash -c "pipenv install --system --dev"
@@ -50,7 +53,7 @@ setup-local:
 	pipenv install
 
 daemons:
-	$(COMPOSE) up -d --no-deps $(WORKER) $(DB) $(CACHE)
+	$(COMPOSE) up -d --no-deps $(WORKER) $(DB) $(CACHE) $(SSR)
 
 run:
 	COMPOSE_HTTP_TIMEOUT=$(COMPOSE_HTTP_TIMEOUT) $(COMPOSE) up
@@ -117,6 +120,6 @@ docker_stop:
 
 prerender:
 	# Run make run before this
-	$(COMPOSE) exec $(SERVER) bash -c "python manage.py prerender"
+	$(COMPOSE) run $(SERVER) bash -c "python manage.py prerender"
 
 

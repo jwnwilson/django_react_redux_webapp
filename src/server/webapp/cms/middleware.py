@@ -32,7 +32,8 @@ class PreRenderMiddleware(object):
         # Check for rendertron request and don't return cache if rendertroning
         LOG.info('request.get_host(): %s', request.get_host())
 
-        if request.get_host() == 'render-tron.appspot.com':
+        if 'HTTP_PUPPETEER' in request.META:
+            LOG.info('Rendering html for SSR: %s', str(request.path))
             skip = True
 
         # try and get the cached GET response
