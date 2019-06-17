@@ -37,7 +37,12 @@ $  make run
 
 ## SSR
 
-To setup SSR change "ENV=production" in web.env, start the services with "make run" then run the prerender command "make prerender"
+To setup SSR:
+
+- change "ENV=production" in web.env
+- run make build-fe && make collect-static
+- start the services with "make run"
+- run the prerender command "make prerender"
 
 ## To Do
 
