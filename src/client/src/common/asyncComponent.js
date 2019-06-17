@@ -1,14 +1,47 @@
 import React, { PureComponent } from 'react';
-import Loadable from 'react-loadable';
 import PropTypes from 'prop-types';
 import { updateComponent } from '../actions';
 import store from '../store';
 
 import './async.css';
 
+window.COMPONENTS = {};
+
 export default class AsyncComponent extends PureComponent {
-  componentDidMount() {
-    this.updateComponent();
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      Component: null,
+    };
+  }
+
+  componentWillMount() {
+    if (!this.state.Component) {
+      let Component;
+      const data = this.props.data.module;
+      // Check if the component is already loaded
+      if (data && data.component) {
+        Component = window.COMPONENTS[data.component];
+      }
+      if (!Component) {
+        // Dynamically load component
+        this.props.moduleProvider().then(
+          (component) => {
+            window.COMPONENTS[data.component] = component.default;
+            this.setState({
+              Component: component.default,
+            },
+            this.updateComponent);
+          },
+        );
+      } else {
+        this.setState(
+          { Component },
+          this.updateComponent,
+        );
+      }
+    }
   }
 
   updateComponent() {
@@ -16,24 +49,12 @@ export default class AsyncComponent extends PureComponent {
   }
 
   render() {
-    const LoadableComponent = Loadable({
-      delay: 200,
-      loader: this.props.moduleProvider,
-      modules: this.props.componentModule,
-      webpack: this.props.componentWebpack,
-      loading: () => <section className="placeholder" />,
-      render(loaded, props) {
-        const Component = loaded.default;
-        return (
-          <div className="fade-in">
-            <Component {...props} />
-          </div>
-        );
-      },
-    });
+    const { Component } = this.state;
 
     return (
-      <LoadableComponent data={this.props.data} page={this.props.page} />
+      <div className={!Component ? 'placeholder' : 'fade-in'}>
+        {Component ? <Component data={this.props.data} page={this.props.page} /> : <section />}
+      </div>
     );
   }
 }
@@ -42,6 +63,4 @@ AsyncComponent.propTypes = {
   page: PropTypes.object.isRequired,
   data: PropTypes.object.isRequired,
   moduleProvider: PropTypes.func.isRequired,
-  componentModule: PropTypes.func.isRequired,
-  componentWebpack: PropTypes.func.isRequired,
 };
