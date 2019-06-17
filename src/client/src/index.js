@@ -19,30 +19,26 @@ function hydrate(vnode, parent) {
   return render(vnode, parent, parent.firstElementChild);
 }
 
+const App = () => (
+  <Provider store={store}>
+    <Router>
+      <div>
+        <Switch>
+          {routes}
+        </Switch>
+      </div>
+    </Router>
+  </Provider>
+);
+
 if (root.children.length > 0) {
   hydrate(
-    <Provider store={store}>
-      <Router>
-        <div>
-          <Switch>
-            {routes}
-          </Switch>
-        </div>
-      </Router>
-    </Provider>,
+    App(),
     root,
   );
 } else {
   render(
-    <Provider store={store}>
-      <Router>
-        <div>
-          <Switch>
-            {routes}
-          </Switch>
-        </div>
-      </Router>
-    </Provider>,
+    App(),
     root,
   );
 }

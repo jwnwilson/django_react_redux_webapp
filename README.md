@@ -50,10 +50,9 @@ To setup SSR:
 - Setup worker to prerender html
 - Setup modpagespeed nginx settings
 - Fix test --nomigrations
-- Setup Redux Saga on front end
 - Investigate javascript Flow
 - Add tests for FE and BE
-- Add pagination
+- Add pagination on FE
 - Remove jquery replace with modular libraries
 - Investigate integration tests Cyprus
 - Separate Snippets in CMS by tags

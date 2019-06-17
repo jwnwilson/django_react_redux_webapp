@@ -1,5 +1,5 @@
 {
-    "python.pythonPath": "/Users/noelwilson/.virtualenvs/django_react_redux_webapp-mnydDpnD/bin/python",
+    "python.pythonPath": "/home/noel/.pyenv/versions/webapp-3.7.1/bin/python",
     "javascript.validate.enable": false,
     "python.linting.flake8Enabled": false,
     "python.linting.pylintEnabled": true,

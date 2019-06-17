@@ -37,7 +37,7 @@ def render_cache_pages():
 
         # Send page url to rendertron
         if settings.DEBUG: 
-            rendertron_url = 'http://192.168.0.1:5000/?url=http://192.168.0.1:8000' + page_sub_url
+            rendertron_url = 'http://192.168.0.10:5000/?url=http://192.168.0.10:8000' + page_sub_url
         else:
             rendertron_url = 'http://ssr:5000/?url=http://server:8000' + page_sub_url
         

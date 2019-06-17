@@ -83,13 +83,9 @@ class App extends Component {
       );
       // Use webpack dynamic import to get the module
       const componentImport = () => import(`../components/${componentType}/index`);
-      const componentModule = [`../components/${componentType}/index`];
-      const componentWebpack = () => [require.resolveWeak(`../components/${componentType}/index`)];
       components.push((
         <AsyncComponent
           moduleProvider={componentImport}
-          componentModule={componentModule}
-          componentWebpack={componentWebpack}
           data={componentData}
           page={pageData}
           key={i}

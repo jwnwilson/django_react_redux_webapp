@@ -21,7 +21,10 @@ app.get('/', function (req, res) {
       headers['puppeteer'] = 1;
       request.continue({ headers });
     });
-    await page.goto(req.query.url, {waitUntil: 'networkidle2'});
+    await page.goto(req.query.url, {
+      waitUntil: 'networkidle2',
+      timeout: 60000
+    });
     const html = await page.evaluate(() => {
         return document.documentElement.innerHTML;
     });

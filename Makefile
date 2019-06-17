@@ -38,7 +38,7 @@ setup: setup-network setup-be setup-fe setup-ssr fixtures collect-static
 	echo "Setup complete"
 
 setup-network:
-	docker network create -d bridge --subnet 192.168.0.0/24 --gateway 192.168.0.1 ssr
+	docker network create -d bridge --subnet 192.168.0.0/24 --gateway 192.168.0.10 ssr
 
 setup-be:
 	$(COMPOSE) run ${SERVER} bash -c "pipenv install --system --dev"
@@ -68,7 +68,7 @@ run-be-prod:
 	COMPOSE_HTTP_TIMEOUT=$(COMPOSE_HTTP_TIMEOUT) $(COMPOSE) run --service-ports $(SERVER)
 
 run-ssr:
-	POSTGRES_USER=docker POSTGRES_PASSWORD=docker $(COMPOSE) run  --no-deps --service-ports $(SSR)
+	$(COMPOSE) run --no-deps --service-ports $(SSR)
 
 run-worker:
 	$(COMPOSE) run $(WORKER)
