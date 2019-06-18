@@ -5,8 +5,6 @@ import store from '../store';
 
 import './async.css';
 
-window.COMPONENTS = {};
-
 export default class AsyncComponent extends PureComponent {
   constructor(props) {
     super(props);
