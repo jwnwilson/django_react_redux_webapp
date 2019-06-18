@@ -107,7 +107,7 @@ clean:
 
 deploy: build-fe collect-static
 	git commit --allow-empty -m "Deploying to heroku"
-	git push origin heroku
+	git push heroku HEAD:master
 
 stop_all:
 	docker ps -q | docker kill
