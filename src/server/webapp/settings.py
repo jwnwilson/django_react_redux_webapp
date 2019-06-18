@@ -316,7 +316,7 @@ CELERY_TIMEZONE = TIMEZONE
 CELERY_BEAT_SCHEDULE = {
     'render-cache': {
         'task': 'webapp.cms.tasks.render_cache_pages', 
-        'schedule': crontab(hour=2),
+        'schedule': crontab(hour=1),
     }          
 }
 
