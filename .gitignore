@@ -3,6 +3,8 @@
 .cache
 .idea
 ops/kubernetes/secrets.yaml
+ops/data
+ops/terraform/.terraform
 **/node_modules
 src/server/venv
 src/server/.coverage
