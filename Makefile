@@ -1,9 +1,11 @@
+.EXPORT_ALL_VARIABLES:
+
 -include .env
 -include web.env
 
 ifndef VERSION
 	# Get the active git branch
-	VERSION=$(shell ./server/scripts/version.sh)
+	VERSION=$(shell cat VERSION)
 endif
 
 help:
@@ -14,6 +16,7 @@ help:
 	@echo "shell - Runs bash shell on server container"
 
 SHELL := /bin/bash
+DOCKER_REPO = 675468650888.dkr.ecr.eu-west-1.amazonaws.com
 COMPOSE = docker-compose
 SERVER = server
 CLIENT = client
@@ -24,9 +27,6 @@ PYENV = pyenv
 DB = db
 DB_SETUP = db-setup
 COMPOSE_HTTP_TIMEOUT = 20000
-
-build:
-	$(COMPOSE) build
 
 fixtures:
 	$(COMPOSE) run $(SERVER) bash -c "python manage.py migrate && python manage.py loaddata fixtures/default.json"
@@ -105,9 +105,20 @@ collect-static:
 clean:
 	find ./src/server -name \*.pyc -delete
 
-deploy: build-fe collect-static
+deploy-heroku: build-fe collect-static
 	git commit --allow-empty -m "Deploying to heroku"
 	git push heroku HEAD:master
+
+docker_login:
+	eval $(shell aws ecr get-login --region eu-west-1 --no-include-email)
+
+docker_build:
+	$(COMPOSE) build
+
+docker_push: docker_login
+	docker push $(DOCKER_REPO)/jwnwilson_server:$(VERSION)
+	docker push $(DOCKER_REPO)/jwnwilson_worker:$(VERSION)
+	docker push $(DOCKER_REPO)/jwnwilson_ssr:$(VERSION)
 
 stop_all:
 	docker ps -q | docker kill

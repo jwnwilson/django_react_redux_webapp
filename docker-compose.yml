@@ -1,5 +1,17 @@
 version: '3'
 services:
+  nginx: 
+    image: nginx:latest
+    volumes:
+      - ./ops/nginx/nginx.conf:/etc/nginx/nginx.conf
+      - ./ops/nginx/django.conf:/etc/nginx/sites-enabled/django.conf
+      - ./nginx/error.log:/var/log/nginx/error.log
+      - ./nginx/access.log:/var/log/nginx/access.log
+      - certificates:/etc/letsencrypt/
+    ports:
+      - 80:80
+      - 443:443
+
   client:
     image: node:10.11.0
     user: root
@@ -13,7 +25,10 @@ services:
       - node_modules:/app/src/client/node_modules
   
   ssr:
-    image: buildkite/puppeteer
+    image: ${DOCKER_REPO}/jwnwilson_ssr:${VERSION}
+    build:
+      context: .
+      dockerfile: ./ops/docker/ssr.dockerfile
     user: root
     working_dir: /app/src/ssr
     command: npm run start
@@ -33,7 +48,7 @@ services:
     build:
       context: .
       dockerfile: ./ops/docker/server.dockerfile
-    image: jwnwilson/jwnwilson_server
+    image: ${DOCKER_REPO}/jwnwilson_server:${VERSION}
     user: root
     env_file:
       - web.env
@@ -63,7 +78,7 @@ services:
     build:
       context: .
       dockerfile: ./ops/docker/server.dockerfile
-    image: jwnwilson/jwnwilson_worker
+    image: ${DOCKER_REPO}/jwnwilson_worker:${VERSION}
     user: root
     env_file:
       - web.env
@@ -108,6 +123,7 @@ volumes:
   site-packages:
   db_data:
   media:
+  certificates:
 
 networks:
   backend:
