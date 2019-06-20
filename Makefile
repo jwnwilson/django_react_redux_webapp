@@ -55,6 +55,9 @@ setup-local:
 daemons:
 	$(COMPOSE) up -d --no-deps $(WORKER) $(DB) $(CACHE) $(SSR)
 
+prod:
+	COMPOSE_HTTP_TIMEOUT=$(COMPOSE_HTTP_TIMEOUT) $(COMPOSE) up --no-deps $(SERVER) $(WORKER) $(CACHE) $(SSR)
+
 run:
 	COMPOSE_HTTP_TIMEOUT=$(COMPOSE_HTTP_TIMEOUT) $(COMPOSE) up --no-deps $(SERVER) $(WORKER) $(DB) $(CACHE) $(SSR)
 
