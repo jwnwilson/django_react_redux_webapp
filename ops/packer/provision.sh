@@ -9,6 +9,8 @@ sudo apt-get install -q -y \
 
 sudo apt-get install -y postgresql postgresql-contrib
 
+pip install awscli
+
 # make sure docker is running and containers can be run without sudo
 sudo /etc/init.d/docker start
 sudo gpasswd -a ubuntu docker

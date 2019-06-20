@@ -54,7 +54,7 @@ setup-local:
 	pipenv install
 
 setup-nginx:
-	$(COMPOSE) run $(NGINX) bash -c "certbot --standalone -d noel-wilson.co.uk"
+	$(COMPOSE) run --no-deps $(NGINX) bash -c "certbot --standalone -d noel-wilson.co.uk"
 
 daemons:
 	$(COMPOSE) up -d --no-deps $(NGINX) $(WORKER) $(DB) $(CACHE) $(SSR)
@@ -108,7 +108,7 @@ shell-db:
 	PGPASSWORD=docker psql -h localhost -U docker noelwilson2018
 
 shell-nginx:
-	$(COMPOSE) run $(NGINX) bash
+	$(COMPOSE) run --no-deps $(NGINX) bash
 
 collect-static:
 	$(COMPOSE) run $(SERVER) bash -c "rm -rf ./staticfiles/* && python manage.py collectstatic --no-input"
@@ -124,13 +124,11 @@ docker_login:
 	eval $(shell aws ecr get-login --region eu-west-1 --no-include-email)
 
 docker_build:
+	$(COMPOSE) rm -f
 	$(COMPOSE) build
 
 docker_pull: docker_login
-	docker pull $(DOCKER_REPO)/jwnwilson_server:$(VERSION)
-	docker pull $(DOCKER_REPO)/jwnwilson_worker:$(VERSION)
-	docker pull $(DOCKER_REPO)/jwnwilson_ssr:$(VERSION)
-
+	$(COMPOSE) pull
 
 docker_push: docker_login
 	docker push $(DOCKER_REPO)/jwnwilson_server:$(VERSION)

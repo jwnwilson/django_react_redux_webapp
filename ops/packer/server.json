@@ -38,6 +38,16 @@
     ],
     "provisioners": [
       {
+        "type": "file",
+        "source": "~/.aws/config",
+        "destination": "~/.aws/config"
+      },
+      {
+        "type": "file",
+        "source": "~/.aws/credentials",
+        "destination": "~/.aws/credentials"
+      },
+      {
         "type": "shell",
         "script": "provision.sh"
       }
