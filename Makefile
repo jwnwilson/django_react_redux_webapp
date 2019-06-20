@@ -64,7 +64,7 @@ setup-prod: setup-be setup-fe setup-ssr fixtures collect-static
 	echo "Setup complete"
 
 prod:
-	POSTGRES_HOST=$(PROD_DB) POSTGRES_PASSWORD=$(PROD_PASS) COMPOSE_HTTP_TIMEOUT=$(COMPOSE_HTTP_TIMEOUT) $(COMPOSE) up --no-deps $(SERVER) $(WORKER) $(CACHE) $(SSR) $(NGINX)
+	POSTGRES_HOST=$(PROD_DB) POSTGRES_PASSWORD=$(PROD_PASS) COMPOSE_HTTP_TIMEOUT=$(COMPOSE_HTTP_TIMEOUT) $(COMPOSE) up --no-deps -d $(SERVER) $(WORKER) $(CACHE) $(SSR) $(NGINX)
 
 run:
 	COMPOSE_HTTP_TIMEOUT=$(COMPOSE_HTTP_TIMEOUT) $(COMPOSE) up --no-deps $(SERVER) $(WORKER) $(DB) $(CACHE) $(SSR)
@@ -85,7 +85,7 @@ run-fe:
 	$(COMPOSE) run --service-ports  $(CLIENT)
 
 dump-data:
-	$(COMPOSE) run $(SERVER) bash -c "python manage.py dumpdata --natural-foreign --indent=4 -e contenttypes -e auth.Permission -e sessions -e wagtailcore.GroupCollectionPermission > fixtures/default.json"
+	$(COMPOSE) run --no-deps $(SERVER) bash -c "python manage.py dumpdata --natural-foreign --indent=4 -e contenttypes -e auth.Permission -e sessions -e wagtailcore.GroupCollectionPermission > fixtures/default.json"
 
 test: test-be test-fe
 
@@ -99,7 +99,7 @@ test-fe:
 	$(COMPOSE) run $(CLIENT) npm run test
 
 shell:
-	$(COMPOSE) run $(SERVER) bash
+	$(COMPOSE) run --no-deps $(SERVER) bash
 
 shell-fe:
 	$(COMPOSE) run $(CLIENT) bash
@@ -146,6 +146,6 @@ docker_stop:
 
 prerender:
 	# Run make run before this
-	$(COMPOSE) run $(SERVER) bash -c "python manage.py prerender"
+	$(COMPOSE) run  --no-deps  $(SERVER) bash -c "python manage.py prerender"
 
 
