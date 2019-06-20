@@ -23,6 +23,7 @@ CLIENT = client
 WORKER = worker
 CACHE = redis
 SSR = ssr
+NGINX = nginx
 PYENV = pyenv
 DB = db
 DB_SETUP = db-setup
@@ -53,10 +54,10 @@ setup-local:
 	pipenv install
 
 daemons:
-	$(COMPOSE) up -d --no-deps $(WORKER) $(DB) $(CACHE) $(SSR)
+	$(COMPOSE) up -d --no-deps $(NGINX) $(WORKER) $(DB) $(CACHE) $(SSR)
 
 prod:
-	COMPOSE_HTTP_TIMEOUT=$(COMPOSE_HTTP_TIMEOUT) $(COMPOSE) up --no-deps $(SERVER) $(WORKER) $(CACHE) $(SSR)
+	COMPOSE_HTTP_TIMEOUT=$(COMPOSE_HTTP_TIMEOUT) $(COMPOSE) up --no-deps $(SERVER) $(WORKER) $(DB) $(CACHE) $(SSR) $(NGINX)
 
 run:
 	COMPOSE_HTTP_TIMEOUT=$(COMPOSE_HTTP_TIMEOUT) $(COMPOSE) up --no-deps $(SERVER) $(WORKER) $(DB) $(CACHE) $(SSR)
@@ -75,9 +76,6 @@ run-worker:
 
 run-fe:
 	$(COMPOSE) run --service-ports  $(CLIENT)
-
-run-prod:
-	COMPOSE_HTTP_TIMEOUT=$(COMPOSE_HTTP_TIMEOUT) $(COMPOSE) -f docker-production.yml up
 
 dump-data:
 	$(COMPOSE) run $(SERVER) bash -c "python manage.py dumpdata --natural-foreign --indent=4 -e contenttypes -e auth.Permission -e sessions -e wagtailcore.GroupCollectionPermission > fixtures/default.json"
@@ -102,6 +100,9 @@ shell-fe:
 shell-db:
 	PGPASSWORD=docker psql -h localhost -U docker noelwilson2018
 
+shell-nginx:
+	$(COMPOSE) run $(NGINX) bash
+
 collect-static:
 	$(COMPOSE) run $(SERVER) bash -c "rm -rf ./staticfiles/* && python manage.py collectstatic --no-input"
 
@@ -117,6 +118,12 @@ docker_login:
 
 docker_build:
 	$(COMPOSE) build
+
+docker_pull: docker_login
+	docker pull $(DOCKER_REPO)/jwnwilson_server:$(VERSION)
+	docker pull $(DOCKER_REPO)/jwnwilson_worker:$(VERSION)
+	docker pull $(DOCKER_REPO)/jwnwilson_ssr:$(VERSION)
+
 
 docker_push: docker_login
 	docker push $(DOCKER_REPO)/jwnwilson_server:$(VERSION)
