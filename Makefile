@@ -53,11 +53,18 @@ setup-ssr:
 setup-local:
 	pipenv install
 
+setup-nginx:
+	$(COMPOSE) run $(NGINX) bash -c "certbot --standalone -d noel-wilson.co.uk"
+
 daemons:
 	$(COMPOSE) up -d --no-deps $(NGINX) $(WORKER) $(DB) $(CACHE) $(SSR)
 
+setup-prod: POSTGRES_HOST=$(PROD_DB)
+setup-prod: setup-nginx setup-network setup-be setup-fe setup-ssr fixtures collect-static
+	echo "Setup complete"
+
 prod:
-	COMPOSE_HTTP_TIMEOUT=$(COMPOSE_HTTP_TIMEOUT) $(COMPOSE) up --no-deps $(SERVER) $(WORKER) $(DB) $(CACHE) $(SSR) $(NGINX)
+	POSTGRES_HOST=$(PROD_DB) COMPOSE_HTTP_TIMEOUT=$(COMPOSE_HTTP_TIMEOUT) $(COMPOSE) up --no-deps $(SERVER) $(WORKER) $(CACHE) $(SSR) $(NGINX)
 
 run:
 	COMPOSE_HTTP_TIMEOUT=$(COMPOSE_HTTP_TIMEOUT) $(COMPOSE) up --no-deps $(SERVER) $(WORKER) $(DB) $(CACHE) $(SSR)

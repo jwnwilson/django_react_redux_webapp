@@ -1,0 +1,5 @@
+2019/06/20 12:09:54 [emerg] 1#1: "proxy_cache_path" directive is not allowed here in /etc/nginx/sites-enabled/django.conf:23
+2019/06/20 12:11:53 [emerg] 1#1: "http" directive is not allowed here in /etc/nginx/sites-enabled/django.conf:6
+2019/06/20 12:14:24 [emerg] 1#1: cannot load certificate "/etc/letsencrypt/live/noel-wilson.co.uk/fullchain.pem": BIO_new_file() failed (SSL: error:02001002:system library:fopen:No such file or directory:fopen('/etc/letsencrypt/live/noel-wilson.co.uk/fullchain.pem','r') error:2006D080:BIO routines:BIO_new_file:no such file)
+2019/06/20 12:23:08 [warn] 1#1: the "ssl" directive is deprecated, use the "listen ... ssl" directive instead in /etc/nginx/sites-enabled/django.conf:13
+2019/06/20 12:23:08 [emerg] 1#1: cannot load certificate "/etc/letsencrypt/live/noel-wilson.co.uk/fullchain.pem": BIO_new_file() failed (SSL: error:02001002:system library:fopen:No such file or directory:fopen('/etc/letsencrypt/live/noel-wilson.co.uk/fullchain.pem','r') error:2006D080:BIO routines:BIO_new_file:no such file)
