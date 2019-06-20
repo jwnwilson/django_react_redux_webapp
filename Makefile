@@ -42,7 +42,7 @@ setup-network:
 	docker network create -d bridge --subnet 192.168.0.0/24 --gateway 192.168.0.10 ssr
 
 setup-be:
-	$(COMPOSE) run ${SERVER} bash -c "pipenv install --system --dev"
+	$(COMPOSE) run --no-deps ${SERVER} bash -c "pipenv install --system --dev"
 
 setup-fe:
 	$(COMPOSE) run ${CLIENT} bash -c "npm install"
@@ -53,14 +53,14 @@ setup-ssr:
 setup-local:
 	pipenv install
 
-setup-nginx:
+setup-nginx: setup-network 
 	$(COMPOSE) run --no-deps --service-ports $(NGINX) bash -c "certbot certonly --standalone -d test.noel-wilson.co.uk"
 
 daemons:
 	$(COMPOSE) up -d --no-deps $(NGINX) $(WORKER) $(DB) $(CACHE) $(SSR)
 
 setup-prod: POSTGRES_HOST=$(PROD_DB) POSTGRES_PASSWORD=$(PROD_PASS)
-setup-prod: setup-network setup-nginx setup-be setup-fe setup-ssr fixtures collect-static
+setup-prod: setup-be setup-fe setup-ssr fixtures collect-static
 	echo "Setup complete"
 
 prod:
