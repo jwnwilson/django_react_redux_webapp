@@ -1,7 +1,10 @@
 version: '3'
 services:
   nginx: 
-    image: nginx:latest
+    image: ${DOCKER_REPO}/jwnwilson_nginx:${VERSION}
+    build:
+      context: .
+      dockerfile: ./ops/docker/nginx.dockerfile
     volumes:
       - ./ops/nginx/nginx.conf:/etc/nginx/nginx.conf
       - ./ops/nginx/django.conf:/etc/nginx/sites-enabled/django.conf

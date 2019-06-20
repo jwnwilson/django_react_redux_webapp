@@ -24,6 +24,6 @@ variable "db_allocated_storage" {
 }
 
 variable "jwnwilson_ami" {
-  default = "ami-09a9df10d85c150dc"
+  default = "ami-0c97a04757b877f8a"
   description = "AMI for running docker containers"
 }

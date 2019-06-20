@@ -2,7 +2,8 @@
     "variables": {
       "aws_access_key": "",
       "aws_secret_key": "",
-      "aws_region": "eu-west-1"
+      "aws_region": "eu-west-1",
+      "home": "{{env `HOME`}}"
     },
     "builders": [
       {
@@ -31,7 +32,7 @@
         },
         "subnet_filter": {
           "filters": {
-            "tag:Name": "jwnwilson"
+            "tag:Name": "jwnwilson-eu-west-1c"
           }
         }
       }
@@ -39,13 +40,13 @@
     "provisioners": [
       {
         "type": "file",
-        "source": "~/.aws/config",
-        "destination": "~/.aws/config"
+        "source": "{{user `home`}}/.aws/config",
+        "destination": "/home/ubuntu/.aws/config"
       },
       {
         "type": "file",
-        "source": "~/.aws/credentials",
-        "destination": "~/.aws/credentials"
+        "source": "{{user `home`}}/.aws/credentials",
+        "destination": "/home/ubuntu/.aws/credentials"
       },
       {
         "type": "shell",

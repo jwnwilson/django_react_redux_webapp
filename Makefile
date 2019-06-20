@@ -60,7 +60,7 @@ daemons:
 	$(COMPOSE) up -d --no-deps $(NGINX) $(WORKER) $(DB) $(CACHE) $(SSR)
 
 setup-prod: POSTGRES_HOST=$(PROD_DB) POSTGRES_PASSWORD=$(PROD_PASS)
-setup-prod: setup-nginx setup-network setup-be setup-fe setup-ssr fixtures collect-static
+setup-prod: setup-network setup-nginx setup-be setup-fe setup-ssr fixtures collect-static
 	echo "Setup complete"
 
 prod:
