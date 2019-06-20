@@ -54,7 +54,7 @@ setup-local:
 	pipenv install
 
 setup-nginx:
-	$(COMPOSE) run --no-deps $(NGINX) bash -c "certbot --standalone -d noel-wilson.co.uk"
+	$(COMPOSE) run --no-deps --service-ports $(NGINX) bash -c "certbot certonly --standalone -d test.noel-wilson.co.uk"
 
 daemons:
 	$(COMPOSE) up -d --no-deps $(NGINX) $(WORKER) $(DB) $(CACHE) $(SSR)
