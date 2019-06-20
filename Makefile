@@ -64,7 +64,7 @@ setup-prod: setup-nginx setup-network setup-be setup-fe setup-ssr fixtures colle
 	echo "Setup complete"
 
 prod:
-	POSTGRES_HOST=$(PROD_DB) COMPOSE_HTTP_TIMEOUT=$(COMPOSE_HTTP_TIMEOUT) $(COMPOSE) up --no-deps $(SERVER) $(WORKER) $(CACHE) $(SSR) $(NGINX)
+	POSTGRES_HOST=$(PROD_DB) POSTGRES_PASSWORD=$(PROD_PASS) COMPOSE_HTTP_TIMEOUT=$(COMPOSE_HTTP_TIMEOUT) $(COMPOSE) up --no-deps $(SERVER) $(WORKER) $(CACHE) $(SSR) $(NGINX)
 
 run:
 	COMPOSE_HTTP_TIMEOUT=$(COMPOSE_HTTP_TIMEOUT) $(COMPOSE) up --no-deps $(SERVER) $(WORKER) $(DB) $(CACHE) $(SSR)

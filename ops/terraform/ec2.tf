@@ -36,7 +36,7 @@ resource "aws_security_group_rule" "jwnwilson_ingress_http" {
   to_port = 80
   protocol = "tcp"
   security_group_id = "${aws_security_group.jwnwilson.id}"
-  source_security_group_id = "${aws_security_group.jwnwilson.id}"
+  cidr_blocks = ["0.0.0.0/0"]
 }
 
 resource "aws_security_group_rule" "jwnwilson_ingress_https" {
@@ -45,7 +45,7 @@ resource "aws_security_group_rule" "jwnwilson_ingress_https" {
   to_port = 443
   protocol = "tcp"
   security_group_id = "${aws_security_group.jwnwilson.id}"
-  source_security_group_id = "${aws_security_group.jwnwilson.id}"
+  cidr_blocks = ["0.0.0.0/0"]
 }
 
 resource "aws_security_group_rule" "jwnwilson_ssh" {
