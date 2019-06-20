@@ -23,18 +23,8 @@ const BlogListItems = (props) => {
         <p>{blog.description}</p>
       </div>
     </div>
-    <div className="col-sm-12 col-md-6">
-      <a href={blog.meta.html_url}>
-        <h2 className="text-white">
-          {blog.title
-        }</h2>
-      </a>
-      <hr />
-      <p>
-        {blog.description}
-      </p>
-    </div>
-  );
+  ));
+  return blogs;
 };
 
 class BlogList extends React.Component {
