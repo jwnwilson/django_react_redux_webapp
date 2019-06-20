@@ -64,7 +64,7 @@ setup-prod: setup-be setup-fe setup-ssr fixtures collect-static
 	echo "Setup complete"
 
 prod:
-	POSTGRES_HOST=$(PROD_DB) POSTGRES_PASSWORD=$(PROD_PASS) COMPOSE_HTTP_TIMEOUT=$(COMPOSE_HTTP_TIMEOUT) $(COMPOSE) up --no-deps -d $(SERVER) $(WORKER) $(CACHE) $(SSR) $(NGINX)
+	COMPOSE_HTTP_TIMEOUT=$(COMPOSE_HTTP_TIMEOUT) $(COMPOSE) up --no-deps -d $(SERVER) $(WORKER) $(CACHE) $(SSR) $(NGINX)
 
 run:
 	COMPOSE_HTTP_TIMEOUT=$(COMPOSE_HTTP_TIMEOUT) $(COMPOSE) up --no-deps $(SERVER) $(WORKER) $(DB) $(CACHE) $(SSR)
@@ -120,10 +120,10 @@ deploy-heroku: build-fe collect-static
 	git commit --allow-empty -m "Deploying to heroku"
 	git push heroku HEAD:master
 
+deploy: docker_build docker_push
+
 docker_login:
 	eval $(shell aws ecr get-login --region eu-west-1 --no-include-email)
-
-deploy: docker_build docker_push
 
 docker_build:
 	$(COMPOSE) rm -f
@@ -137,9 +137,6 @@ docker_push: docker_login
 	docker push $(DOCKER_REPO)/jwnwilson_server:$(VERSION)
 	docker push $(DOCKER_REPO)/jwnwilson_worker:$(VERSION)
 	docker push $(DOCKER_REPO)/jwnwilson_ssr:$(VERSION)
-
-stop_all:
-	docker ps -q | docker kill
 
 docker_stop:
 	docker stop $(shell docker ps -q)
