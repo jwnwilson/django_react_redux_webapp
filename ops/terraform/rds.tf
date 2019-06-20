@@ -56,7 +56,7 @@ resource "aws_db_instance" "jwnwilson" {
   username = "${var.postgres_username}"
   password = "${var.postgres_password}"
   db_subnet_group_name = "${aws_db_subnet_group.jwnwilson.name}"
-  vpc_security_group_ids = ["${aws_security_group.jwnwilson.id}"]
+  vpc_security_group_ids = ["${aws_security_group.jwnwilson_db.id}"]
   parameter_group_name = "${aws_db_parameter_group.jwnwilson.name}"
   apply_immediately = true
 
@@ -78,7 +78,7 @@ resource "aws_security_group_rule" "jwnwilson_db" {
   to_port = 5432
   protocol = "tcp"
   security_group_id = "${aws_security_group.jwnwilson_db.id}"
-  source_security_group_id = "${data.aws_security_group.jwnwilson.id}"
+  source_security_group_id = "${aws_security_group.jwnwilson.id}"
 }
 
 output "jwnwilson_db_endpoint" {

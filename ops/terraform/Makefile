@@ -1,5 +1,5 @@
-include ../.env
-include ../web.env
+include ../../.env
+include ../../web.env
 include ./env.mk
 
 init:
