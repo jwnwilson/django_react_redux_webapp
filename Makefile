@@ -48,7 +48,7 @@ setup-fe:
 	$(COMPOSE) run ${CLIENT} bash -c "npm install"
 
 setup-ssr:
-	$(COMPOSE) run ${SSR} bash -c "npm install"
+	$(COMPOSE) run --no-deps ${SSR} bash -c "npm install"
 
 setup-local:
 	pipenv install

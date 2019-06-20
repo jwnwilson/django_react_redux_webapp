@@ -11,6 +11,7 @@ services:
       - ./ops/nginx/error.log:/var/log/nginx/error.log
       - ./ops/nginx/access.log:/var/log/nginx/access.log
       - certificates:/etc/letsencrypt/
+      - cache:/data/nginx/cache
     ports:
       - 80:80
       - 443:443
@@ -131,6 +132,7 @@ volumes:
   db_data:
   media:
   certificates:
+  cache:
 
 networks:
   backend:
