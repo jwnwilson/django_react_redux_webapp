@@ -31,7 +31,8 @@ PWA_SERVICE_WORKER_PATH = os.path.join(APP_DIR, 'static/js', 'serviceworker.js')
 REDIS_HOST = os.environ.get('REDIS_HOST', 'redis://redis')
 REDIS_PORT = int(os.environ.get('REDIS_PORT', 6379))
 REDIS_URL = os.environ.get('REDIS_URL', '{}:{}'.format(REDIS_HOST, REDIS_PORT))
-
+SSR_URL = os.environ.get('SSR_URL', 'http://192.168.0.10:5000')
+SERVER_URL = os.environ.get('SERVER_URL', 'http://192.168.0.10:8000')
 
 SKIP_PRERENDER = False
 
@@ -315,7 +316,7 @@ CELERY_TIMEZONE = TIMEZONE
 CELERY_BEAT_SCHEDULE = {
     'render-cache': {
         'task': 'webapp.cms.tasks.render_cache_pages', 
-        'schedule': crontab(hour=2),
+        'schedule': crontab(hour=1),
     }          
 }
 

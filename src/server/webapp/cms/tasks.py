@@ -18,7 +18,7 @@ LOG = logging.getLogger(__name__)
 
 @shared_task
 def render_cache_pages():
-    from webapp.cms.models.page import Page
+    from webapp.cms.models.pages.module_page import ModulePage
 
     LOG.info('Starting render cache pages job') 
 
@@ -29,14 +29,18 @@ def render_cache_pages():
         key_prefix = 'rendertron-'
 
     # For each page
-    for page in Page.objects.all():
+    for page in ModulePage.objects.all():
         LOG.info('Rendering page: %s', str(page))
         page_sub_url = (page.url or page.url_path)
         # Get page url
-        page_url = 'https://noel-wilson.co.uk' + page_sub_url
+        full_url = page.get_site().root_url + page_sub_url
 
         # Send page url to rendertron
-        rendertron_url = 'https://render-tron.appspot.com/render/' + page_url
+        if settings.DEBUG: 
+            rendertron_url = 'http://192.168.0.10:5000/?url=http://192.168.0.10:8000' + page_sub_url
+        else:
+            rendertron_url = 'http://ssr:5000/?url=http://server:8000' + page_sub_url
+        
         requests_response = requests.get(rendertron_url)
         django_response = render_to_response('cms/module_page.html')
 

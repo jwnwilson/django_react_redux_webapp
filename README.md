@@ -35,6 +35,15 @@ $  make build
 
 $  make run
 
+## SSR
+
+To setup SSR:
+
+- change "ENV=production" in web.env
+- run make build-fe && make collect-static
+- start the services with "make run"
+- run the prerender command "make prerender"
+
 ## To Do
 
 - Setup 404 and 500 pages
@@ -44,6 +53,7 @@ $  make run
 - Fix test --nomigrations
 - Investigate javascript Flow
 - Add tests for FE and BE
+- Add pagination on FE
 - Remove jquery replace with modular libraries
 - Investigate integration tests Cyprus
 - Separate Snippets in CMS by tags

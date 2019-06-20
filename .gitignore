@@ -3,7 +3,9 @@
 .cache
 .idea
 ops/kubernetes/secrets.yaml
-src/client/node_modules
+ops/data
+ops/terraform/.terraform
+**/node_modules
 src/server/venv
 src/server/.coverage
 src/server/.pytest_cache

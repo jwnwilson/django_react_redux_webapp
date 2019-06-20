@@ -10,7 +10,7 @@ from wagtail.core.models import Orderable
 from wagtail.images.edit_handlers import ImageChooserPanel
 from wagtail.snippets.models import register_snippet
 
-from .base import BaseModule, register_serializer
+from .base import BaseModule, BaseSerializer, register_serializer
 from webapp.cms.models.pages.module_page import LinkSerializer
 
 
@@ -83,7 +83,7 @@ class PortfolioItemSerializer(serializers.ModelSerializer):
 
 
 @register_serializer
-class PortfolioSerializer(serializers.ModelSerializer):
+class PortfolioSerializer(BaseSerializer):
     portfolio_items = PortfolioItemSerializer(many=True, read_only=True)
 
     class Meta:

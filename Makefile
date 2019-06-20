@@ -1,9 +1,11 @@
+.EXPORT_ALL_VARIABLES:
+
 -include .env
 -include web.env
 
 ifndef VERSION
 	# Get the active git branch
-	VERSION=$(shell ./server/scripts/version.sh)
+	VERSION=$(shell cat VERSION)
 endif
 
 help:
@@ -14,49 +16,67 @@ help:
 	@echo "shell - Runs bash shell on server container"
 
 SHELL := /bin/bash
+DOCKER_REPO = 675468650888.dkr.ecr.eu-west-1.amazonaws.com
 COMPOSE = docker-compose
 SERVER = server
 CLIENT = client
 WORKER = worker
+CACHE = redis
+SSR = ssr
+NGINX = nginx
 PYENV = pyenv
 DB = db
 DB_SETUP = db-setup
 COMPOSE_HTTP_TIMEOUT = 20000
 
-build:
-	$(COMPOSE) build
-
 fixtures:
-	$(COMPOSE) run $(SERVER) bash -c "python manage.py loaddata fixtures/default.json"
+	$(COMPOSE) run $(SERVER) bash -c "python manage.py migrate && python manage.py loaddata fixtures/default.json"
 
 build-fe:
 	$(COMPOSE) run $(CLIENT) bash -c "PROD_ENV=1 npm run build"
 
-setup:
-	make setup-be
-	make fixtures
-	make setup-fe
+setup: setup-network setup-be setup-fe setup-ssr fixtures collect-static
+	echo "Setup complete"
+
+setup-network:
+	docker network create -d bridge --subnet 192.168.0.0/24 --gateway 192.168.0.10 ssr
 
 setup-be:
-	$(COMPOSE) run ${SERVER} bash -c "pipenv install --system --dev"
+	$(COMPOSE) run --no-deps ${SERVER} bash -c "pipenv install --system --dev"
 
 setup-fe:
 	$(COMPOSE) run ${CLIENT} bash -c "npm install"
 
+setup-ssr:
+	$(COMPOSE) run --no-deps ${SSR} bash -c "npm install"
+
 setup-local:
 	pipenv install
 
+setup-nginx: setup-network 
+	$(COMPOSE) run --no-deps --service-ports $(NGINX) bash -c "certbot certonly --standalone -d test.noel-wilson.co.uk"
+
+daemons:
+	$(COMPOSE) up -d --no-deps $(NGINX) $(WORKER) $(DB) $(CACHE) $(SSR)
+
+setup-prod: POSTGRES_HOST=$(PROD_DB) POSTGRES_PASSWORD=$(PROD_PASS)
+setup-prod: setup-be setup-fe setup-ssr fixtures collect-static
+	echo "Setup complete"
+
+prod:
+	POSTGRES_HOST=$(PROD_DB) POSTGRES_PASSWORD=$(PROD_PASS) COMPOSE_HTTP_TIMEOUT=$(COMPOSE_HTTP_TIMEOUT) $(COMPOSE) up --no-deps -d $(SERVER) $(WORKER) $(CACHE) $(SSR) $(NGINX)
+
 run:
-	COMPOSE_HTTP_TIMEOUT=$(COMPOSE_HTTP_TIMEOUT) $(COMPOSE) up
+	COMPOSE_HTTP_TIMEOUT=$(COMPOSE_HTTP_TIMEOUT) $(COMPOSE) up --no-deps $(SERVER) $(WORKER) $(DB) $(CACHE) $(SSR)
 
 run-db:
 	POSTGRES_USER=docker POSTGRES_PASSWORD=docker $(COMPOSE) run --service-ports $(DB)
 
-run-be:
+run-be: daemons
 	COMPOSE_HTTP_TIMEOUT=$(COMPOSE_HTTP_TIMEOUT) $(COMPOSE) run --service-ports $(SERVER) python manage.py runserver 0.0.0.0:8000
 
-run-be-prod:
-	COMPOSE_HTTP_TIMEOUT=$(COMPOSE_HTTP_TIMEOUT) $(COMPOSE) run --service-ports $(SERVER) 
+run-ssr:
+	$(COMPOSE) run --no-deps --service-ports $(SSR)
 
 run-worker:
 	$(COMPOSE) run $(WORKER)
@@ -64,11 +84,8 @@ run-worker:
 run-fe:
 	$(COMPOSE) run --service-ports  $(CLIENT)
 
-run-prod:
-	COMPOSE_HTTP_TIMEOUT=$(COMPOSE_HTTP_TIMEOUT) $(COMPOSE) -f docker-production.yml up
-
 dump-data:
-	$(COMPOSE) run $(SERVER) bash -c "python manage.py dumpdata --natural-foreign --indent=4 -e contenttypes -e auth.Permission -e sessions -e wagtailcore.GroupCollectionPermission > fixtures/default.json"
+	$(COMPOSE) run --no-deps $(SERVER) bash -c "python manage.py dumpdata --natural-foreign --indent=4 -e contenttypes -e auth.Permission -e sessions -e wagtailcore.GroupCollectionPermission > fixtures/default.json"
 
 test: test-be test-fe
 
@@ -82,7 +99,7 @@ test-fe:
 	$(COMPOSE) run $(CLIENT) npm run test
 
 shell:
-	$(COMPOSE) run --service-ports $(SERVER) bash
+	$(COMPOSE) run --no-deps $(SERVER) bash
 
 shell-fe:
 	$(COMPOSE) run $(CLIENT) bash
@@ -90,26 +107,45 @@ shell-fe:
 shell-db:
 	PGPASSWORD=docker psql -h localhost -U docker noelwilson2018
 
+shell-nginx:
+	$(COMPOSE) run --no-deps $(NGINX) bash
+
 collect-static:
 	$(COMPOSE) run $(SERVER) bash -c "rm -rf ./staticfiles/* && python manage.py collectstatic --no-input"
 
 clean:
 	find ./src/server -name \*.pyc -delete
 
-deploy:
-	make build-fe
-	make collect-static
-	git add src/client/build/
-	git commit --allow-empty -am "Deploying to heroku"
+deploy-heroku: build-fe collect-static
+	git commit --allow-empty -m "Deploying to heroku"
 	git push heroku HEAD:master
 
-prod-shell:
-	heroku run bash
+docker_login:
+	eval $(shell aws ecr get-login --region eu-west-1 --no-include-email)
+
+deploy: docker_build docker_push
+
+docker_build:
+	$(COMPOSE) rm -f
+	$(COMPOSE) build
+
+docker_pull: docker_login
+	$(COMPOSE) pull
+
+docker_push: docker_login
+	docker push $(DOCKER_REPO)/jwnwilson_nginx:$(VERSION)
+	docker push $(DOCKER_REPO)/jwnwilson_server:$(VERSION)
+	docker push $(DOCKER_REPO)/jwnwilson_worker:$(VERSION)
+	docker push $(DOCKER_REPO)/jwnwilson_ssr:$(VERSION)
 
 stop_all:
-	 docker ps -q | docker kill
+	docker ps -q | docker kill
 
 docker_stop:
-	-docker stop $(shell docker ps -q)
+	docker stop $(shell docker ps -q)
+
+prerender:
+	# Run make run before this
+	$(COMPOSE) run  --no-deps  $(SERVER) bash -c "python manage.py prerender"
 
 

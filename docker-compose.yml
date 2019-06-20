@@ -1,7 +1,27 @@
-version: '2'
+version: '3'
 services:
+  nginx: 
+    image: ${DOCKER_REPO}/jwnwilson_nginx:${VERSION}
+    build:
+      context: .
+      dockerfile: ./ops/docker/nginx.dockerfile
+    volumes:
+      - ./ops/nginx/nginx.conf:/etc/nginx/nginx.conf
+      - ./ops/nginx/django.conf:/etc/nginx/sites-enabled/django.conf
+      - ./ops/nginx/error.log:/var/log/nginx/error.log
+      - ./ops/nginx/access.log:/var/log/nginx/access.log
+      - certificates:/etc/letsencrypt/
+      - cache:/data/nginx/cache
+    ports:
+      - 80:80
+      - 443:443
+    links:
+      - server
+    networks:
+      - backend
+
   client:
-    image: node:6.11.2
+    image: node:10.11.0
     user: root
     working_dir: /app/src/client
     command: npm run start
@@ -11,12 +31,32 @@ services:
     volumes:
       - .:/app
       - node_modules:/app/src/client/node_modules
+  
+  ssr:
+    image: ${DOCKER_REPO}/jwnwilson_ssr:${VERSION}
+    build:
+      context: .
+      dockerfile: ./ops/docker/ssr.dockerfile
+    user: root
+    working_dir: /app/src/ssr
+    command: npm run start
+    tty: true
+    ports:
+      - 0.0.0.0:5000:5000
+    volumes:
+      - .:/app
+      - ssr_node_modules:/app/src/ssr/node_modules
+    links:
+      - server
+    networks:
+      - backend
+      - ssr
 
   server:
     build:
       context: .
       dockerfile: ./ops/docker/server.dockerfile
-    image: jwnwilson/jwnwilson_server
+    image: ${DOCKER_REPO}/jwnwilson_server:${VERSION}
     user: root
     env_file:
       - web.env
@@ -24,6 +64,8 @@ services:
     working_dir: /app/src/server
     command: gunicorn --worker-class gevent --timeout 30 --log-level DEBUG -w 5 -b 0.0.0.0:8000 webapp.wsgi
     tty: true
+    expose:
+      - "8000"
     ports:
       - 0.0.0.0:8000:8000
     volumes:
@@ -36,12 +78,15 @@ services:
     depends_on:
       - db
       - redis
+    networks:
+      - backend
+      - ssr
   
   worker:
     build:
       context: .
       dockerfile: ./ops/docker/server.dockerfile
-    image: jwnwilson/jwnwilson_worker
+    image: ${DOCKER_REPO}/jwnwilson_worker:${VERSION}
     user: root
     env_file:
       - web.env
@@ -55,9 +100,12 @@ services:
     links:
       - db
       - redis
+      - ssr
     depends_on:
       - db
       - redis
+    networks:
+      - backend
 
   db:
     build:
@@ -67,14 +115,26 @@ services:
       - 5432:5432
     volumes:
       - db_data:/var/lib/postgresql/data
+    networks:
+      - backend
 
   redis:
     image: redis:3.2.8
     ports:
       - 6379:6379
+    networks:
+      - backend
 
 volumes:
   node_modules:
+  ssr_node_modules:
   site-packages:
   db_data:
   media:
+  certificates:
+  cache:
+
+networks:
+  backend:
+  ssr:
+    external: true

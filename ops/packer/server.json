@@ -1,0 +1,57 @@
+{
+    "variables": {
+      "aws_access_key": "",
+      "aws_secret_key": "",
+      "aws_region": "eu-west-1",
+      "home": "{{env `HOME`}}"
+    },
+    "builders": [
+      {
+        "type": "amazon-ebs",
+        "access_key": "{{user `aws_access_key`}}",
+        "secret_key": "{{user `aws_secret_key`}}",
+        "region": "{{user `aws_region`}}",
+        "source_ami": "ami-4d46d534",
+        "instance_type": "t2.micro",
+        "ssh_username": "ubuntu",
+        "ami_description": "jwnwilson-server",
+        "ami_name": "jwnwilson-server-{{timestamp}}",
+        "associate_public_ip_address": "true",
+        "ami_block_device_mappings": [
+          {
+            "device_name": "/dev/sda1",
+            "volume_size": 64,
+            "delete_on_termination": true
+          }
+        ],
+        "vpc_filter": {
+          "filters": {
+            "tag:Name": "jwnwilson",
+            "isDefault": "false"
+          }
+        },
+        "subnet_filter": {
+          "filters": {
+            "tag:Name": "jwnwilson-eu-west-1c"
+          }
+        }
+      }
+    ],
+    "provisioners": [
+      {
+        "type": "file",
+        "source": "{{user `home`}}/.aws/config",
+        "destination": "/home/ubuntu/.aws/config"
+      },
+      {
+        "type": "file",
+        "source": "{{user `home`}}/.aws/credentials",
+        "destination": "/home/ubuntu/.aws/credentials"
+      },
+      {
+        "type": "shell",
+        "script": "provision.sh"
+      }
+    ]
+  }
+  
