@@ -123,6 +123,8 @@ deploy-heroku: build-fe collect-static
 docker_login:
 	eval $(shell aws ecr get-login --region eu-west-1 --no-include-email)
 
+deploy: docker_build docker_push
+
 docker_build:
 	$(COMPOSE) rm -f
 	$(COMPOSE) build
@@ -131,6 +133,7 @@ docker_pull: docker_login
 	$(COMPOSE) pull
 
 docker_push: docker_login
+	docker push $(DOCKER_REPO)/jwnwilson_nginx:$(VERSION)
 	docker push $(DOCKER_REPO)/jwnwilson_server:$(VERSION)
 	docker push $(DOCKER_REPO)/jwnwilson_worker:$(VERSION)
 	docker push $(DOCKER_REPO)/jwnwilson_ssr:$(VERSION)
