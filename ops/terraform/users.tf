@@ -1,5 +1,5 @@
-resource "aws_iam_user" "noelwilson2018" {
-  name = "noelwilson2018"
+data "aws_iam_user" "noelwilson2018" {
+  user_name = "noelwilson2018"
 }
 
 resource "aws_iam_instance_profile" "noelwilson2018" {

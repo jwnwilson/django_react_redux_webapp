@@ -1,11 +1,11 @@
 resource "aws_db_subnet_group" "jwnwilson" {
   name = "jwnwilson"
-  subnet_ids = ["${data.aws_subnet_ids.jwnwilson.ids}"]
+  subnet_ids = "${data.aws_subnet_ids.jwnwilson.ids}"
 }
 
 resource "aws_db_parameter_group" "jwnwilson" {
   name = "jwnwilson"
-  family = "postgres10.6"
+  family = "postgres10"
 
   parameter {
     name = "shared_preload_libraries"
@@ -69,7 +69,7 @@ resource "aws_db_instance" "jwnwilson" {
 
 resource "aws_security_group" "jwnwilson_db" {
   name = "db.noel_wilson.co.uk"
-  vpc_id = "${aws_vpc.jwnwilson.id}"
+  vpc_id = "${data.aws_vpc.jwnwilson.id}"
 }
 
 resource "aws_security_group_rule" "jwnwilson_db" {
@@ -78,7 +78,7 @@ resource "aws_security_group_rule" "jwnwilson_db" {
   to_port = 5432
   protocol = "tcp"
   security_group_id = "${aws_security_group.jwnwilson_db.id}"
-  source_security_group_id = "${data.aws_security_group.jwnwilson_nodes.id}"
+  source_security_group_id = "${data.aws_security_group.jwnwilson.id}"
 }
 
 output "jwnwilson_db_endpoint" {
