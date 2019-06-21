@@ -48,6 +48,7 @@ SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY', bcrypt.gensalt())
 # SECURITY WARNING: don't run with debug turned on in production!
 ENV = os.environ.get('ENV')
 DEBUG = ENV == 'develop'
+PROD = ENV == 'prod'
 DEBUG_404 = DEBUG
 TESTING = "pytest" in sys.modules
 
@@ -157,6 +158,17 @@ elif TESTING:
         'default': {
             'ENGINE': 'django.db.backends.sqlite3',
             'NAME': ':memory:'
+        }
+    }
+elif PROD:
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.postgresql',
+            'NAME': 'noelwilson2018',
+            'USER': os.environ.get('POSTGRES_USER_PROD', 'postgres'),
+            'PASSWORD': os.environ.get('POSTGRES_PASS_PROD', 'docker'),
+            'HOST': POSTGRES_HOST,  # set in docker-compose.yml
+            'PORT': 5432  # default postgres port
         }
     }
 else:
@@ -285,7 +297,7 @@ def get_cache():
 CACHES = get_cache()
 
 # AWS stuff and sentry stuff
-if ENV == 'prod':
+if PROD:
     DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
     AWS_STORAGE_BUCKET_NAME = 'noel-wilson.co.uk'
     AWS_ACCESS_KEY_ID = os.environ.get('ACCESS_KEY')
