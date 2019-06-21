@@ -24,7 +24,6 @@ const BlogListItems = (props) => {
       </div>
     </div>
   ));
-  console.log(blogs);
   return (
     <div className="blogListContainer">
       {blogs}

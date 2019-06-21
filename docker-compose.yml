@@ -63,7 +63,7 @@ services:
       - web.env
       - .env
     working_dir: /app/src/server
-    command: gunicorn --worker-class gevent --timeout 30 --log-level DEBUG -w 5 -b 0.0.0.0:8000 webapp.wsgi
+    command: gunicorn --worker-class gevent --timeout 30 --log-level DEBUG -w 3 -b 0.0.0.0:8000 webapp.wsgi
     tty: true
     expose:
       - "8000"
