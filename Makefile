@@ -57,7 +57,7 @@ setup-nginx: setup-network
 	$(COMPOSE) run --no-deps --service-ports $(NGINX) bash -c "certbot certonly --standalone -d test.noel-wilson.co.uk"
 
 daemons:
-	$(COMPOSE) up -d --no-deps $(NGINX) $(WORKER) $(DB) $(CACHE) $(SSR)
+	$(COMPOSE) up -d --no-deps $(WORKER) $(DB) $(CACHE) $(SSR)
 
 setup-prod: POSTGRES_HOST=$(PROD_DB) POSTGRES_PASSWORD=$(PROD_PASS)
 setup-prod: setup-be setup-fe setup-ssr fixtures collect-static

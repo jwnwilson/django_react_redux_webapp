@@ -167,7 +167,7 @@ elif PROD:
             'NAME': 'noelwilson2018',
             'USER': os.environ.get('POSTGRES_USER_PROD', 'postgres'),
             'PASSWORD': os.environ.get('POSTGRES_PASS_PROD', 'docker'),
-            'HOST': POSTGRES_HOST,  # set in docker-compose.yml
+            'HOST': os.environ.get('POSTGRES_HOST_PROD', POSTGRES_HOST),  # set in docker-compose.yml
             'PORT': 5432  # default postgres port
         }
     }

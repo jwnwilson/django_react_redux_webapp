@@ -7,3 +7,6 @@
 2019/06/20 23:33:41 [emerg] 1#1: host not found in upstream "server:8000" in /etc/nginx/sites-enabled/django.conf:2
 2019/06/20 23:38:35 [emerg] 1#1: host not found in upstream "server:8000" in /etc/nginx/sites-enabled/django.conf:2
 2019/06/20 23:39:57 [emerg] 1#1: host not found in upstream "server:8000" in /etc/nginx/sites-enabled/django.conf:2
+2019/06/21 10:34:03 [emerg] 1#1: host not found in upstream "server:8000" in /etc/nginx/sites-enabled/django.conf:2
+2019/06/21 10:34:59 [emerg] 1#1: host not found in upstream "server:8000" in /etc/nginx/sites-enabled/django.conf:2
+2019/06/21 10:35:41 [emerg] 1#1: host not found in upstream "server:8000" in /etc/nginx/sites-enabled/django.conf:2
