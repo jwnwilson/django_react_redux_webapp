@@ -12,6 +12,7 @@ services:
       - ./ops/nginx/access.log:/var/log/nginx/access.log
       - certificates:/etc/letsencrypt/
       - cache:/data/nginx/cache
+      - .:/app
     ports:
       - 80:80
       - 443:443
@@ -83,10 +84,7 @@ services:
       - ssr
   
   worker:
-    build:
-      context: .
-      dockerfile: ./ops/docker/server.dockerfile
-    image: ${DOCKER_REPO}/jwnwilson_worker:${VERSION}
+    image: ${DOCKER_REPO}/jwnwilson_server:${VERSION}
     user: root
     env_file:
       - web.env

@@ -24,7 +24,12 @@ const BlogListItems = (props) => {
       </div>
     </div>
   ));
-  return blogs;
+  console.log(blogs);
+  return (
+    <div className="blogListContainer">
+      {blogs}
+    </div>
+  );
 };
 
 class BlogList extends React.Component {

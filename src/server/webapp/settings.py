@@ -165,7 +165,7 @@ elif PROD:
         'default': {
             'ENGINE': 'django.db.backends.postgresql',
             'NAME': 'noelwilson2018',
-            'USER': os.environ.get('POSTGRES_USER_PROD', 'postgres'),
+            'USER': os.environ.get('POSTGRES_USER_PROD', 'docker'),
             'PASSWORD': os.environ.get('POSTGRES_PASS_PROD', 'docker'),
             'HOST': os.environ.get('POSTGRES_HOST_PROD', POSTGRES_HOST),  # set in docker-compose.yml
             'PORT': 5432  # default postgres port
@@ -297,7 +297,7 @@ def get_cache():
 CACHES = get_cache()
 
 # AWS stuff and sentry stuff
-if PROD:
+if False:
     DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
     AWS_STORAGE_BUCKET_NAME = 'noel-wilson.co.uk'
     AWS_ACCESS_KEY_ID = os.environ.get('ACCESS_KEY')
