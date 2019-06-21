@@ -135,7 +135,6 @@ docker_pull: docker_login
 docker_push: docker_login
 	docker push $(DOCKER_REPO)/jwnwilson_nginx:$(VERSION)
 	docker push $(DOCKER_REPO)/jwnwilson_server:$(VERSION)
-	docker push $(DOCKER_REPO)/jwnwilson_worker:$(VERSION)
 	docker push $(DOCKER_REPO)/jwnwilson_ssr:$(VERSION)
 
 docker_stop:
