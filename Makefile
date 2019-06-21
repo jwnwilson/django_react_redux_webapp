@@ -30,7 +30,7 @@ DB_SETUP = db-setup
 COMPOSE_HTTP_TIMEOUT = 20000
 
 fixtures:
-	$(COMPOSE) run $(SERVER) bash -c "python manage.py migrate && python manage.py loaddata fixtures/default.json"
+	$(COMPOSE) run --no-deps $(SERVER) bash -c "python manage.py migrate && python manage.py loaddata fixtures/default.json"
 
 build-fe:
 	$(COMPOSE) run $(CLIENT) bash -c "PROD_ENV=1 npm run build"
@@ -111,7 +111,7 @@ shell-nginx:
 	$(COMPOSE) run --no-deps $(NGINX) bash
 
 collect-static:
-	$(COMPOSE) run $(SERVER) bash -c "rm -rf ./staticfiles/* && python manage.py collectstatic --no-input"
+	$(COMPOSE) run --no-deps $(SERVER) bash -c "rm -rf ./staticfiles/* && python manage.py collectstatic --no-input"
 
 clean:
 	find ./src/server -name \*.pyc -delete
@@ -121,6 +121,7 @@ deploy-heroku: build-fe collect-static
 	git push heroku HEAD:master
 
 deploy: docker_build docker_push
+
 
 docker_login:
 	eval $(shell aws ecr get-login --region eu-west-1 --no-include-email)

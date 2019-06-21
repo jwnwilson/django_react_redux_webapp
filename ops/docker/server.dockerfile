@@ -18,4 +18,4 @@ RUN pip3 install pip==18.0 && \
   pip3 install pipenv && \
   pipenv install --system --deploy
 
-CMD gunicorn --worker-class gevent --timeout 30 --log-level DEBUG -w 5 -b 0.0.0.0:8000 webapp.wsgi
+CMD gunicorn --worker-class gevent --timeout 30 --log-level DEBUG -w 3 -b 0.0.0.0:8000 webapp.wsgi
