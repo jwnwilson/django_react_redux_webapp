@@ -22,7 +22,7 @@ urlpatterns = [
     # PWA url
     url(
         r'^index.html/$',
-        RedirectView.as_view(url='/'),
+        RedirectView.as_view(url='/?skip_prerender=True'),
         name='index_html'),
     # This needs to be moved to nginx
     url(

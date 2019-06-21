@@ -35,6 +35,10 @@ class PreRenderMiddleware(object):
         if 'HTTP_PUPPETEER' in request.META:
             LOG.info('Rendering html for SSR: %s', str(request.path))
             skip = True
+        
+        if 'skip_prerender' in request.GET:
+            LOG.info('Skipping prerender as got skip_prerender url param: %s', str(request.path))
+            skip = True
 
         # try and get the cached GET response
         if not skip:
