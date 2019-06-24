@@ -11,19 +11,19 @@ data "aws_subnet" "jwnwilson" {
   }
 }
 
-# resource "aws_ebs_volume" "jwnwilson_server" {
-#     availability_zone = "${data.aws_availability_zones.available.names[0]}"
-#     size = 100
-#     tags = {
-#         Name = "jwnwilson_server"
-#     }
-# }
+resource "aws_ebs_volume" "jwnwilson_server" {
+    availability_zone = "eu-west-1c"
+    size = 16
+    tags = {
+        Name = "jwnwilson_server"
+    }
+}
 
-# resource "aws_volume_attachment" "jwnwilson_server" {
-#   device_name = "/dev/sdj"
-#   volume_id   = "${aws_ebs_volume.jwnwilson_server.id}"
-#   instance_id = "${aws_instance.jwnwilson.id}"
-# }
+resource "aws_volume_attachment" "jwnwilson_server" {
+  device_name = "/dev/sdj"
+  volume_id   = "${aws_ebs_volume.jwnwilson_server.id}"
+  instance_id = "${aws_instance.jwnwilson.id}"
+}
 
 resource "aws_security_group" "jwnwilson" {
   name = "jwnwilson.noel_wilson.co.uk"
