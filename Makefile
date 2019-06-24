@@ -121,7 +121,7 @@ deploy-heroku: build-fe collect-static
 	git push heroku HEAD:master
 
 deploy: docker_build docker_push
-	ssh -i ./ops/data/jwnwilson.pem $(SSH) "/app/ops/deploy.sh"
+	ssh -i ./ops/data/jwnwilson.pem $(SSH) "sudo -u ubuntu /app/ops/deploy.sh"
 
 docker_login:
 	eval $(shell aws ecr get-login --region eu-west-1 --no-include-email)
@@ -150,5 +150,5 @@ down-ssr-worker:
 prerender: run-ssr run-worker
 	# Run make run before this
 	$(COMPOSE) run --no-deps  $(SERVER) bash -c "python manage.py prerender"
-
-
+	sleep 120s
+	$(MAKE) down-ssr-worker

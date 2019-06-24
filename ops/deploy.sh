@@ -1,5 +1,5 @@
-#! /bin/bash
 cd /app
+git reset --hard
 git pull
 make docker_pull
 make setup-network
