@@ -63,7 +63,7 @@ setup-prod: setup-be setup-fe setup-ssr setup-nginx collect-static
 	echo "Setup complete"
 
 up:
-	ENV=prod COMPOSE_HTTP_TIMEOUT=$(COMPOSE_HTTP_TIMEOUT) $(COMPOSE) up --no-deps -d $(SERVER) $(WORKER) $(CACHE) $(SSR) $(NGINX)
+	ENV=prod COMPOSE_HTTP_TIMEOUT=$(COMPOSE_HTTP_TIMEOUT) $(COMPOSE) up --no-deps -d $(SERVER) $(CACHE) $(NGINX)
 
 run:
 	COMPOSE_HTTP_TIMEOUT=$(COMPOSE_HTTP_TIMEOUT) $(COMPOSE) up --no-deps $(SERVER) $(WORKER) $(DB) $(CACHE) $(SSR)
@@ -75,10 +75,10 @@ run-be: daemons
 	COMPOSE_HTTP_TIMEOUT=$(COMPOSE_HTTP_TIMEOUT) $(COMPOSE) run --service-ports $(SERVER) python manage.py runserver 0.0.0.0:8000
 
 run-ssr:
-	$(COMPOSE) run --no-deps --service-ports $(SSR)
+	$(COMPOSE) up -d $(SSR)
 
 run-worker:
-	$(COMPOSE) run $(WORKER)
+	$(COMPOSE) up -d $(WORKER)
 
 run-fe:
 	$(COMPOSE) run --service-ports  $(CLIENT)
@@ -143,8 +143,11 @@ docker_stop:
 down:
 	$(COMPOSE) down
 
-prerender:
+down-ssr-worker:
+	$(COMPOSE) stop ssr worker
+
+prerender: run-ssr run-worker
 	# Run make run before this
-	$(COMPOSE) run  --no-deps  $(SERVER) bash -c "python manage.py prerender"
+	$(COMPOSE) run --no-deps  $(SERVER) bash -c "python manage.py prerender"
 
 

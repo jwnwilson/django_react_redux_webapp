@@ -325,14 +325,18 @@ CELERY_ACCEPT_CONTENT = ['json']
 CELERY_TASK_SERIALIZER = 'json'
 CELERY_RESULT_SERIALIZER = 'json'
 CELERY_TIMEZONE = TIMEZONE
-CELERY_BEAT_SCHEDULE = {
-    'render-cache': {
-        'task': 'webapp.cms.tasks.render_cache_pages', 
-        'schedule': crontab(hour=1),
-    }          
-}
+CELERY_BEAT_SCHEDULE = {}
+# CELERY_BEAT_SCHEDULE = {
+#     'render-cache': {
+#         'task': 'webapp.cms.tasks.render_cache_pages', 
+#         'schedule': crontab(hour=1),
+#     }          
+# }
 
-CACHE_MIDDLEWARE_SECONDS = 60 * 60 * 60
+# CACHE_MIDDLEWARE_SECONDS = 60 * 60 * 60
+
+# Don't timeout
+CACHE_MIDDLEWARE_SECONDS = None
 
 LOGGING = {
     'version': 1,
