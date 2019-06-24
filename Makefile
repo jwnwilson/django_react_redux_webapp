@@ -76,10 +76,10 @@ run-be: daemons
 	COMPOSE_HTTP_TIMEOUT=$(COMPOSE_HTTP_TIMEOUT) $(COMPOSE) run --service-ports $(SERVER) python manage.py runserver 0.0.0.0:8000
 
 run-ssr:
-	$(COMPOSE) up -d $(SSR)
+	$(COMPOSE) up -d --no-deps $(SSR)
 
 run-worker:
-	$(COMPOSE) up -d $(WORKER)
+	$(COMPOSE) up -d --no-deps $(WORKER)
 
 run-fe:
 	$(COMPOSE) run --service-ports  $(CLIENT)
