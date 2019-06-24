@@ -28,7 +28,7 @@ PYENV = pyenv
 DB = db
 DB_SETUP = db-setup
 COMPOSE_HTTP_TIMEOUT = 20000
-SSH = ubuntu@ec2-52-49-248-26.eu-west-1.compute.amazonaws.com
+SSH = ubuntu@$(EC2_URL)
 
 fixtures:
 	$(COMPOSE) run --no-deps $(SERVER) bash -c "python manage.py migrate && python manage.py loaddata fixtures/default.json"
@@ -121,7 +121,7 @@ deploy-heroku: build-fe collect-static
 	git push heroku HEAD:master
 
 deploy: docker_build docker_push
-	ssh -i ./ops/data/jwnwilson.pem $(SSH) "sudo -u ubuntu /app/ops/deploy.sh"
+	ssh -i ./ops/data/jwnwilson.pem $(SSH) "cd /app && ./ops/deploy.sh"
 
 docker_login:
 	eval $(shell aws ecr get-login --region eu-west-1 --no-include-email)
