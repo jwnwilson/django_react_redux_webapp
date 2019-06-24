@@ -20,6 +20,7 @@ pip install docker-compose
 
 sudo mkdir /app
 sudo chown ubuntu /app
+sudo chmod 755 /app/ops/deploy.sh
 
 git clone https://github.com/jwnwilson/django_react_redux_webapp.git /app
 
