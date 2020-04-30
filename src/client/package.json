@@ -27,7 +27,7 @@
     "fs-extra": "3.0.1",
     "html-webpack-plugin": "2.29.0",
     "jqBootstrapValidation": "github:reactiveraven/jqBootstrapValidation",
-    "jquery": "^3.4.1",
+    "jquery": "^3.5.0",
     "jquery-scrollspy": "github:softwarespot/jquery-scrollspy",
     "jquery.easing": "^1.4.1",
     "magnific-popup": "^1.1.0",
